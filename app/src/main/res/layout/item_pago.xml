@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_object"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginLeft="7dp">
+
+        <!-- sERIE Y fOLIO -->
+        <TextView
+            android:id="@+id/lbSerie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Serie y Folio: "
+            android:textStyle="bold"
+            android:textSize="17sp"/>
+
+        <TextView
+            android:id="@+id/txtSerie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/lbSerie"
+            android:text="BHFDSAF - 16"
+            android:textSize="15sp"/>
+
+        <!-- Abono -->
+        <TextView
+            android:id="@+id/lbAbono"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/lbSerie"
+            android:textSize="17sp"
+            android:text="Abono: "
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txtAbono"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/lbSerie"
+            android:layout_toRightOf="@+id/lbAbono"
+            android:text="$ 194.6"
+            android:textSize="15sp"/>
+
+
+        <!-- Forma de Pago -->
+        <TextView
+            android:id="@+id/lbForma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Forma de Pago: "
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:layout_below="@+id/lbAbono"/>
+
+        <TextView
+            android:id="@+id/txtForma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/lbAbono"
+            android:layout_toRightOf="@+id/lbForma"
+            android:text="Efectivo"
+            android:textSize="16sp"/>
+
+        <!-- Comentario -->
+        <TextView
+            android:id="@+id/lbComentario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Comentario: "
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:layout_below="@+id/lbForma"/>
+
+        <TextView
+            android:id="@+id/txtComentario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/lbForma"
+            android:layout_toRightOf="@+id/lbComentario"
+            android:text="Algun comentario"
+            android:textSize="16sp"/>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

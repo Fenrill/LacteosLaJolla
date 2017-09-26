@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <EditText
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/editCantidad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="10dp"
+        android:hint="Cantidad"
+        android:textAlignment="center"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:inputType="number"
+        style="@style/Base.V7.Widget.AppCompat.EditText"
+        android:backgroundTint="@color/colorPrimaryDark"/>
+
+    <Spinner
+        android:id="@+id/spUnidad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editCantidad"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        style="@style/Base.Widget.AppCompat.Spinner.Underlined">
+
+    </Spinner>
+
+    <TextView
+        android:id="@+id/lbPrecio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Precio : $ "
+        android:layout_below="@+id/spUnidad"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/txtPrecio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/lbPrecio"
+        android:layout_below="@+id/spUnidad"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/txtImporte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$ 00.00"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_marginTop="64dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/txtPrecio"
+        android:layout_alignEnd="@+id/spUnidad" />
+
+    <TextView
+        android:id="@+id/txtInventario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inventario :"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="13dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/lbPrecio" />
+
+</RelativeLayout>

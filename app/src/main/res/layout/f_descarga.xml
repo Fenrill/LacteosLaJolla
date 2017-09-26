@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE">
+
+    <ListView
+        android:id="@+id/lstOptions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="#00000000">
+
+    </ListView>
+
+
+    <android.support.design.widget.FloatingActionButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/btnCarga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_next"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"
+        app:backgroundTint="@color/colorCarga"/>
+
+    <TextView
+        android:id="@+id/ldFinished"
+        style="@style/AppTheme"
+        android:layout_width="?attr/panelMenuListWidth"
+        android:layout_height="?attr/listPreferredItemHeight"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/lstOptions"
+        android:gravity="right"
+        android:text="Proceso Terminado"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/colorEnd"
+        android:theme="@style/AppTheme"
+        android:visibility="gone"
+        tools:text="Proceso Terminado" />
+
+</RelativeLayout>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_object"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginLeft="7dp">
+
+
+        <TextView
+            android:id="@+id/txtDescripcion"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="JULIO CARLOS ESPARZA"
+            android:textSize="17sp"
+            android:textColor="#255583"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Unidad -->
+        <TextView
+            android:id="@+id/lbUnidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtDescripcion"
+            android:text="Unidad: "
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txtUnidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtDescripcion"
+            android:layout_toRightOf="@+id/lbUnidad"
+            android:text="Pieza"
+            android:textSize="17sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Cantidad -->
+        <TextView
+            android:id="@+id/lbCantidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtUnidad"
+            android:text="Cantidad: "
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/txtCantidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtUnidad"
+            android:layout_toRightOf="@+id/lbCantidad"
+            android:text="5.0"
+            android:textSize="17sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Importe -->
+        <TextView
+            android:id="@+id/lbImporte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtCantidad"
+            android:text="Importe: "
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/txtImporte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtCantidad"
+            android:layout_toRightOf="@+id/lbCantidad"
+            android:text="5.0"
+            android:textSize="17sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Motivo -->
+        <TextView
+            android:id="@+id/txtMotivo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtImporte"
+            android:gravity="center"
+            android:background="@drawable/item_motivo"
+            android:text="RFC: CAEJ410412J87"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE">
+
+    <TextView
+        android:id="@+id/txtSaldo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="19sp"
+        android:text="Saldo: $ 2500.0"
+        android:layout_marginTop="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="15dp"
+        android:textStyle="bold|italic"
+        android:textColor="#25670D"/>
+
+    <TextView
+        android:id="@+id/txtTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="19sp"
+        android:textStyle="bold|italic"
+        android:textColor="#4B3737"
+        android:text="Total: $ 194.6"/>
+
+    <EditText
+        android:id="@+id/editCantidad"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:background="#B8B7B7"
+        android:layout_below="@+id/txtTotal"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_centerHorizontal="true"
+        android:padding="7dp"
+        android:hint="Cantidad a pagar"
+        android:inputType="numberDecimal"/>
+
+    <EditText
+        android:id="@+id/editComentario"
+        android:layout_width="fill_parent"
+        android:layout_height="130dp"
+        android:layout_below="@+id/editCantidad"
+        android:singleLine="true"
+        android:lines="5"
+        android:gravity="top"
+        android:hint="Escribe un comentario..."
+        android:background="#DEDCDC"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:padding="5dp"/>
+
+    <Spinner
+        android:id="@+id/spTipoPago"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editComentario"
+        android:layout_marginTop="10dp">
+    </Spinner>
+
+</RelativeLayout>

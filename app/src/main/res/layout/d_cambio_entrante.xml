@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/txtDesc"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="PRODUCTOSBGDBS"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editCantidad"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtDesc"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:hint="Cantidad de Entrada"
+        android:selectAllOnFocus="true"
+        android:inputType="number"
+        android:textAlignment="center" />
+
+    <Spinner
+        android:id="@+id/spMotivo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:textAlignment="center"
+        android:layout_below="@+id/editCantidad"
+        android:layout_alignParentStart="true"></Spinner>
+
+    <Spinner
+        android:id="@+id/spUnidad"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spMotivo"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="17dp"
+        android:textAlignment="center"></Spinner>
+
+    <TextView
+        android:id="@+id/totalInv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="51dp"
+        android:text="Inventario:"
+        android:layout_below="@+id/spUnidad"
+        android:layout_alignEnd="@+id/spUnidad"
+        android:layout_alignStart="@+id/spUnidad" />
+
+</RelativeLayout>

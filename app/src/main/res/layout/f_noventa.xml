@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/item_object">
+
+        <TextView
+            android:id="@+id/lbMotivo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Motivo de No Venta:"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:layout_margin="10dp"
+            android:textColor="#3C4B57"/>
+
+        <Spinner
+            android:id="@+id/spMotivo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lbMotivo"
+            android:textAlignment="center">
+
+        </Spinner>
+
+        <TextView
+            android:id="@+id/label_Comentarios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/spMotivo"
+            android:text="Comentarios:"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:layout_margin="10dp"
+            android:textColor="#3C4B57"/>
+
+        <EditText
+            android:id="@+id/editComentarios"
+            android:layout_width="fill_parent"
+            android:layout_height="130dp"
+            android:layout_below="@+id/label_Comentarios"
+            android:singleLine="true"
+            android:lines="5"
+            android:gravity="top"
+            android:hint="Escribe un comentario..."
+            android:background="@drawable/item_edit"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:padding="5dp"/>
+
+        <TextView
+            android:id="@+id/lbPick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editComentarios"
+            android:text="Foto:"
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:layout_margin="10dp"
+            android:textColor="#3C4B57"/>
+
+        <ImageView
+            android:id="@+id/img_Camera"
+            android:layout_width="150dp"
+            android:layout_height="137dp"
+            android:layout_below="@+id/lbPick"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/pick"/>
+
+        <android.support.design.widget.FloatingActionButton
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/btnEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_done"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentBottom="true"
+            app:backgroundTint="@color/colorEnd"/>
+
+
+    </RelativeLayout>
+
+
+    <!--
+    <RelativeLayout
+        android:id="@+id/NoVentaAnt"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#FFF"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/txtMotivo_NoV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Motivo: "
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#000"/>
+
+        <TextView
+            android:id="@+id/txtComentario_NoV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comentario: "
+            android:textSize="15sp"
+            android:padding="5dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#000"
+            android:layout_below="@+id/txtMotivo_NoV"/>
+
+        <ImageView
+            android:id="@+id/imgFoto"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/txtComentario_NoV"
+            android:layout_margin="15dp"
+            android:layout_above="@+id/btnNewNV"/>
+
+        <TextView
+            android:id="@+id/btnNewNV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nueva"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="#FFF"
+            android:background="@color/common_signin_btn_default_background"/>
+
+
+
+
+    </RelativeLayout>
+-->
+
+</RelativeLayout>

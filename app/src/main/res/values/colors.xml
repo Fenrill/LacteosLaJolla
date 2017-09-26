@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2476D5</color>
+    <color name="colorPrimaryDark">#185FB0</color>
+    <color name="colorAccent">#FFF</color>
+    <color name="navigationBarColor">#185FB0</color>
+
+    <color name="colorCarga">#49B96C</color>
+    <color name="colorCancel">#D43333</color>
+    <color name="colorClientes">#2476d5</color>
+
+    <color name="colorEnd">#2ba349</color>
+    <color name="colorPrint">#2476D5</color>
+    <color name="colorAdd">#33B5E1</color>
+</resources>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layBotons"
+        android:src="@mipmap/ic_logo"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="50dp" />
+
+
+    <RelativeLayout
+        android:id="@+id/layBotons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <EditText
+            android:id="@+id/editUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:hint="Usuario"
+            android:textColor="#FFF"
+            android:textColorHint="#FFF"
+            android:textStyle="bold"
+            android:drawableRight="@mipmap/ic_user"
+            android:padding="10dp"
+            android:inputType="textPersonName"/>
+
+        <EditText
+            android:id="@+id/editPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editUser"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:hint="Contraseña"
+            android:textColorHint="#FFF"
+            android:textColor="#FFF"
+            android:textStyle="bold"
+            android:drawableRight="@mipmap/ic_pass"
+            android:padding="10dp"
+            android:inputType="textPassword"/>
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inicio"
+            style="@style/MyTheme.Button"
+            android:layout_below="@+id/editPass"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/btnActualizar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_update"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
+        app:backgroundTint="@color/colorPrimaryDark"/>
+
+    <android.support.design.widget.FloatingActionButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/btnConfigurar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_config"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="15dp"
+        app:backgroundTint="@color/colorPrimaryDark"/>
+
+    <TextView
+        android:id="@+id/idVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btnActualizar"
+        android:layout_centerHorizontal="true"
+        android:text="v1.4"
+        android:textColor="#ffffff"
+        android:textStyle="italic" />
+
+
+</RelativeLayout>

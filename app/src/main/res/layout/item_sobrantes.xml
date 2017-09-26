@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_object"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp">
+
+        <TextView
+            android:id="@+id/txtDescripcion_sobrantes"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#255583"
+            android:textSize="16sp"
+            android:text="Computador POrtatil etc...."
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/txtclave_sobrante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtDescripcion_sobrantes"
+            android:layout_marginTop="5dp"
+            android:text="Clave: 100024"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/txtcarga_sobrante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtclave_sobrante"
+            android:layout_marginTop="15dp"
+            android:text="Carga: 650"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/txtVentas_sobrante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtcarga_sobrante"
+            android:layout_marginTop="5dp"
+            android:text="Venta: 65"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/txtCambio_sobrante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtVentas_sobrante"
+            android:layout_marginTop="8dp"
+            android:text="Cambios: 65"
+            android:layout_marginLeft="10dp"/>
+
+        <TextView
+            android:id="@+id/txtDev_sobrante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtCambio_sobrante"
+            android:layout_marginTop="8dp"
+            android:text="Devoluciones: 65"
+            android:layout_marginLeft="10dp"/>
+
+
+
+
+
+        <TextView
+            android:id="@+id/txtinvMal_sobrante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtDescripcion_sobrantes"
+            android:layout_marginTop="35dp"
+            android:text="Mal estado: 68"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/txtinvBuen_sobrante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtinvMal_sobrante"
+            android:layout_marginTop="5dp"
+            android:text="Buen estado: 50"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/txtinvFinal_sobrante"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtinvBuen_sobrante"
+            android:layout_marginTop="8dp"
+            android:text="Final: 100"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:textStyle="bold"
+            android:textColor="#255583"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

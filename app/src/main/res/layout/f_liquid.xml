@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE">
+
+    <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/btnPrint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/ic_printer"
+        app:backgroundTint="@color/colorPrint" />
+
+    <RelativeLayout
+        android:id="@+id/Container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <TextView
+            android:id="@+id/liqTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="21dp"
+            android:text="La Jolla"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrint"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView1"
+            android:layout_alignStart="@+id/textView1"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorEnd"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:layout_alignBaseline="@+id/textView15"
+            android:layout_alignBottom="@+id/textView15"
+            android:layout_alignEnd="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/liqTitle"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="60dp"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/liqTitle"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="80dp"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="?android:attr/textColorHint"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/liqTitle"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="100dp"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="?android:attr/textColorHint"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/liqTitle"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="120dp"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="?android:attr/textColorHint"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/liqTitle"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="40dp"
+            android:width="150dp"
+            android:text="Ventas Contado:"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/liqTitle"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="60dp"
+            android:width="150dp"
+            android:text="Cobranza:"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/liqTitle"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="80dp"
+            android:width="150dp"
+            android:text="- Efectivo:"
+            android:textAlignment="textEnd"
+            android:textColor="?android:attr/textColorHint"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/liqTitle"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="100dp"
+            android:width="150dp"
+            android:text="- Cheques:"
+            android:textAlignment="textEnd"
+            android:textColor="?android:attr/textColorHint"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView11"
+            android:layout_alignBottom="@+id/textView11"
+            android:layout_alignStart="@+id/textView10"
+            android:width="150dp"
+            android:text="- Tranferencia:"
+            android:textAlignment="textEnd"
+            android:textColor="?android:attr/textColorHint"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView7"
+            android:layout_alignBottom="@+id/textView7"
+            android:layout_alignStart="@+id/textView15"
+            android:width="150dp"
+            android:text="Ventas Credito:"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorEnd"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView21"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView3"
+            android:layout_alignBottom="@+id/textView3"
+            android:layout_alignStart="@+id/textView3"
+            android:width="150dp"
+            android:text="Total a Depositar:"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginStart="205dp"
+            android:layout_marginTop="195dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:id="@+id/view" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/liqTitle"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="155dp"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/liqTitle2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="250dp"
+            android:text="Cobasur"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrint"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/liqTitle2"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="10dp"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorEnd"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/liqTitle2"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="30dp"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:layout_below="@+id/textView4"
+            android:layout_alignStart="@+id/textView4" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="?android:attr/textColorHint"
+            android:textSize="18sp"
+            android:layout_below="@+id/textView5"
+            android:layout_alignStart="@+id/textView5" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="?android:attr/textColorHint"
+            android:textSize="18sp"
+            android:layout_below="@+id/textView12"
+            android:layout_alignStart="@+id/textView14" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="?android:attr/textColorHint"
+            android:textSize="18sp"
+            android:layout_below="@+id/textView13"
+            android:layout_alignStart="@+id/textView6" />
+
+        <TextView
+            android:id="@+id/textView22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView4"
+            android:layout_alignBottom="@+id/textView4"
+            android:layout_alignStart="@+id/textView8"
+            android:width="150dp"
+            android:text="Ventas Contado:"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView23"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView5"
+            android:layout_alignBottom="@+id/textView5"
+            android:layout_alignStart="@+id/textView5"
+            android:width="150dp"
+            android:text="Cobranza:"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView12"
+            android:layout_alignBottom="@+id/textView12"
+            android:layout_alignStart="@+id/textView12"
+            android:width="150dp"
+            android:text="- Efectivo:"
+            android:textAlignment="textEnd"
+            android:textColor="?android:attr/textColorHint"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView13"
+            android:layout_alignBottom="@+id/textView13"
+            android:layout_alignStart="@+id/textView12"
+            android:width="150dp"
+            android:text="- Cheques:"
+            android:textAlignment="textEnd"
+            android:textColor="?android:attr/textColorHint"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView26"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView14"
+            android:layout_alignBottom="@+id/textView14"
+            android:layout_alignStart="@+id/textView14"
+            android:width="150dp"
+            android:text="- Tranferencia:"
+            android:textAlignment="textEnd"
+            android:textColor="?android:attr/textColorHint"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView8"
+            android:layout_alignBottom="@+id/textView8"
+            android:layout_alignStart="@+id/textView8"
+            android:width="150dp"
+            android:text="Ventas Credito:"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorEnd"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView28"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView6"
+            android:layout_alignBottom="@+id/textView6"
+            android:layout_alignStart="@+id/textView6"
+            android:width="150dp"
+            android:text="Total a Depositar:"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <View
+            android:id="@+id/view2"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginStart="215dp"
+            android:layout_marginTop="420dp"
+            android:background="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView12"
+            android:layout_below="@+id/view2"
+            android:layout_marginTop="10dp"
+            android:width="240dp"
+            android:text="$1000"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

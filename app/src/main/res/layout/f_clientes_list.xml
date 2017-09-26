@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE">
+
+    <EditText
+        android:id="@+id/editSearch"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_edit"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:hint="Búsqueda por Nombre o Clave"
+        android:textSize="20sp"
+        android:padding="5dp"
+        android:singleLine="true"/>
+
+    <ListView
+        android:id="@+id/lstClientes"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/editSearch"
+        android:layout_marginTop="8dp"
+        android:divider="#00000000">
+    </ListView>
+
+
+</RelativeLayout>

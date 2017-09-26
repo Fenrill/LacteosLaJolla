@@ -1,0 +1,43 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+    </style>
+
+    <style name="MyTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--Boton Login-->
+    <style name="MyTheme.Button" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">#FFF</item>
+        <item name="android:textColor">#3F8CE3</item>
+    </style>
+
+    <!-- Botones Marca -->
+    <style name="MyTheme.ButtonMarca" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">#3F8CE3</item>
+        <item name="android:textColor">#FFF</item>
+    </style>
+
+    <!-- Texto de las Tab -->
+    <style name="CustomText" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <!-- Switchs -->
+    <style name="ColorSwitchStyle">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+
+
+</resources>

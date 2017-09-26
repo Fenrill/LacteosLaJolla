@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEE">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/item_object"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp">
+
+        <!-- Serie Folio -->
+        <TextView
+            android:id="@+id/lbSerie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Serie y Folio:"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txtSerie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="EBPX - 16"
+            android:layout_toRightOf="@+id/lbSerie"/>
+
+        <!-- Fecha -->
+
+        <TextView
+            android:id="@+id/lbFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/lbSerie"
+            android:text="Fecha:"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txtFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/txtSerie"
+            android:layout_toRightOf="@+id/lbFecha"
+            android:text="2009-09-21"/>
+
+
+        <!-- Total y Saldo -->
+
+        <TextView
+            android:id="@+id/lbTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Total:"
+            android:textStyle="bold"
+            android:layout_below="@+id/lbFecha"/>
+
+        <TextView
+            android:id="@+id/txtTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/txtFecha"
+            android:layout_toRightOf="@+id/lbTotal"
+            android:text="$ 194.6"/>
+
+
+        <TextView
+            android:id="@+id/lbSaldo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Saldo:"
+            android:textStyle="bold"
+            android:layout_below="@id/txtFecha"
+            android:layout_toLeftOf="@+id/txtSaldo"/>
+
+        <TextView
+            android:id="@+id/txtSaldo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/txtFecha"
+            android:text="$ 194.6"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

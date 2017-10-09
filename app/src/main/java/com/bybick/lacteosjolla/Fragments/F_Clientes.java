@@ -210,26 +210,26 @@ public class F_Clientes extends Fragment implements TabLayout.OnTabSelectedListe
                 return false;
             }
         });
-        liquid = menu.add("Liquidacion");
-        liquid.setIcon(R.mipmap.ic_cobranza);
-        liquid.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        liquid.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-
-                F_Liquid frag = new F_Liquid();
-                frag.setContext(context);
-                frag.setTb(tb);
-                frag.setFmMain(fm);
-
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
-                        R.animator.enter_anim, R.animator.out_anim);
-                ft.replace(R.id.Container, frag, "Liquidacion").addToBackStack("Clientes").commit();
-
-                return false;
-            }
-        });
+//        liquid = menu.add("Liquidacion");
+//        liquid.setIcon(R.mipmap.ic_cobranza);
+//        liquid.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//        liquid.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem menuItem) {
+//
+//                F_Liquid frag = new F_Liquid();
+//                frag.setContext(context);
+//                frag.setTb(tb);
+//                frag.setFmMain(fm);
+//
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+//                        R.animator.enter_anim, R.animator.out_anim);
+//                ft.replace(R.id.Container, frag, "Liquidacion").addToBackStack("Clientes").commit();
+//
+//                return false;
+//            }
+//        });
     }
 
     @Override

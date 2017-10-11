@@ -61,14 +61,19 @@ public class P_Liquidacion {
             ticket.write("Hora: " + Main.getHora() + "\r\n");
             ticket.write("Ultimo Folio: " + dbd.getLastFolio() + "\r\n");
             ticket.write("                               \r\n");
+            ticket.write("-------------------------------\r\n");
+            ticket.write(center("-Bancomer-") + "\r\n");
+            ticket.write("                               \r\n");
+            ticket.write("La Jolla: 0444191781           \r\n");
+            ticket.write("Cobasur:  0448927014           \r\n");
 
 
             //  CABECERA DE LOS PRODUCTOS
             ticket.write("--------------------------------\r\n");
             String line;
             ticket.write("\r\n");
-            ticket.write("-------RESUMEN DE VENTAS--------\r\n");
-            ticket.write("\r\n");
+//            ticket.write("-------RESUMEN DE VENTAS--------\r\n");
+//            ticket.write("\r\n");
 
             //Obtener Ventas
             ArrayList<VentaResumen> resumen = dbd.getResumenVentas();

@@ -24,7 +24,9 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginRight="5dp"
+        android:scrollbarSize="50dp"
+        android:scrollbars="vertical">
 
         <TextView
             android:id="@+id/liqTitle"
@@ -33,7 +35,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="21dp"
-            android:text="La Jolla"
+            android:text="La Jolla: 0444191781"
             android:textAlignment="center"
             android:textColor="@color/colorPrint"
             android:textSize="24sp"
@@ -55,14 +57,14 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView15"
+            android:layout_alignBottom="@+id/textView15"
+            android:layout_alignEnd="@+id/textView2"
             android:width="240dp"
             android:text="$1000"
             android:textAlignment="textEnd"
             android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:layout_alignBaseline="@+id/textView15"
-            android:layout_alignBottom="@+id/textView15"
-            android:layout_alignEnd="@+id/textView2" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView2"
@@ -216,6 +218,7 @@
             android:textSize="18sp" />
 
         <View
+            android:id="@+id/view"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_marginEnd="60dp"
@@ -223,8 +226,7 @@
             android:layout_marginTop="195dp"
             android:background="@color/colorPrimary"
             android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:id="@+id/view" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView3"
@@ -247,7 +249,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="250dp"
-            android:text="Cobasur"
+            android:text="Cobasur: 0448927014"
             android:textAlignment="center"
             android:textColor="@color/colorPrint"
             android:textSize="24sp"
@@ -285,49 +287,49 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView4"
+            android:layout_below="@+id/textView4"
             android:width="240dp"
             android:text="$1000"
             android:textAlignment="textEnd"
             android:textColor="@android:color/black"
-            android:textSize="18sp"
-            android:layout_below="@+id/textView4"
-            android:layout_alignStart="@+id/textView4" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView5"
+            android:layout_below="@+id/textView5"
             android:width="240dp"
             android:text="$1000"
             android:textAlignment="textEnd"
             android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp"
-            android:layout_below="@+id/textView5"
-            android:layout_alignStart="@+id/textView5" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView14"
+            android:layout_below="@+id/textView12"
             android:width="240dp"
             android:text="$1000"
             android:textAlignment="textEnd"
             android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp"
-            android:layout_below="@+id/textView12"
-            android:layout_alignStart="@+id/textView14" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/textView6"
+            android:layout_below="@+id/textView13"
             android:width="240dp"
             android:text="$1000"
             android:textAlignment="textEnd"
             android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp"
-            android:layout_below="@+id/textView13"
-            android:layout_alignStart="@+id/textView6" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/textView22"

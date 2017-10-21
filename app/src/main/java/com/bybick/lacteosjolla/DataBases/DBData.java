@@ -2009,7 +2009,8 @@ public class DBData extends SQLiteOpenHelper {
                 "ON p.id_producto = c.id_producto " +
                 "INNER JOIN producto d " +
                 "ON d.id_producto = c.id_producto " +
-                "WHERE c.id_unidad = p.id_unidad";
+                "WHERE c.id_unidad = p.id_unidad " +
+                "ORDER BY d.orden";
         Cursor rs = db.rawQuery(sql, null);
         if(rs.moveToFirst()) {
             do {

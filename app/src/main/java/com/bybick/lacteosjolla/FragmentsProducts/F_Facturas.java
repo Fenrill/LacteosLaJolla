@@ -143,11 +143,11 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
 
         //Total
         final TextView txtTotal = (TextView) view.findViewById(R.id.txtTotal);
-        txtTotal.setText("Total: $ " + seleccion.getTotal());
+        txtTotal.setText("Total: $ " + FormatNumber(seleccion.getTotal()));
 
         //Saldo
         final TextView txtSaldo = (TextView) view.findViewById(R.id.txtSaldo);
-        txtSaldo.setText("Saldo: $ " + seleccion.getSaldo());
+        txtSaldo.setText("Saldo: $ " + FormatNumber(seleccion.getSaldo()));
 
         //Cantidad
         final EditText editCantidad = (EditText) view.findViewById(R.id.editCantidad);
@@ -184,7 +184,7 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
                     txtSaldo.setText("Saldo: $ " + FormatNumber(saldo));
 
                 } else {
-                    txtSaldo.setText("Saldo: $ " + seleccion.getTotal());
+                    txtSaldo.setText("Saldo: $ " + FormatNumber(seleccion.getTotal()));
                 }
             }
 

@@ -640,7 +640,7 @@ public class F_Actualizar extends Fragment implements AdapterView.OnItemClickLis
 
                     }
 
-                    //Recorrer Uniaddaes
+                    //Recorrer Unidadaes
                     for (int i = 0; i < jsUnidades.length(); i++) {
                         JSONObject object = jsUnidades.getJSONObject(i);
 

@@ -16,6 +16,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 /**
@@ -74,7 +76,7 @@ public class P_ReportVentas {
 
             for (int i = 0; i < data.size(); i++) {
                 ticket.write("" + data.get(i).getDescripcion() + "\r\n");
-                ticket.write("" + data.get(i).getCantidad());
+                ticket.write("" + FormatNumber(data.get(i).getCantidad()));
                 ticket.write("              " + data.get(i).getUnidad() + "\r\n");
                 ticket.write("Ventas Clientes: " + dbd.getVentasxProd(data.get(i).getClave()));
                 ticket.write("                                \r\n");
@@ -154,6 +156,20 @@ public class P_ReportVentas {
         }
         return line;
 
+    }
+
+    //Formatear Numero de double a String
+    public String FormatNumber(double number) {
+        String result = "";
+
+        DecimalFormatSymbols sim = new DecimalFormatSymbols();
+        sim.setDecimalSeparator('.');
+        sim.setGroupingSeparator(',');
+        DecimalFormat fd = new DecimalFormat("###,##0.00", sim);
+
+        result = fd.format(number);
+
+        return result;
     }
 
 }

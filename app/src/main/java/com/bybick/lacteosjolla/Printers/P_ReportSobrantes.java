@@ -83,17 +83,17 @@ public class P_ReportSobrantes {
                 if(data.get(i).getMarca().equals("COBASUR")) {
                     ticket.write("                                \r\n");
                     ticket.write(center(data.get(i).getDescripcion()) + "\r\n");
-                    linenew = "Carga: " + data.get(i).getCarga();
+                    linenew = "Carga: " + FormatNumber(data.get(i).getCarga());
                     ticket.write(align(linenew));
-                    ticket.write(" Malo: " + data.get(i).getInv_mal() + "\r\n");
+                    ticket.write(" Malo: " + FormatNumber(data.get(i).getInv_mal()) + "\r\n");
 
-                    linenew = "Ventas: " + data.get(i).getVentas();
+                    linenew = "Ventas: " + FormatNumber(data.get(i).getVentas());
                     ticket.write(align(linenew));
-                    ticket.write(" Bueno: " + data.get(i).getInv_buen() + "\r\n");
+                    ticket.write(" Bueno: " + FormatNumber(data.get(i).getInv_buen()) + "\r\n");
 
-                    linenew = "Cambios: " + data.get(i).getCambios();
+                    linenew = "Cambios: " + FormatNumber(data.get(i).getCambios());
                     ticket.write(align(linenew));
-                    ticket.write(" FINAL: " + data.get(i).getInv_final() + "\r\n");
+                    ticket.write(" FINAL: " + FormatNumber(data.get(i).getInv_final()) + "\r\n");
 
 //                    ticket.write("Devol.: " + data.get(i).getDevoluciones() + "\r\n");
 //                    ticket.write("\r\n");
@@ -107,17 +107,17 @@ public class P_ReportSobrantes {
                 if(data.get(i).getMarca().equals("LA JOLLA")) {
                     ticket.write("                                \r\n");
                     ticket.write(center(data.get(i).getDescripcion()) + "\r\n");
-                    linenew = "Carga: " + data.get(i).getCarga();
+                    linenew = "Carga: " + FormatNumber(data.get(i).getCarga());
                     ticket.write(align(linenew));
-                    ticket.write(" Malo: " + data.get(i).getInv_mal() + "\r\n");
+                    ticket.write(" Malo: " + FormatNumber(data.get(i).getInv_mal()) + "\r\n");
 
-                    linenew = "Ventas: " + data.get(i).getVentas();
+                    linenew = "Ventas: " + FormatNumber(data.get(i).getVentas());
                     ticket.write(align(linenew));
-                    ticket.write(" Bueno: " + data.get(i).getInv_buen() + "\r\n");
+                    ticket.write(" Bueno: " + FormatNumber(data.get(i).getInv_buen()) + "\r\n");
 
-                    linenew = "Cambios: " + data.get(i).getCambios();
+                    linenew = "Cambios: " + FormatNumber(data.get(i).getCambios());
                     ticket.write(align(linenew));
-                    ticket.write(" FINAL: " + data.get(i).getInv_final() + "\r\n");
+                    ticket.write(" FINAL: " + FormatNumber(data.get(i).getInv_final()) + "\r\n");
 
 //                    ticket.write("Devol.: " + data.get(i).getDevoluciones() + "\r\n");
 //                    ticket.write("\r\n");
@@ -166,24 +166,24 @@ public class P_ReportSobrantes {
             }
 
             ticket.write(" - VENTAS LA JOLLA -\r\n");
-            ticket.write("     Contado         $ " + VC_Jolla + "\r\n");
-            ticket.write("     Credito         $ " + VCR_Jolla + "\r\n");
+            ticket.write("     Contado         $ " + FormatNumber(VC_Jolla) + "\r\n");
+            ticket.write("     Credito         $ " + FormatNumber(VCR_Jolla) + "\r\n");
 
             ticket.write("\r\n");
 
             ticket.write(" - VENTAS COBASUR -\r\n");
-            ticket.write("     Contado         $ " + VC_Cobasur + "\r\n");
-            ticket.write("     Credito         $ " + VCR_Cobasur + "\r\n");
+            ticket.write("     Contado         $ " + FormatNumber(VC_Cobasur) + "\r\n");
+            ticket.write("     Credito         $ " + FormatNumber(VCR_Cobasur) + "\r\n");
 
             ticket.write("\r\n");
 
             ticket.write(" - TOTAL DE VENTA -\r\n");
-            ticket.write("     Contado         $ " + VC_Totales + "\r\n");
-            ticket.write("     Credito         $ " + VCR_Totales + "\r\n");
+            ticket.write("     Contado         $ " + FormatNumber(VC_Totales) + "\r\n");
+            ticket.write("     Credito         $ " + FormatNumber(VCR_Totales) + "\r\n");
             ticket.write("                                \r\n");
             ticket.write("                                \r\n");
             ticket.write(" - TOTAL DE COBRANZA -\r\n");
-            ticket.write("     Total           $ " + dbd.getTotalCobranza() +"\r\n");
+            ticket.write("     Total           $ " + FormatNumber(dbd.getTotalCobranza()) +"\r\n");
 //            ticket.write("                                \r\n");
 //            ticket.write("                                \r\n");
 //            ticket.write(" - TOTAL DE DEVOLUCION -\r\n");

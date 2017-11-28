@@ -135,13 +135,13 @@ public class F_Devolucion extends Fragment implements View.OnClickListener, Adap
 
     }
 
-//    @Nullable
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View v =inflater.inflate(R.layout.f_devolucion, container, false);
-//        getViews(v);
-//        return v;
-//    }
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v =inflater.inflate(R.layout.f_devolucion, container, false);
+        getViews(v);
+        return v;
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

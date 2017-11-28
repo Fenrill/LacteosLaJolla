@@ -62,6 +62,9 @@ public class P_Venta {
             ticket.write("                                \r\n");
 //                ticket.write("                                \r\n");
 
+            ticket.write("--------------------------------\r\n");
+            ticket.write(center("Venta a " + venta.getForma_venta()));
+
 
             // * CABECERA DE LOS PRODUCTOS *
             ticket.write("--------------------------------\r\n");

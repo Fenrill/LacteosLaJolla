@@ -102,6 +102,16 @@
             android:src="@mipmap/icon_cliente"
             android:layout_marginTop="15dp" />
 
+        <TextView
+            android:id="@+id/FormaPago"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_alignBottom="@+id/lbClave"
+            android:layout_toEndOf="@+id/txtRfc"
+            android:text="Contado" />
+
     </RelativeLayout>
 
 

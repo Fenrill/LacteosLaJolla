@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.bybick.lacteosjolla.Adapters.Adapter_Visita;
 import com.bybick.lacteosjolla.DataBases.DBConfig;
@@ -139,19 +140,24 @@ public class F_Visitas extends Fragment implements View.OnClickListener, Adapter
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        F_Visita frag = new F_Visita();
-        frag.setContext(context);
-        frag.setTb(tb);
-        frag.setFmMain(fm);
-        frag.setCliente(cliente);
-        frag.setVisita(data.get(position));
+        if (!data.get(position).isTerminado()){
+            F_Visita frag = new F_Visita();
+            frag.setContext(context);
+            frag.setTb(tb);
+            frag.setFmMain(fm);
+            frag.setCliente(cliente);
+            frag.setVisita(data.get(position));
 
-        Log.e("ID_Visita SELECT", "ID: " + data.get(position).getId_visita());
+            Log.e("ID_Visita SELECT", "ID: " + data.get(position).getId_visita());
 
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
-                R.animator.enter_anim, R.animator.out_anim);
-        ft.replace(R.id.Container, frag, "Visita").addToBackStack("Visitas").commit();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+                    R.animator.enter_anim, R.animator.out_anim);
+            ft.replace(R.id.Container, frag, "Visita").addToBackStack("Visitas").commit();
+        } else {
+            Toast.makeText(context, "Bloqueo por Devolucion", Toast.LENGTH_SHORT).show();
+        }
+
 
     }
 }

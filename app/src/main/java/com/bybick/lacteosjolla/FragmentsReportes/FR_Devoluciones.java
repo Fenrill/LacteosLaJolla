@@ -120,6 +120,8 @@ public class FR_Devoluciones extends Fragment implements AdapterView.OnItemClick
                 ft.setCustomAnimations(R.animator.enter_up, R.animator.out_up,
                         R.animator.enter_up, R.animator.out_up);
                 ft.replace(R.id.ContainerConfig, ticket).addToBackStack("Reporte").commit();
+
+                dbd.setTerminado();
 /*
                 btn_print.setBackgroundResource(R.drawable.ic_print);
                 Fragment_Main.ticket.setVisibility(TextView.VISIBLE);

@@ -220,7 +220,11 @@ public class F_ProductosVenta extends Fragment implements AdapterView.OnItemClic
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0) {
                     Precios price = (Precios) spUnidad.getSelectedItem();
-                    double cantidad = Double.parseDouble(s.toString());
+                    String c = s.toString();
+                    if (c.equals(".")){
+                        c = "0.";
+                    }
+                    double cantidad = Double.parseDouble(c);
 
                     //Total
                     String totalString = FormatNumber(price.getPrecio() * cantidad);

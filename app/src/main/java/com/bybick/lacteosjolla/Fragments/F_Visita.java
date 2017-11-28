@@ -241,19 +241,32 @@ public class F_Visita extends Fragment implements TabLayout.OnTabSelectedListene
             case 0 : {
                 tb.setTitle("Venta");
 
-                //Mostrar Ventas
-                F_Venta frag = new F_Venta();
+                if (cliente.isBloqueado()){
+                    F_NoCredito frag = new F_NoCredito();
 
-                frag.setContext(context);
-                frag.setTb(tb);
-                frag.setFmMain(fmMain);
-                frag.setAuxiliares(visita, cliente);
+                    frag.setContext(context);
+                    frag.setTb(tb);
+                    frag.setFmMain(fmMain);
+                    frag.setAuxiliares(visita, cliente);
 
-                FragmentTransaction ft = fmChild.beginTransaction();
-                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
-                        R.animator.enter_anim, R.animator.out_anim);
-                ft.replace(R.id.ContainerVisita, frag, "Venta").commit();
+                    FragmentTransaction ft = fmChild.beginTransaction();
+                    ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+                            R.animator.enter_anim, R.animator.out_anim);
+                    ft.replace(R.id.ContainerVisita, frag, "Venta").commit();
+                }
+                else {
+                    F_Venta frag = new F_Venta();
 
+                    frag.setContext(context);
+                    frag.setTb(tb);
+                    frag.setFmMain(fmMain);
+                    frag.setAuxiliares(visita, cliente);
+
+                    FragmentTransaction ft = fmChild.beginTransaction();
+                    ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+                            R.animator.enter_anim, R.animator.out_anim);
+                    ft.replace(R.id.ContainerVisita, frag, "Venta").commit();
+                }
             }break;
 
             //Cambio
@@ -276,26 +289,26 @@ public class F_Visita extends Fragment implements TabLayout.OnTabSelectedListene
             }break;
 
             //Devolucion
-//            case 2 : {
-//                tb.setTitle("Devolución");
-//
-//                //Mostrar Devolucion
-//                F_Devolucion frag = new F_Devolucion();
-//
-//                frag.setContext(context);
-//                frag.setTb(tb);
-//                frag.setFmMain(fmMain);
-//                frag.setAuxiliares(visita, cliente);
-//
-//                FragmentTransaction ft = fmChild.beginTransaction();
-//                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
-//                        R.animator.enter_anim, R.animator.out_anim);
-//
-////                ft.replace(R.id.ContainerVisita, frag, "Devolucion").commit();
-//            }break;
+            case 2 : {
+                tb.setTitle("Devolución");
+
+                //Mostrar Devolucion
+                F_Devolucion frag = new F_Devolucion();
+
+                frag.setContext(context);
+                frag.setTb(tb);
+                frag.setFmMain(fmMain);
+                frag.setAuxiliares(visita, cliente);
+
+                FragmentTransaction ft = fmChild.beginTransaction();
+                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+                        R.animator.enter_anim, R.animator.out_anim);
+
+                ft.replace(R.id.ContainerVisita, frag, "Devolucion").commit();
+            }break;
 
             //Cobranza
-            case 2 : {
+            case 3 : {
                 tb.setTitle("Cobranza");
                 //Mostrar Devolucion
                 F_Cobranza frag = new F_Cobranza();
@@ -313,7 +326,7 @@ public class F_Visita extends Fragment implements TabLayout.OnTabSelectedListene
             }break;
 
             //No Venta
-            case 3 : {
+            case 4 : {
                 tb.setTitle("No Venta");
 
                 //Mostrar Ventas
@@ -343,20 +356,21 @@ public class F_Visita extends Fragment implements TabLayout.OnTabSelectedListene
             //Venta
             case 0: {
                 tb.setTitle("Venta");
+                fmMain.removeOnBackStackChangedListener(null);
+                if (!cliente.isBloqueado()) {
+                    //Mostrar Ventas
+                    F_Venta frag = new F_Venta();
 
-                //Mostrar Ventas
-                F_Venta frag = new F_Venta();
+                    frag.setContext(context);
+                    frag.setTb(tb);
+                    frag.setFmMain(fmMain);
+                    frag.setAuxiliares(visita, cliente);
 
-                frag.setContext(context);
-                frag.setTb(tb);
-                frag.setFmMain(fmMain);
-                frag.setAuxiliares(visita, cliente);
-
-                FragmentTransaction ft = fmChild.beginTransaction();
-                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
-                        R.animator.enter_anim, R.animator.out_anim);
-                ft.replace(R.id.ContainerVisita, frag, "Venta").commit();
-
+                    FragmentTransaction ft = fmChild.beginTransaction();
+                    ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+                            R.animator.enter_anim, R.animator.out_anim);
+                    ft.replace(R.id.ContainerVisita, frag, "Venta").commit();
+                }
             }
             break;
 
@@ -380,25 +394,25 @@ public class F_Visita extends Fragment implements TabLayout.OnTabSelectedListene
             }
             break;
 
-//            //Devolucion
-//            case 2: {
-//                tb.setTitle("Devolución");
+            //Devolucion
+            case 2: {
+                tb.setTitle("Devolución");
 
-//                //Mostrar Devolucion
-//                F_Devolucion frag = new F_Devolucion();
+                //Mostrar Devolucion
+                F_Devolucion frag = new F_Devolucion();
 
-//                frag.setContext(context);
-//                frag.setTb(tb);
-//                frag.setFmMain(fmMain);
-//                frag.setAuxiliares(visita, cliente);
+                frag.setContext(context);
+                frag.setTb(tb);
+                frag.setFmMain(fmMain);
+                frag.setAuxiliares(visita, cliente);
 
-//                FragmentTransaction ft = fmChild.beginTransaction();
-//                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
-//                        R.animator.enter_anim, R.animator.out_anim);
+                FragmentTransaction ft = fmChild.beginTransaction();
+                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+                        R.animator.enter_anim, R.animator.out_anim);
 
-//                ft.replace(R.id.ContainerVisita, frag, "Devolucion").commit();
-//            }
-//            break;
+                ft.replace(R.id.ContainerVisita, frag, "Devolucion").commit();
+            }
+            break;
         }
     }
 

@@ -764,10 +764,14 @@ public class DBData extends SQLiteOpenHelper {
                     "c.rfc," +
                     "c.razon_social," +
                     "c.visitado," +
+                    "c.bloqueado, " +
+                    "cf.forma, " +
                     "s.secuencia " +
                     "FROM cliente c " +
                     "INNER JOIN secuencia s " +
                     "ON s.id_cliente = c.id_cliente " +
+                    "INNER JOIN formas_venta cf " +
+                    "ON cf.id_cliente = c.id_cliente " +
                     "WHERE visitado = 'false' " +
                     "ORDER BY s.secuencia";
 
@@ -778,10 +782,14 @@ public class DBData extends SQLiteOpenHelper {
                     "c.rfc," +
                     "c.razon_social," +
                     "c.visitado," +
+                    "c.bloqueado, " +
+                    "cf.forma, " +
                     "s.secuencia " +
                     "FROM cliente c " +
                     "INNER JOIN secuencia s " +
                     "ON s.id_cliente = c.id_cliente " +
+                    "INNER JOIN formas_venta cf " +
+                    "ON cf.id_cliente = c.id_cliente " +
                     "ORDER BY s.secuencia";
         }
 
@@ -797,6 +805,8 @@ public class DBData extends SQLiteOpenHelper {
                 item.setRfc(rs.getString(2));
                 item.setRazon_social(rs.getString(3));
                 item.setVisitado(rs.getInt(4) > 0);
+                item.setBloqueado(rs.getInt(5) > 0);
+                item.setForma_venta(rs.getString(6));
 
 
                 data.add(item);
@@ -897,7 +907,8 @@ public class DBData extends SQLiteOpenHelper {
                 "gps_fin," +
                 "bateria_inicio," +
                 "bateria_fin," +
-                "ult_modificacion " +
+                "ult_modificacion, " +
+                "terminado " +
                 "FROM visita WHERE id_cliente = '" + id_cliente + "'";
         //Obtener Resultados
         Cursor rs = db.rawQuery(sql, null);
@@ -917,6 +928,7 @@ public class DBData extends SQLiteOpenHelper {
                 item.setBateria_inicio(rs.getInt(9));
                 item.setBateria_fin(rs.getInt(10));
                 item.setUlt_modificacion(rs.getString(11));
+                item.setTerminado(rs.getInt(12) > 0);
 
                 if(item.getHora_fin() != null)
                     data.add(item);
@@ -1244,6 +1256,7 @@ public class DBData extends SQLiteOpenHelper {
                 "id_forma," +
                 "forma," +
                 "id_cliente " +
+                "bloqueado " +
                 "FROM formas_venta " +
                 "WHERE id_cliente = '"+id_cliente+"'";
 
@@ -1254,6 +1267,21 @@ public class DBData extends SQLiteOpenHelper {
                 item.setId_forma(rs.getInt(0));
                 item.setForma(rs.getString(1));
                 item.setId_cliente(rs.getString(2));
+                if (item.getId_forma() == 1 || item.getId_forma() == 2) {
+                    sql = "UPDATE " +
+                            "cliente " +
+                            "SET bloqueado = 0 " +
+                            "WHERE id_cliente = '"+id_cliente+"'";
+                    db.execSQL(sql);
+                    item.setBloqueado(false);
+                } else{
+                    sql = "UPDATE " +
+                            "cliente " +
+                            "SET bloqueado = 1 " +
+                            "WHERE id_cliente = '"+id_cliente+"'";
+                    db.execSQL(sql);
+                    item.setBloqueado(true);
+                }
 
                 data.add(item);
 
@@ -2918,6 +2946,15 @@ public class DBData extends SQLiteOpenHelper {
             e.printStackTrace();
         }
     }
+
+
+    public void setTerminado(){
+        db = this.getReadableDatabase();
+        String sql = "UPDATE visita " +
+                "SET terminado = 1";
+        db.execSQL(sql);
+    }
+
 
     //Obtener el Total de Cobranza
     public double getTotalCobranza() {

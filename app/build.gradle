@@ -6,12 +6,12 @@ android {
         }
     }
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.bybick.lacteosjolla"
         minSdkVersion 17
         targetSdkVersion 23
-        versionName '1.45'
+        versionName '1.5'
         versionCode 1
     }
     buildTypes {

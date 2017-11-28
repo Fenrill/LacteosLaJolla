@@ -11,6 +11,7 @@ public class Cliente {
     int id_forma;
     String forma_venta;
     boolean visitado;
+    boolean bloqueado;
 
     public Cliente(){}
 
@@ -78,4 +79,11 @@ public class Cliente {
         this.razon_social = razon_social;
     }
 
+    public boolean isBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(boolean bloqueado) {
+        this.bloqueado = bloqueado;
+    }
 }

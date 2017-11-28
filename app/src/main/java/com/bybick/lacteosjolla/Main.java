@@ -20,8 +20,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bybick.lacteosjolla.DataBases.DBConfig;
 import com.bybick.lacteosjolla.Fragments.F_Login;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -176,6 +178,18 @@ public class Main extends AppCompatActivity implements LocationListener {
 
         return result;
     }
+
+//    public static String IDVISITA(){
+////        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+//        DBConfig dbc = null;
+//        String uuid = getFecha() + getHora() + dbc.getlogin().getId_usuario();
+//        String result = UUID.fromString(uuid).toString();
+//        result.substring(0,32);
+//        result.replaceAll("-","");
+
+//        return result;
+////        .substring(getHora().length() -2)
+//    }
 
     @Override
     public void onLocationChanged(Location location) {

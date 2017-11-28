@@ -27,6 +27,7 @@ import com.bybick.lacteosjolla.Adapters.Adapter_Cliente;
 import com.bybick.lacteosjolla.DataBases.DBConfig;
 import com.bybick.lacteosjolla.DataBases.DBData;
 import com.bybick.lacteosjolla.ObjectIN.Cliente;
+import com.bybick.lacteosjolla.ObjectOUT.Forma_Venta;
 import com.bybick.lacteosjolla.R;
 
 import java.util.ArrayList;
@@ -47,6 +48,11 @@ public class F_Clientes extends Fragment implements TabLayout.OnTabSelectedListe
     ArrayList<Cliente> data;
     ArrayList<Cliente> data_search;
 
+    ArrayList<Forma_Venta> formas;
+    ArrayList<Forma_Venta> id_forma;
+
+    Adapter_Cliente adap_cliente;
+
     //Managers
     FragmentManager fm;
     DBData dbd;
@@ -55,6 +61,22 @@ public class F_Clientes extends Fragment implements TabLayout.OnTabSelectedListe
     //Menu
     MenuItem config;
     MenuItem liquid;
+
+    public ArrayList<Forma_Venta> getFormas() {
+        return formas;
+    }
+
+    public void setFormas(ArrayList<Forma_Venta> formas) {
+        this.formas = formas;
+    }
+
+    public ArrayList getId_forma2() {
+        return id_forma;
+    }
+
+    public void setId_forma2(ArrayList<Forma_Venta> id_forma) {
+        this.id_forma = id_forma;
+    }
 
     public void setContext(Context context) {
         this.context = context;
@@ -143,6 +165,10 @@ public class F_Clientes extends Fragment implements TabLayout.OnTabSelectedListe
         data = dbd.getClientes("SE");
         lstClientes.setAdapter(new Adapter_Cliente(context, data));
 
+        //Obtener Formas para filtro
+        for (int i = 0; i<data.size(); i++)
+            setId_forma2(dbd.getFormas(data.get(i).getId_cliente()));
+
 /*
         //Mostrar Clientes
         F_Clientes_List list = new F_Clientes_List();
@@ -210,26 +236,26 @@ public class F_Clientes extends Fragment implements TabLayout.OnTabSelectedListe
                 return false;
             }
         });
-//        liquid = menu.add("Liquidacion");
-//        liquid.setIcon(R.mipmap.ic_cobranza);
-//        liquid.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-//        liquid.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem menuItem) {
-//
-//                F_Liquid frag = new F_Liquid();
-//                frag.setContext(context);
-//                frag.setTb(tb);
-//                frag.setFmMain(fm);
-//
-//                FragmentTransaction ft = fm.beginTransaction();
-//                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
-//                        R.animator.enter_anim, R.animator.out_anim);
-//                ft.replace(R.id.Container, frag, "Liquidacion").addToBackStack("Clientes").commit();
-//
-//                return false;
-//            }
-//        });
+        liquid = menu.add("Liquidacion");
+        liquid.setIcon(R.mipmap.ic_cobranza);
+        liquid.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        liquid.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                F_Liquid frag = new F_Liquid();
+                frag.setContext(context);
+                frag.setTb(tb);
+                frag.setFmMain(fm);
+
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+                        R.animator.enter_anim, R.animator.out_anim);
+                ft.replace(R.id.Container, frag, "Liquidacion").addToBackStack("Clientes").commit();
+
+                return false;
+            }
+        });
     }
 
     @Override

@@ -7,6 +7,7 @@ public class Forma_Venta {
     int id_forma;
     String forma;
     String id_cliente;
+    Boolean bloqueado;
 
 
     public Forma_Venta() {
@@ -34,6 +35,14 @@ public class Forma_Venta {
 
     public void setId_cliente(String id_cliente) {
         this.id_cliente = id_cliente;
+    }
+
+    public Boolean getBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(Boolean bloqueado) {
+        this.bloqueado = bloqueado;
     }
 
     @Override

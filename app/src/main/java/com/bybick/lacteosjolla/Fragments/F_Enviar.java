@@ -119,7 +119,7 @@ public class F_Enviar extends Fragment implements AdapterView.OnItemClickListene
         opciones = new ArrayList<>();
 
         opciones.add(new Lista(R.mipmap.ic_enviar, "Enviar Información", "Envia la información del dispositivo al Servidor."));
-        opciones.add(new Lista(R.mipmap.ic_enviar, "Respaldar Base de Datos", "Realiza un respaldo de la información para efectos de seguridad."));
+//        opciones.add(new Lista(R.mipmap.ic_enviar, "Respaldar Base de Datos", "Realiza un respaldo de la información para efectos de seguridad."));
         lstItems.setAdapter(new Adapter_Actualizar(context, opciones));
 
         return v;
@@ -154,6 +154,64 @@ public class F_Enviar extends Fragment implements AdapterView.OnItemClickListene
                         .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                boolean sdDisponible = false;
+                                boolean sdAcceso = false;
+
+                                //Comprobamos estado de la memoria externa
+                                String estado = Environment.getExternalStorageState();
+
+                                if(estado.equals(Environment.MEDIA_MOUNTED)){
+                                    try {
+                                        File file = Environment.getExternalStorageDirectory();
+                                        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+                                        File f = new File(file, "JollaDB"
+                                                + (c.getTime().getYear() + 1900)
+                                                + c.getTime().getMonth()
+                                                + c.getTime().getDate()
+                                                + "_"
+                                                + c.getTime().getHours()
+                                                + c.getTime().getMinutes());
+
+                                        OutputStreamWriter fout = new OutputStreamWriter(new FileOutputStream(f));
+
+                                        //Abrimos el fichero de base de datos como entrada
+                                        InputStream myInput = new FileInputStream("/data/data/com.bybick.lacteosjolla/databases/Jolla_dbD");
+
+                                        //Ruta a la base de datos vacía recién creada
+                                        //String outFileName =  + DB_NAME;
+
+                                        //Abrimos la base de datos vacía como salida
+                                        OutputStream myOutput = new FileOutputStream(f);
+
+                                        //Transferimos los bytes desde el fichero de entrada al de salida
+                                        byte[] buffer = new byte[1024];
+                                        int length;
+                                        while ((length = myInput.read(buffer))>0){
+                                            myOutput.write(buffer, 0, length);
+                                        }
+
+                                        //Liberamos los streams
+                                        myOutput.flush();
+                                        myOutput.close();
+                                        myInput.close();
+
+                                        Toast.makeText(context,"Base de datos Respaldada", Toast.LENGTH_SHORT).show();
+
+
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                        Log.e("FileNotFond", e.getMessage());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        Log.e("IO", e.getMessage());
+                                    }
+
+                                }else if(estado.equals(Environment.MEDIA_MOUNTED_READ_ONLY)){
+                                    Toast.makeText(context,"SD no disponible",Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(context,"SD no disponible",Toast.LENGTH_SHORT).show();
+                                }
+
                                 Jornada fin = new Jornada();
                                 fin.setId_jornada(dbd.getJornada(dbc.getlogin().getId_usuario()).getId_jornada());
                                 fin.setHora_fin(Main.getHora());
@@ -170,18 +228,18 @@ public class F_Enviar extends Fragment implements AdapterView.OnItemClickListene
                                 new setInfo().execute();
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+//                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
 
-                                //Obtener Datos de la DB
-                                finalizar = false;
-                                data_send = dbd.getData(false, dbc.getlogin().getId_usuario());
-                                //Enviar Info
-                                new setInfo().execute();
-                            }
-                        })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+//                                //Obtener Datos de la DB
+//                                finalizar = false;
+//                                data_send = dbd.getData(false, dbc.getlogin().getId_usuario());
+//                                //Enviar Info
+//                                new setInfo().execute();
+//                            }
+//                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 

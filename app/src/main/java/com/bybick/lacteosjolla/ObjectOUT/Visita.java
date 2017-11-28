@@ -17,6 +17,7 @@ public class Visita {
     int bateria_fin;
     String ult_modificacion;
     boolean modificado = false;
+    boolean terminado = false;
 
     public Visita() {
     }
@@ -123,6 +124,14 @@ public class Visita {
 
     public void setBateria_fin(int bateria_fin) {
         this.bateria_fin = bateria_fin;
+    }
+
+    public boolean isTerminado() {
+        return terminado;
+    }
+
+    public void setTerminado(boolean terminado) {
+        this.terminado = terminado;
     }
 
 }

@@ -18,6 +18,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 /**
@@ -53,6 +55,7 @@ public class P_Pago {
             //Escribir en el ticket * CABECERA GENERAL *
             ticket.write(center(title) + "\r\n\r\n");
             ticket.write("Usuario: " + dbc.getlogin().getId_usuario() + "\r\n");
+            ticket.write("No Cliente: " + cliente.getId_cliente() + "\r\n");
             ticket.write("Cliente: " + cliente.getNombre() + "\r\n");
             ticket.write("Fecha: " + Main.getFecha() + "\r\n");
             ticket.write("Hora: " + Main.getHora() + "\r\n\r\n");
@@ -73,8 +76,8 @@ public class P_Pago {
                 ticket.write("       " + data.get(i).getImporte_pago() + "\r\n");
                 ticket.write("\r\n");
                 ticket.write("Forma de Pago: " + data.get(i).getForma_pago() + "\r\n");
-                ticket.write("Saldo Anterior: $ " + data.get(i).getSaldo_ant() + "\r\n");
-                ticket.write("Saldo Actual: $ " + data.get(i).getSaldo());
+                ticket.write("Saldo Anterior: $ " + FormatNumber(data.get(i).getSaldo_ant()) + "\r\n");
+                ticket.write("Saldo Actual: $ " + FormatNumber(data.get(i).getSaldo()));
                 ticket.write("\r\n================================");
                 ticket.write("\r\n");
             }
@@ -151,6 +154,20 @@ public class P_Pago {
         }
         return line;
 
+    }
+
+    //Formatear Numero de double a String
+    public String FormatNumber(double number) {
+        String result = "";
+
+        DecimalFormatSymbols sim = new DecimalFormatSymbols();
+        sim.setDecimalSeparator('.');
+        sim.setGroupingSeparator(',');
+        DecimalFormat fd = new DecimalFormat("###,##0.00", sim);
+
+        result = fd.format(number);
+
+        return result;
     }
 
 

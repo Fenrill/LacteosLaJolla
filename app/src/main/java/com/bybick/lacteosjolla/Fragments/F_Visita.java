@@ -88,7 +88,7 @@ public class F_Visita extends Fragment implements TabLayout.OnTabSelectedListene
         } else {
             //Generar Inicio de Visita
             visita = new Visita();
-            visita.setId_visita(Main.NEWID());
+            visita.setId_visita(RUTA() + Main.getFechaVisita() + cliente.getId_cliente() + Main.NEWIDVISITA());
             visita.setId_jornada(dbd.getJornada(dbc.getlogin().getId_usuario()).getId_jornada());
             visita.setId_usuario(dbc.getlogin().getId_usuario());
             visita.setId_cliente(cliente.getId_cliente());
@@ -207,6 +207,7 @@ public class F_Visita extends Fragment implements TabLayout.OnTabSelectedListene
         tabs = (TabLayout) v.findViewById(R.id.tabs);
         tabs.addTab(tabs.newTab().setIcon(R.mipmap.ic_venta).setText("Venta"), false);
         tabs.addTab(tabs.newTab().setIcon(R.mipmap.ic_cambio).setText("Cambio"), false);
+//        tabs.addTab(tabs.newTab().setIcon(R.mipmap.ic_jabas).setText("Jabas"), false);
 //        tabs.addTab(tabs.newTab().setIcon(R.mipmap.ic_devolucion).setText("Devolucion"), false);
         tabs.addTab(tabs.newTab().setIcon(R.mipmap.ic_cobranza).setText("Cobrar"), false);
         tabs.addTab(tabs.newTab().setIcon(R.mipmap.ic_noventa).setText("No Venta"), false);
@@ -226,6 +227,7 @@ public class F_Visita extends Fragment implements TabLayout.OnTabSelectedListene
         tabs.removeAllTabs();
         tabs.addTab(tabs.newTab().setIcon(R.mipmap.ic_venta).setText("Venta"), false);
         tabs.addTab(tabs.newTab().setIcon(R.mipmap.ic_cambio).setText("Cambio"), false);
+        tabs.addTab(tabs.newTab().setIcon(R.mipmap.ic_jabas).setText("Jabas"), false);
 //        tabs.addTab(tabs.newTab().setIcon(R.mipmap.ic_devolucion).setText("Devolucion"), false);
         tabs.addTab(tabs.newTab().setIcon(R.mipmap.ic_cobranza).setText("Cobrar"), false);
         tabs.addTab(tabs.newTab().setIcon(R.mipmap.ic_noventa).setText("No Venta"), false);
@@ -288,12 +290,11 @@ public class F_Visita extends Fragment implements TabLayout.OnTabSelectedListene
                 ft.replace(R.id.ContainerVisita, frag, "Cambio").commit();
             }break;
 
-            //Devolucion
+            //Jabas
             case 2 : {
-                tb.setTitle("Devolución");
-
-                //Mostrar Devolucion
-                F_Devolucion frag = new F_Devolucion();
+                tb.setTitle("Jabas");
+                //Mostrar Jabas
+                F_Jabas frag = new F_Jabas();
 
                 frag.setContext(context);
                 frag.setTb(tb);
@@ -303,9 +304,27 @@ public class F_Visita extends Fragment implements TabLayout.OnTabSelectedListene
                 FragmentTransaction ft = fmChild.beginTransaction();
                 ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
                         R.animator.enter_anim, R.animator.out_anim);
-
-                ft.replace(R.id.ContainerVisita, frag, "Devolucion").commit();
+                ft.replace(R.id.ContainerVisita, frag, "Jabas").commit();
             }break;
+
+            //Devolucion
+//            case 2 : {
+//                tb.setTitle("Devolución");
+//
+//                //Mostrar Devolucion
+//                F_Devolucion frag = new F_Devolucion();
+//
+//                frag.setContext(context);
+//                frag.setTb(tb);
+//                frag.setFmMain(fmMain);
+//                frag.setAuxiliares(visita, cliente);
+//
+//                FragmentTransaction ft = fmChild.beginTransaction();
+//                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+//                        R.animator.enter_anim, R.animator.out_anim);
+//
+//                ft.replace(R.id.ContainerVisita, frag, "Devolucion").commit();
+//            }break;
 
             //Cobranza
             case 3 : {
@@ -394,12 +413,47 @@ public class F_Visita extends Fragment implements TabLayout.OnTabSelectedListene
             }
             break;
 
-            //Devolucion
-            case 2: {
-                tb.setTitle("Devolución");
+            //Jabas
+            case 2 : {
+                tb.setTitle("Jabas");
+                //Mostrar Jabas
+                F_Jabas frag = new F_Jabas();
 
+                frag.setContext(context);
+                frag.setTb(tb);
+                frag.setFmMain(fmMain);
+                frag.setAuxiliares(visita, cliente);
+
+                FragmentTransaction ft = fmChild.beginTransaction();
+                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+                        R.animator.enter_anim, R.animator.out_anim);
+                ft.replace(R.id.ContainerVisita, frag, "Jabas").commit();
+            }break;
+            
+            //Devolucion
+//            case 2 : {
+//                tb.setTitle("Devolución");
+//
+//                //Mostrar Devolucion
+//                F_Devolucion frag = new F_Devolucion();
+//
+//                frag.setContext(context);
+//                frag.setTb(tb);
+//                frag.setFmMain(fmMain);
+//                frag.setAuxiliares(visita, cliente);
+//
+//                FragmentTransaction ft = fmChild.beginTransaction();
+//                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+//                        R.animator.enter_anim, R.animator.out_anim);
+//
+//                ft.replace(R.id.ContainerVisita, frag, "Devolucion").commit();
+//            }break;
+
+            //Cobranza
+            case 3 : {
+                tb.setTitle("Cobranza");
                 //Mostrar Devolucion
-                F_Devolucion frag = new F_Devolucion();
+                F_Cobranza frag = new F_Cobranza();
 
                 frag.setContext(context);
                 frag.setTb(tb);
@@ -410,10 +464,38 @@ public class F_Visita extends Fragment implements TabLayout.OnTabSelectedListene
                 ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
                         R.animator.enter_anim, R.animator.out_anim);
 
-                ft.replace(R.id.ContainerVisita, frag, "Devolucion").commit();
-            }
-            break;
+                ft.replace(R.id.ContainerVisita, frag, "Cobranza").commit();
+            }break;
+
+            //No Venta
+            case 4 : {
+                tb.setTitle("No Venta");
+
+                //Mostrar Ventas
+                F_noVenta frag = new F_noVenta();
+                frag.setContext(context);
+                frag.setTb(tb);
+                frag.setFmMain(fmMain);
+                frag.setAuxiliares(visita, cliente);
+
+                FragmentTransaction ft = fmChild.beginTransaction();
+                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+                        R.animator.enter_anim, R.animator.out_anim);
+                ft.replace(R.id.ContainerVisita, frag, "NoVenta").commit();
+            }break;
         }
+    }
+
+    public String RUTA(){
+        String result = dbc.getlogin().getId_usuario();
+        result = result.substring(6);
+        if (result.length() < 2){
+            result = "00" + result;
+        } else if (result.length() < 3) {
+            result = "0" + result;
+        }
+
+        return result;
     }
 
     @Override

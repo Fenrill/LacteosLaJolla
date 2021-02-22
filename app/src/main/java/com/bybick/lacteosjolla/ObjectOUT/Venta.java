@@ -20,7 +20,11 @@ public class Venta {
     int id_forma_venta;
     String serie;
     int folio;
+    String fecha;
     ArrayList<Det_Venta> det_venta;
+    String metodo_pago;
+    int id_metodo_pago;
+    String GpsVenta;
 
     public String getId_venta() {
         return id_venta;
@@ -124,6 +128,38 @@ public class Venta {
 
     public void setDet_venta(ArrayList<Det_Venta> det_venta) {
         this.det_venta = det_venta;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public String getMetodo_pago() {
+        return metodo_pago;
+    }
+
+    public void setMetodo_pago(String metodo_pago) {
+        this.metodo_pago = metodo_pago;
+    }
+
+    public int getId_metodo_pago() {
+        return id_metodo_pago;
+    }
+
+    public void setId_metodo_pago(int id_metodo_pago) {
+        this.id_metodo_pago = id_metodo_pago;
+    }
+
+    public String getGpsVenta() {
+        return GpsVenta;
+    }
+
+    public void setGpsVenta(String gpsVenta) {
+        GpsVenta = gpsVenta;
     }
 
     public JSONObject toJSON() {

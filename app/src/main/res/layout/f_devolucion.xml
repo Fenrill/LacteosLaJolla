@@ -8,7 +8,7 @@
         android:id="@+id/lytVista"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
 
         <ListView
@@ -44,7 +44,7 @@
             android:layout_marginRight="15dp"
             android:layout_alignParentBottom="true"
             app:backgroundTint="@color/colorPrint"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
         <android.support.design.widget.FloatingActionButton
             xmlns:app="http://schemas.android.com/apk/res-auto"

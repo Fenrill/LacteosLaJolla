@@ -28,6 +28,7 @@ import com.bybick.lacteosjolla.ObjectIN.Cliente;
 import com.bybick.lacteosjolla.ObjectIN.Motivo;
 import com.bybick.lacteosjolla.ObjectOUT.NoVenta;
 import com.bybick.lacteosjolla.ObjectOUT.Visita;
+import com.bybick.lacteosjolla.Printers.P_NoVenta;
 import com.bybick.lacteosjolla.R;
 
 import java.io.ByteArrayOutputStream;
@@ -146,6 +147,8 @@ public class F_noVenta extends Fragment implements View.OnClickListener{
                 else
                     nv.setId_motivo(0);
 
+                nv.setMotivo(spMotivos.getSelectedItem().toString());
+
                 if(!editComentarios.getText().toString().isEmpty())
                     nv.setComentario(editComentarios.getText().toString());
                 else
@@ -154,6 +157,9 @@ public class F_noVenta extends Fragment implements View.OnClickListener{
                 //Imagen
                 imgFoto.buildDrawingCache();
                 Bitmap bitmap = imgFoto.getDrawingCache();
+
+                //Se relizo movimiento
+                F_Visita.movimientos = true;
 
                 ByteArrayOutputStream st = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 90, st);
@@ -165,12 +171,30 @@ public class F_noVenta extends Fragment implements View.OnClickListener{
                 //Guardar en la DB
                 dbd.setNoVenta(nv);
 
-                //Se relizo movimiento
-                F_Visita.movimientos = true;
+
+                P_NoVenta print = new P_NoVenta(context, nv, cliente);
+
+                //Mostrar ticket
+                F_Ticket ticket = new F_Ticket();
+                ticket.setContext(context);
+                ticket.setTb(tb);
+                ticket.setTicket(print.imprimir());
+                ticket.setTitle("No Venta");
+                ticket.setPrint(print.getBT());
+
+                FragmentTransaction ft = fmMain.beginTransaction();
+                ft.replace(R.id.ContainerVisita, ticket);
+
+                ft.addToBackStack("No Venta");
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                ft.commit();
+
+
+
 
                 //Remover
-                FragmentTransaction ft = fmMain.beginTransaction();
-                ft.remove(fragmento).commit();
+//                FragmentTransaction ft2 = fmMain.beginTransaction();
+//                ft2.remove(fragmento).commit();
 
             }break;
         }

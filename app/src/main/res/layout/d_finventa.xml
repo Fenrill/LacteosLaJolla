@@ -16,14 +16,54 @@
         android:id="@+id/swFacturar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spFormas"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/spinner"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="45dp"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="30dip"
         android:text="Facturar Venta: "
-        android:textOn="Sí"
         android:textOff="No"
-        android:theme="@style/ColorSwitchStyle"/>
+        android:textOn="Sí"
+        android:theme="@style/ColorSwitchStyle" />
+
+    <Spinner
+        android:id="@+id/spFormaPago"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spFormas"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginRight="15dp" />
+
+    <!--<RadioGroup-->
+        <!--android:id="@+id/rbFormaPago"-->
+        <!--android:layout_width="345dp"-->
+        <!--android:layout_height="113dp"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_marginTop="60dp" >-->
+
+        <!--<RadioButton-->
+            <!--android:id="@+id/radioButton"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="Efectivo" />-->
+
+        <!--<RadioButton-->
+            <!--android:id="@+id/radioButton2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="Cheque" />-->
+
+        <!--<RadioButton-->
+            <!--android:id="@+id/radioButton3"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="Transferencia" />-->
+    <!--</RadioGroup>-->
 
 </RelativeLayout>

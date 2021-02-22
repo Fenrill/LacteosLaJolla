@@ -172,79 +172,79 @@ public class F_Cambio extends Fragment implements View.OnClickListener, AdapterV
         //Mostrar Dialogo de Seleccion de Empresa
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final String[] items = new String[]{"LA JOLLA", "COBASUR"};
-        builder.setTitle("Marca")
-                .setIcon(R.mipmap.ic_launcher)
-                .setItems(items, new DialogInterface.OnClickListener() {
-                    //Al seleccionar una Marca
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Mostrar Vista
-                        lytVista.setVisibility(RelativeLayout.VISIBLE);
+//        builder.setTitle("Marca")
+//                .setIcon(R.mipmap.ic_launcher)
+//                .setItems(items, new DialogInterface.OnClickListener() {
+//                    //Al seleccionar una Marca
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+        //Mostrar Vista
+        lytVista.setVisibility(RelativeLayout.VISIBLE);
 
-                        //Obtener productos dependiendo de la marca
-                        productos = dbd.getProductos(items[which].toString());
-                        MARCA = items[which].toString();
+        //Obtener productos dependiendo de la marca
+        MARCA = "LA JOLLA";
+        productos = dbd.getProductos(MARCA);
 
-                        //Verificar la Existencia de Cambio en esta Visita
-                        cambio = dbd.getCambio(visita.getId_visita(), MARCA);
-                        if (cambio != null) {
+        //Verificar la Existencia de Cambio en esta Visita
+        cambio = dbd.getCambio(visita.getId_visita(), MARCA);
+        if (cambio != null) {
 
-                            //Si no se ha enviado se muestra para Actualizar
-                            if (cambio.getEnviado() == 0) {
-                                //Sacar Detalles
-                                detalles = cambio.getDetalles();
+            //Si no se ha enviado se muestra para Actualizar
+            if (cambio.getEnviado() == 0) {
+                //Sacar Detalles
+                detalles = cambio.getDetalles();
 
-                                //Estamos actualizando
-                                actualizando = true;
+                //Estamos actualizando
+                actualizando = true;
 
 //                                //Poder Reimprimir
 //                                btnPrint.setVisibility(FloatingActionButton.VISIBLE);
 
-                                //Reestablecer marca al Cambio
-                                cambio.setEmpresa(MARCA);
+                //Reestablecer marca al Cambio
+                cambio.setEmpresa(MARCA);
 
-                                //Mostrar los Cambios
-                                lstCambios.setAdapter(new Adapter_Cambio(context, detalles));
+                //Mostrar los Cambios
+                lstCambios.setAdapter(new Adapter_Cambio(context, detalles));
 
-                                //Se realizo Moviemnto
-                                F_Visita.movimientos = true;
+                //Se realizo Moviemnto
+                F_Visita.movimientos = true;
 
-                            }
-                            //Si ya se envio se crea un Cambio Nuevo
-                            else if(cambio.getEnviado() == 1) {
-                                //No se esta Actualizando
-                                actualizando = false;
+            }
+            //Si ya se envio se crea un Cambio Nuevo
+            else if(cambio.getEnviado() == 1) {
+                //No se esta Actualizando
+                actualizando = false;
 
-                                //Cambio Nuevo
-                                cambio = new Cambio();
-                                cambio.setEmpresa(MARCA);
-                                cambio.setId_cliente(cliente.getId_cliente());
-                                cambio.setId_visita(visita.getId_visita());
-                                cambio.setEnviado(0);
+                //Cambio Nuevo
+                cambio = new Cambio();
+                cambio.setEmpresa(MARCA);
+                cambio.setId_cliente(cliente.getId_cliente());
+                cambio.setId_visita(visita.getId_visita());
+                cambio.setEnviado(0);
 
-                                //Detalles Nuevos
-                                detalles = new ArrayList<>();
-                            }
-                        } else {
-                            //No se esta Actualizando
-                            actualizando = false;
+                //Detalles Nuevos
+                detalles = new ArrayList<>();
+            }
+        } else {
+            //No se esta Actualizando
+            actualizando = false;
 
-                            //Cambio Nuevo
-                            cambio = new Cambio();
-                            cambio.setEmpresa(MARCA);
-                            cambio.setId_cliente(cliente.getId_cliente());
-                            cambio.setId_visita(visita.getId_visita());
-                            cambio.setEnviado(0);
+            //Cambio Nuevo
+            cambio = new Cambio();
+            cambio.setEmpresa(MARCA);
+            cambio.setId_cliente(cliente.getId_cliente());
+            cambio.setId_visita(visita.getId_visita());
+            cambio.setEnviado(0);
 
-                            //Detalles Nuevos
-                            detalles = new ArrayList<>();
-                        }
-                    }
-                })
-                .create()
-                .show();
-        super.onViewCreated(view, savedInstanceState);
+            //Detalles Nuevos
+            detalles = new ArrayList<>();
+        }
     }
+//                })
+//                .create()
+//                .show();
+//        super.onViewCreated(view, savedInstanceState);
+//    }
 
     public void getViews(View v) {
         lytVista = (RelativeLayout) v.findViewById(R.id.lytVista);
@@ -502,7 +502,7 @@ public class F_Cambio extends Fragment implements View.OnClickListener, AdapterV
                     }
                 })
 //                .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                    //                    @Override
+                //                    @Override
 //                    public void onClick(DialogInterface dialog, int which) {
 //                        //Agregar cantidad
 //                        if (editCantidad.getText().toString().isEmpty())

@@ -28,6 +28,7 @@ public class Adapter_Carga extends BaseAdapter {
     TextView clave;
     TextView marca;
     TextView cantidad;
+    TextView piezas;
     TextView unidad;
     RelativeLayout back;
 
@@ -63,6 +64,7 @@ public class Adapter_Carga extends BaseAdapter {
         marca = (TextView) v.findViewById(R.id.txtMarca);
         descripcion = (TextView) v.findViewById(R.id.txtDescripcion);
         cantidad = (TextView) v.findViewById(R.id.txtCantidad);
+        piezas = (TextView) v.findViewById(R.id.txtPiezas);
         unidad = (TextView) v.findViewById(R.id.txtUnidad);
         back = (RelativeLayout) v.findViewById(R.id.lyBack);
 

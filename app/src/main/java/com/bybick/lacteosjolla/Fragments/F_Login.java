@@ -1,5 +1,6 @@
 package com.bybick.lacteosjolla.Fragments;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -10,6 +11,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -62,9 +64,13 @@ public class F_Login extends Fragment implements View.OnClickListener {
 
     FloatingActionButton btnConfig;
     FloatingActionButton btnUpdate;
+    FloatingActionButton btnDeleteData;
 
     //Array de Usuarios
     ArrayList<Usuario> usuarios;
+
+    //Bluetooth
+    BluetoothAdapter adapter;
 
     public void setContext(Context context) {
         this.context = context;
@@ -118,6 +124,8 @@ public class F_Login extends Fragment implements View.OnClickListener {
         btnConfig.setOnClickListener(this);
         btnUpdate = (FloatingActionButton) v.findViewById(R.id.btnActualizar);
         btnUpdate.setOnClickListener(this);
+        btnDeleteData = (FloatingActionButton) v.findViewById(R.id.btnDeleteDatos);
+        btnDeleteData.setOnClickListener(this);
     }
 
     @Override
@@ -134,6 +142,8 @@ public class F_Login extends Fragment implements View.OnClickListener {
             //Si se presiona el boton de login
             case R.id.btnLogin : {
                 if(dbc.setLogin(editUsuario.getText().toString(), editContraseña.getText().toString())){
+                    //Limpiar DB de ventas fantasma
+                    dbd.deleteNoVisitas();
 
                     //Si no hay Jornada
                     if(dbd.ValidarInicio(editUsuario.getText().toString())){
@@ -143,7 +153,7 @@ public class F_Login extends Fragment implements View.OnClickListener {
 
                         FragmentTransaction ft = fm.beginTransaction();
                         ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
-                                      R.animator.enter_anim, R.animator.out_anim);
+                                R.animator.enter_anim, R.animator.out_anim);
                         ft.replace(R.id.Container, frag).commit();
 
                         //Si hay Jornada
@@ -165,7 +175,36 @@ public class F_Login extends Fragment implements View.OnClickListener {
                     editContraseña.setText("");
                 }
             }break;
+            case R.id.btnDeleteDatos : {
+                if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    v = inflater.inflate(R.layout.d_password, null);
+                    final EditText editPass = (EditText) v.findViewById(R.id.editPass);
+                    builder.setTitle("Password")
+                            .setIcon(R.mipmap.ic_alert)
+                            .setView(v)
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //Comprobar COntraseña para abrir Config
+                                    String pass = editPass.getText().toString();
+                                    if(dbc.isModule(pass, "herramienta")) {
+                                        ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).clearApplicationUserData();
+                                    }
 
+                                }
+                            })
+                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .create()
+                            .show();
+                }
+            }
         }
     }
 
@@ -216,7 +255,7 @@ public class F_Login extends Fragment implements View.OnClickListener {
     //Obtener Dispositivos BT
     public ArrayList<BluetoothDevice> readDevices(){
         ArrayList<BluetoothDevice> data = new ArrayList<>();
-        BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
+        adapter = BluetoothAdapter.getDefaultAdapter();
 
         for(BluetoothDevice disp : adapter.getBondedDevices()){
             data.add(disp);

@@ -5,26 +5,27 @@
     android:background="#EEE">
 
     <RelativeLayout
+        android:id="@+id/rlColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_object"
-        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp">
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/item_object">
 
         <!-- descripcion-->
         <TextView
             android:id="@+id/txtDescripcion"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text="JULIO CARLOS ESPARZA"
-            android:textSize="17sp"
-            android:textColor="#255583"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"/>
+            android:gravity="center"
+            android:text="JULIO CARLOS ESPARZA"
+            android:textColor="#255583"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <!-- Clave -->
         <TextView
@@ -32,23 +33,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtDescripcion"
-            android:text="Clave : "
-            android:textStyle="bold"
-            android:textSize="16sp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:text="Clave : "
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtClave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtDescripcion"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/lbClave"
             android:text="21006"
-            android:textStyle="bold"
             android:textSize="16sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"/>
+            android:textStyle="bold" />
 
         <!-- Marca -->
         <TextView
@@ -56,22 +57,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtClave"
-            android:text="Marca : "
-            android:textStyle="bold"
-            android:textSize="16sp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:text="Marca : "
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtMarca"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtClave"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/lbMarca"
             android:text="LA JOLLA"
-            android:textSize="16sp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"/>
+            android:textSize="16sp" />
 
         <!-- Familia -->
         <TextView
@@ -79,22 +80,63 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtMarca"
-            android:text="Familia : "
-            android:textStyle="bold"
-            android:textSize="16sp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:text="Familia : "
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtFamila"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtMarca"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/lbFamilia"
             android:text="LECHE"
-            android:textSize="16sp"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/lbCantidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtClave"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:text="Cantidad :"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txtCantidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtClave"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/lbCantidad"
+            android:text="1000"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/txtEntSal"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/txtDescripcion"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="77dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="70dp"
+            android:layout_toEndOf="@+id/txtMarca"
+            android:gravity="center"
+            android:text="Entrada"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:typeface="sans"
+            android:visibility="gone" />
 
 
     </RelativeLayout>

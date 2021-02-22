@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/viewResumen"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ListView
             android:id="@+id/lstVentas"
@@ -32,30 +32,28 @@
             android:layout_alignParentBottom="true"
             app:backgroundTint="@color/colorEnd"/>
 
-        <android.support.design.widget.FloatingActionButton
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/btnPrint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_printer"
-            android:layout_toLeftOf="@+id/btnEnd"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="15dp"
             android:layout_alignParentBottom="true"
-            app:backgroundTint="@color/colorPrint"
-            android:visibility="gone"/>
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toLeftOf="@+id/btnEnd"
+            android:src="@mipmap/ic_printer"
+            android:visibility="gone"
+            app:backgroundTint="@color/colorPrint" />
 
-        <android.support.design.widget.FloatingActionButton
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/btnAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/ic_add"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp"
             android:layout_alignParentBottom="true"
-            app:backgroundTint="@color/colorAdd"/>
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="10dp"
+            android:src="@mipmap/ic_add"
+            app:backgroundTint="@color/colorAdd" />
 
     </RelativeLayout>
 

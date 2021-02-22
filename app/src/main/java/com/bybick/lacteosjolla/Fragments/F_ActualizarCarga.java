@@ -121,7 +121,7 @@ public class F_ActualizarCarga extends Fragment implements View.OnClickListener{
 
                 ft = fm.beginTransaction();
                 ft.setCustomAnimations(R.animator.enter_up, R.animator.out_up,
-                          R.animator.enter_up, R.animator.out_up);
+                        R.animator.enter_up, R.animator.out_up);
                 ft.replace(R.id.ContainerConfig, ticket).commit();
 
             }break;

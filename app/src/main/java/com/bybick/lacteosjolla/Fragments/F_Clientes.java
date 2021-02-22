@@ -61,6 +61,10 @@ public class F_Clientes extends Fragment implements TabLayout.OnTabSelectedListe
     //Menu
     MenuItem config;
     MenuItem liquid;
+    MenuItem preLiquid;
+
+    //auxiliars
+    boolean efectivo = false;
 
     public ArrayList<Forma_Venta> getFormas() {
         return formas;
@@ -85,6 +89,8 @@ public class F_Clientes extends Fragment implements TabLayout.OnTabSelectedListe
     public void setTb(ActionBar tb) {
         this.tb = tb;
     }
+
+    public void setEfectivo(boolean flag){ this.efectivo = flag;}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -166,8 +172,8 @@ public class F_Clientes extends Fragment implements TabLayout.OnTabSelectedListe
         lstClientes.setAdapter(new Adapter_Cliente(context, data));
 
         //Obtener Formas para filtro
-        for (int i = 0; i<data.size(); i++)
-            setId_forma2(dbd.getFormas(data.get(i).getId_cliente()));
+//        for (int i = 0; i<data.size(); i++)
+//            setId_forma2(dbd.getFormas(data.get(i).getId_cliente()));
 
 /*
         //Mostrar Clientes
@@ -236,7 +242,7 @@ public class F_Clientes extends Fragment implements TabLayout.OnTabSelectedListe
                 return false;
             }
         });
-        liquid = menu.add("Liquidacion");
+        liquid = menu.add("Practicajas");
         liquid.setIcon(R.mipmap.ic_cobranza);
         liquid.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         liquid.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -256,6 +262,28 @@ public class F_Clientes extends Fragment implements TabLayout.OnTabSelectedListe
                 return false;
             }
         });
+//        preLiquid = menu.add("Pre-Liquidacion");
+//        preLiquid.setIcon(R.mipmap.logo_general);
+//        preLiquid.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//        preLiquid.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem menuItem) {
+//
+//                F_PLiquid frag = new F_PLiquid();
+////                frag.setEfectivo(efectivo);
+//                frag.setContext(context);
+//                frag.setTb(tb);
+//                frag.setFmMain(fm);
+//
+//                FragmentTransaction ft = fm.beginTransaction();
+//                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+//                        R.animator.enter_anim, R.animator.out_anim);
+//                ft.replace(R.id.Container, frag, "Pre-Liquidacion").addToBackStack("Clientes").commit();
+//
+//
+//                return false;
+//            }
+//        });
     }
 
     @Override

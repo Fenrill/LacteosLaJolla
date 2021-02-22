@@ -34,6 +34,7 @@ import com.bybick.lacteosjolla.ObjectIN.Listas_Precios;
 import com.bybick.lacteosjolla.ObjectIN.Motivo;
 import com.bybick.lacteosjolla.ObjectIN.Producto;
 import com.bybick.lacteosjolla.ObjectIN.Producto_unidad;
+import com.bybick.lacteosjolla.ObjectIN.Promociones;
 import com.bybick.lacteosjolla.ObjectIN.Secuencia;
 import com.bybick.lacteosjolla.ObjectIN.Serie;
 import com.bybick.lacteosjolla.ObjectIN.Unidad;
@@ -90,6 +91,7 @@ public class F_Actualizar extends Fragment implements AdapterView.OnItemClickLis
     ArrayList<Carga> carga;
     ArrayList<Unidad> unis;
     ArrayList<Producto_unidad> prounis;
+    ArrayList<Promociones> promociones;
     ArrayList<Equivalencia> equivalencias;
 
     //Datos a Descargar Facturas
@@ -200,7 +202,7 @@ public class F_Actualizar extends Fragment implements AdapterView.OnItemClickLis
                 new getClientes().execute();
                 new getProductos().execute();
                 new getFacturas().execute();
-                new getGenerales().execute();
+//                new getGenerales().execute();
             }break;
         }
     }
@@ -259,68 +261,70 @@ public class F_Actualizar extends Fragment implements AdapterView.OnItemClickLis
 
             @Override
             protected Object doInBackground(Object[] params) {
-                        //Guardar Datos de Clientes
-                    //Secuencia
-                    if(secuencias.size() > 0)
-                        dbd.setSecuencia(secuencias);
-                    //Formas de Venta
-                    if(formas.size() > 0)
-                        dbd.setFormasVenta(formas);
-                    //Clientes
-                    if(clientes.size() > 0)
-                        dbd.setClientes(clientes);
-                    //Listas de Precio
-                    if(listas.size() > 0)
-                        dbd.setListasPrecios(listas);
+                //Guardar Datos de Clientes
+                //Secuencia
+                if(secuencias.size() > 0)
+                    dbd.setSecuencia(secuencias);
+                //Formas de Venta
+                if(formas.size() > 0)
+                    dbd.setFormasVenta(formas);
+                //Clientes
+                if(clientes.size() > 0)
+                    dbd.setClientes(clientes);
+                //Listas de Precio
+                if(listas.size() > 0)
+                    dbd.setListasPrecios(listas);
 
-                    //Guardar datos de los Productos
-                    //Productos
-                    if(productos.size() > 0)
-                        dbd.setProductos(productos);
-                    //Carga
-                    if(carga.size() > 0)
-                        dbd.setCarga(carga);
-                    //Unidades
-                    if(unis.size() > 0)
-                        dbd.setUnidades(unis);
-                    //Producto Unidad
-                    if(prounis.size() > 0)
-                        dbd.setProductoUnidad(prounis);
-                    //Equivalencias
-                    if(equivalencias.size() > 0)
-                        dbd.setEquivalencias(equivalencias);
+                //Guardar datos de los Productos
+                //Productos
+                if(productos.size() > 0)
+                    dbd.setProductos(productos);
+                //Carga
+                if(carga.size() > 0)
+                    dbd.setCarga(carga);
+                //Unidades
+                if(unis.size() > 0)
+                    dbd.setUnidades(unis);
+                //Producto Unidad
+                if(prounis.size() > 0)
+                    dbd.setProductoUnidad(prounis);
+                //Productos Promociones
+                dbd.setProductoPromociones(promociones);
+                //Equivalencias
+                if(equivalencias.size() > 0)
+                    dbd.setEquivalencias(equivalencias);
 
-                    //Guardar datos de las Facturas
-                    //Facturas
-                    if(facturas.size() > 0)
-                        dbd.setFacturas(facturas);
+                //Guardar datos de las Facturas
+                //Facturas
+                if(facturas.size() > 0)
+                    dbd.setFacturas(facturas);
 
-                    //Guardar datos de Conceptos Generales
-                    //Series y Folios
-                    if(series.size() > 0)
-                        dbd.setSeriesFolios(series);
+                //Guardar datos de Conceptos Generales
+                //Series y Folios
+                if(series.size() > 0)
+                    dbd.setSeriesFolios(series);
 
-                    //Motivos No Venta
-                    if(no_venta.size() > 0)
-                        dbd.setMotivosNoVenta(no_venta);
+                //Motivos No Venta
+                if(no_venta.size() > 0)
+                    dbd.setMotivosNoVenta(no_venta);
 
-                    //Motivos devolucion
-                    if(devoluciones.size() > 0)
-                        dbd.setMotivosDevolucion(devoluciones);
+                //Motivos devolucion
+                if(devoluciones.size() > 0)
+                    dbd.setMotivosDevolucion(devoluciones);
 
-                    //Cerrar Dialogo
-                    pd.cancel();
+                //Cerrar Dialogo
+                pd.cancel();
 
-                    //Abrir Fragment de Carga
-                    F_ActualizarCarga frag = new F_ActualizarCarga();
-                    frag.setContext(context);
-                    frag.setTb(tb);
-                    frag.setFromConfig(true);
+                //Abrir Fragment de Carga
+                F_ActualizarCarga frag = new F_ActualizarCarga();
+                frag.setContext(context);
+                frag.setTb(tb);
+                frag.setFromConfig(true);
 
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
-                            R.animator.enter_anim, R.animator.out_anim);
-                    ft.replace(R.id.ContainerConfig, frag).addToBackStack("Actualizar").commit();
+                FragmentTransaction ft = fm.beginTransaction();
+                ft.setCustomAnimations(R.animator.enter_anim, R.animator.out_anim,
+                        R.animator.enter_anim, R.animator.out_anim);
+                ft.replace(R.id.ContainerConfig, frag).addToBackStack("Actualizar").commit();
                 return null;
             }
         }.execute();
@@ -549,6 +553,7 @@ public class F_Actualizar extends Fragment implements AdapterView.OnItemClickLis
             carga = new ArrayList<>();
             unis = new ArrayList<>();
             prounis = new ArrayList<>();
+            promociones = new ArrayList<>();
             equivalencias = new ArrayList<>();
 
             dialog = ProgressDialog.show(context, "Carga de Productos", "Cargando datos. Espera por favor.", true, false);
@@ -602,6 +607,7 @@ public class F_Actualizar extends Fragment implements AdapterView.OnItemClickLis
                     JSONArray jsCarga = jsonArray.getJSONArray(1);
                     JSONArray jsUnidades = jsonArray.getJSONArray(2);
                     JSONArray jsProU = jsonArray.getJSONArray(3);
+                    JSONArray jsPromociones = jsonArray.getJSONArray(4);
                     JSONArray jsEq = jsonArray.getJSONArray(4);
 
                     //Recorrer Secuencia de Productos
@@ -666,6 +672,23 @@ public class F_Actualizar extends Fragment implements AdapterView.OnItemClickLis
 
                         //ArrayList
                         prounis.add(item);
+                    }
+
+                    //Recorrer Promociones
+                    for (int i = 0; i < jsPromociones.length(); i++){
+                        JSONObject object = jsPromociones.getJSONObject(i);
+
+                        //Crear lista
+                        Promociones item = new Promociones();
+                        item.setId_cliente(object.getString("id_cliente"));
+                        item.setNombre(object.getString("nombre_promo"));
+                        item.setProducto_venta(object.getString("producto_venta"));
+                        item.setProducto_entrega(object.getString("producto_entrega"));
+                        item.setCantidad_venta(object.getDouble("cantidad_venta"));
+                        item.setCantidad_entrega(object.getDouble("cantidad_entrega"));
+
+                        //ArrayList
+                        promociones.add(item);
                     }
 
                     //Recorrer Equivalencias
@@ -843,156 +866,156 @@ public class F_Actualizar extends Fragment implements AdapterView.OnItemClickLis
 
     }
 
-    //Clas epara descargar Conceptos Generales
-    public class getGenerales extends AsyncTask {
-
-        ProgressDialog dialog;
-        boolean ERROR;
-        String ERROR_MSG;
-
-        //datos a enviar
-        JSONObject data;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            data = new JSONObject();
-
-            series = new ArrayList<>();
-            no_venta = new ArrayList<>();
-            devoluciones = new ArrayList<>();
-
-            dialog = ProgressDialog.show(context, "Carga de Conceptos", "Cargando datos. Espera por favor.", true, false);
-        }
-
-        @Override
-        protected Object doInBackground(Object[] params) {
-            try {
-                data.put("id_usuario", dbc.getlogin().getId_usuario());
-                String toSend = data.toString();
-
-                URL url = new URL(dbc.getServer() + "Conceptos");
-                Log.e("Connect", url.getProtocol() + "://" + url.getHost() + ":" + url.getPort() + url.getPath());
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                conn.setConnectTimeout(3000);
-                conn.setFixedLengthStreamingMode(toSend.getBytes().length);
-
-                //Hacer cabecera HTTP
-                conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
-                conn.setRequestProperty("X-Request-With", "XMLHttpRequest");
-
-                //Abrir
-                conn.connect();
-
-                //ocnfigurar envio
-                OutputStream os = new BufferedOutputStream(conn.getOutputStream());
-                os.write(toSend.getBytes());
-                //Limpiar
-                os.flush();
-
-                InputStream in = new BufferedInputStream(conn.getInputStream());
-                String data = readStream(in);
-
-                //Pasar Datos a JSon a Objetos
-                JSONArray jsonArray = new JSONArray(data);
-                //validar que no se reciba mensaje de Error
-
-                if(jsonArray.length() == 1){
-                    Log.e("getGenerales", jsonArray.getJSONObject(0).getString("Message"));
-                    if(jsonArray.getJSONObject(0).getString("Tipo").equals("SR"))
-                        ERROR_MSG = jsonArray.getJSONObject(0).getString("Message");
-                    else
-                        ERROR_MSG = "Error interno de la aplicación. Favor de reportar con el Desarrollador.";
-                    ERROR = true;
-                }else {
-                    JSONArray jsSeries = jsonArray.getJSONArray(0);
-                    JSONArray jsNoVentas = jsonArray.getJSONArray(1);
-                    JSONArray jsDevoluciones = jsonArray.getJSONArray(2);
-
-                    //Recorrer Series
-                    for (int i = 0; i < jsSeries.length(); i++) {
-                        JSONObject object = jsSeries.getJSONObject(i);
-
-                        //Crear Objeto Seerie
-                        Serie item = new Serie();
-                        item.setId_usuario(object.getString("id_usuario"));
-                        item.setSerie(object.getString("serie"));
-                        item.setTipo(object.getString("tipo"));
-                        item.setFolio(object.getInt("folio"));
-                        item.setEmpresa(object.getString("empresa"));
-
-                        //Enviar Objeto al ArrayList
-                        series.add(item);
-
-                    }
-
-                    //Recorrer Motivos No Venta
-                    for (int i = 0; i < jsNoVentas.length(); i++) {
-                        JSONObject object = jsNoVentas.getJSONObject(i);
-
-                        //crear Motivo No Venta
-                        Motivo item = new Motivo();
-                        item.setId_motivo(object.getInt("id_motivo"));
-                        item.setDescripcion(object.getString("descripcion"));
-
-                        //Enviar al ArrayList
-                        no_venta.add(item);
-
-                    }
-
-                    //Recorrer Motivos Devolucion
-                    for (int i = 0; i < jsDevoluciones.length(); i++) {
-                        JSONObject object = jsDevoluciones.getJSONObject(i);
-
-                        //Crera Cliente
-                        Motivo item = new Motivo();
-                        item.setId_motivo(object.getInt("id_motivo"));
-                        item.setDescripcion(object.getString("descripcion"));
-
-                        //Enviar al ArrayList
-                        devoluciones.add(item);
-                    }
-
-                }
-
-                //Cerrar Conexion
-                conn.disconnect();
-            } catch (MalformedURLException e) {
-                Log.e("getGenerales", e.getMessage());
-                ERROR = true;
-                ERROR_MSG = "Error interno de la aplicación. Favor de reportar con el Desarrollador.";
-            } catch (IOException e) {
-                Log.e("getGenerales", e.getMessage());
-                ERROR = true;
-                ERROR_MSG = "Error al conectar con el servidor. Verifica tu conexión.";
-            } catch (JSONException e) {
-                Log.e("getGenerales", e.getMessage());
-                ERROR = true;
-                ERROR_MSG = "Error al cargar los datos";
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object o) {
-            super.onPostExecute(o);
-            if(ERROR) {
-                dialog.cancel();
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setIcon(R.mipmap.ic_error)
-                        .setTitle("Error")
-                        .setMessage(ERROR_MSG)
-                        .create()
-                        .show();
-            }else {
-                Ugrales = true;
-                dialog.cancel();
-            }
-        }
-    }
+//    Clas epara descargar Conceptos Generales
+//    public class getGenerales extends AsyncTask {
+//
+//        ProgressDialog dialog;
+//        boolean ERROR;
+//        String ERROR_MSG;
+//
+//        //datos a enviar
+//        JSONObject data;
+//
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//            data = new JSONObject();
+//
+//            series = new ArrayList<>();
+//            no_venta = new ArrayList<>();
+//            devoluciones = new ArrayList<>();
+//
+//            dialog = ProgressDialog.show(context, "Carga de Conceptos", "Cargando datos. Espera por favor.", true, false);
+//        }
+//
+//        @Override
+//        protected Object doInBackground(Object[] params) {
+//            try {
+//                data.put("id_usuario", dbc.getlogin().getId_usuario());
+//                String toSend = data.toString();
+//
+//                URL url = new URL(dbc.getServer() + "Conceptos");
+//                Log.e("Connect", url.getProtocol() + "://" + url.getHost() + ":" + url.getPort() + url.getPath());
+//                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+//                conn.setRequestMethod("POST");
+//                conn.setDoInput(true);
+//                conn.setDoOutput(true);
+//                conn.setConnectTimeout(3000);
+//                conn.setFixedLengthStreamingMode(toSend.getBytes().length);
+//
+//                //Hacer cabecera HTTP
+//                conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+//                conn.setRequestProperty("X-Request-With", "XMLHttpRequest");
+//
+//                //Abrir
+//                conn.connect();
+//
+//                //ocnfigurar envio
+//                OutputStream os = new BufferedOutputStream(conn.getOutputStream());
+//                os.write(toSend.getBytes());
+//                //Limpiar
+//                os.flush();
+//
+//                InputStream in = new BufferedInputStream(conn.getInputStream());
+//                String data = readStream(in);
+//
+//                //Pasar Datos a JSon a Objetos
+//                JSONArray jsonArray = new JSONArray(data);
+//                //validar que no se reciba mensaje de Error
+//
+//                if(jsonArray.length() == 1){
+//                    Log.e("getGenerales", jsonArray.getJSONObject(0).getString("Message"));
+//                    if(jsonArray.getJSONObject(0).getString("Tipo").equals("SR"))
+//                        ERROR_MSG = jsonArray.getJSONObject(0).getString("Message");
+//                    else
+//                        ERROR_MSG = "Error interno de la aplicación. Favor de reportar con el Desarrollador.";
+//                    ERROR = true;
+//                }else {
+//                    JSONArray jsSeries = jsonArray.getJSONArray(0);
+//                    JSONArray jsNoVentas = jsonArray.getJSONArray(1);
+//                    JSONArray jsDevoluciones = jsonArray.getJSONArray(2);
+//
+//                    //Recorrer Series
+//                    for (int i = 0; i < jsSeries.length(); i++) {
+//                        JSONObject object = jsSeries.getJSONObject(i);
+//
+//                        //Crear Objeto Seerie
+//                        Serie item = new Serie();
+//                        item.setId_usuario(object.getString("id_usuario"));
+//                        item.setSerie(object.getString("serie"));
+//                        item.setTipo(object.getString("tipo"));
+//                        item.setFolio(object.getInt("folio"));
+//                        item.setEmpresa(object.getString("empresa"));
+//
+//                        //Enviar Objeto al ArrayList
+//                        series.add(item);
+//
+//                    }
+//
+//                    //Recorrer Motivos No Venta
+//                    for (int i = 0; i < jsNoVentas.length(); i++) {
+//                        JSONObject object = jsNoVentas.getJSONObject(i);
+//
+//                        //crear Motivo No Venta
+//                        Motivo item = new Motivo();
+//                        item.setId_motivo(object.getInt("id_motivo"));
+//                        item.setDescripcion(object.getString("descripcion"));
+//
+//                        //Enviar al ArrayList
+//                        no_venta.add(item);
+//
+//                    }
+//
+//                    //Recorrer Motivos Devolucion
+//                    for (int i = 0; i < jsDevoluciones.length(); i++) {
+//                        JSONObject object = jsDevoluciones.getJSONObject(i);
+//
+//                        //Crera Cliente
+//                        Motivo item = new Motivo();
+//                        item.setId_motivo(object.getInt("id_motivo"));
+//                        item.setDescripcion(object.getString("descripcion"));
+//
+//                        //Enviar al ArrayList
+//                        devoluciones.add(item);
+//                    }
+//
+//                }
+//
+//                //Cerrar Conexion
+//                conn.disconnect();
+//            } catch (MalformedURLException e) {
+//                Log.e("getGenerales", e.getMessage());
+//                ERROR = true;
+//                ERROR_MSG = "Error interno de la aplicación. Favor de reportar con el Desarrollador.";
+//            } catch (IOException e) {
+//                Log.e("getGenerales", e.getMessage());
+//                ERROR = true;
+//                ERROR_MSG = "Error al conectar con el servidor. Verifica tu conexión.";
+//            } catch (JSONException e) {
+//                Log.e("getGenerales", e.getMessage());
+//                ERROR = true;
+//                ERROR_MSG = "Error al cargar los datos";
+//            }
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(Object o) {
+//            super.onPostExecute(o);
+//            if(ERROR) {
+//                dialog.cancel();
+//                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//                builder.setIcon(R.mipmap.ic_error)
+//                        .setTitle("Error")
+//                        .setMessage(ERROR_MSG)
+//                        .create()
+//                        .show();
+//            }else {
+//                Ugrales = true;
+//                dialog.cancel();
+//            }
+//        }
+//    }
 
 }

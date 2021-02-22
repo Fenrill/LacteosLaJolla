@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -14,13 +15,14 @@
         android:background="#00000000">
 
         <android.support.design.widget.FloatingActionButton
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:src="@mipmap/ic_edit"
-            app:backgroundTint="@color/colorEnd"/>
+            app:backgroundTint="@color/colorEnd" />
 
     </RelativeLayout>
 
@@ -31,13 +33,14 @@
         android:background="#00000000">
 
         <android.support.design.widget.FloatingActionButton
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:src="@mipmap/ic_delete"
-            app:backgroundTint="@color/colorCancel"/>
+            app:backgroundTint="@color/colorCancel" />
 
     </RelativeLayout>
 
@@ -48,15 +51,16 @@
         android:background="#00000000">
 
         <android.support.design.widget.FloatingActionButton
-            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/btnHideMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:src="@mipmap/ic_cancel"
-            app:backgroundTint="@color/colorPrimary"/>
+            app:backgroundTint="@color/colorPrimary" />
 
     </RelativeLayout>
 

@@ -1,5 +1,6 @@
 package com.bybick.lacteosjolla.Fragments;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -35,7 +37,9 @@ import com.bybick.lacteosjolla.ObjectIN.Lista;
 import com.bybick.lacteosjolla.ObjectIN.Listas_Precios;
 import com.bybick.lacteosjolla.ObjectIN.Motivo;
 import com.bybick.lacteosjolla.ObjectIN.Producto;
+//import com.bybick.lacteosjolla.ObjectIN.Producto_Jabas;
 import com.bybick.lacteosjolla.ObjectIN.Producto_unidad;
+import com.bybick.lacteosjolla.ObjectIN.Promociones;
 import com.bybick.lacteosjolla.ObjectIN.Secuencia;
 import com.bybick.lacteosjolla.ObjectIN.Serie;
 import com.bybick.lacteosjolla.ObjectIN.Unidad;
@@ -92,6 +96,8 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
     ArrayList<Carga> carga;
     ArrayList<Unidad> unis;
     ArrayList<Producto_unidad> prounis;
+    ArrayList<Promociones> promociones;
+//    ArrayList<Producto_Jabas> producto_jabas;
     ArrayList<Equivalencia> equivalencias;
 
     //Datos a Descargar Facturas
@@ -180,19 +186,19 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
-            //Descargar Datos del Cliente
+//            Descargar Datos del Cliente
 //            case 0 : {
 //                new getClientes().execute();
 //            }break;
-
+//
 //            case 1 : {
 //                new getProductos().execute();
 //            }break;
-
+//
 //            case 2 : {
 //                new getFacturas().execute();
 //            }break;
-
+//
 //            case 3 : {
 //                new getGenerales().execute();
 //            }break;
@@ -201,8 +207,6 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
                 new getProductos().execute();
                 new getFacturas().execute();
                 new getGenerales().execute();
-
-
             }break;
         }
 
@@ -299,6 +303,10 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
                     dbd.setUnidades(unis);
                     //Producto Unidad
                     dbd.setProductoUnidad(prounis);
+                    //Productos Promociones
+                    dbd.setProductoPromociones(promociones);
+                    //Producto Jabas
+//                    dbd.setProductoJabas(producto_jabas);
                     //Equivalencias
                     dbd.setEquivalencias(equivalencias);
 
@@ -526,6 +534,10 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
                         .setMessage(ERROR_MSG)
                         .create()
                         .show();
+                if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
+                    ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE)).clearApplicationUserData();
+                }
+
             }else {
                 Uclientes = true;
                 dialog.cancel();
@@ -560,6 +572,8 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
             carga = new ArrayList<>();
             unis = new ArrayList<>();
             prounis = new ArrayList<>();
+            promociones = new ArrayList<>();
+//            producto_jabas = new ArrayList<>();
             equivalencias = new ArrayList<>();
 
             dialog = ProgressDialog.show(context, "Descarga de Productos", "Descargando datos. Espera por favor.", true, false);
@@ -613,7 +627,9 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
                     JSONArray jsCarga = jsonArray.getJSONArray(1);
                     JSONArray jsUnidades = jsonArray.getJSONArray(2);
                     JSONArray jsProU = jsonArray.getJSONArray(3);
-                    JSONArray jsEq = jsonArray.getJSONArray(4);
+                    JSONArray jsPromociones = jsonArray.getJSONArray(4);
+//                    JSONArray jsProducto_jabas = jsonArray.getJSONArray(5);
+                    JSONArray jsEq = jsonArray.getJSONArray(5);
 
                     //Recorrer Secuencia de Productos
                     for (int i = 0; i < jsProductos.length(); i++) {
@@ -645,13 +661,14 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
                         item.setMarca(object.getString("marca"));
                         item.setCantidad(object.getDouble("cantidad"));
                         item.setId_unidad(object.getString("id_unidad"));
+                        item.setPiezas(object.getInt("cantidadpza"));
 
                         //Enviar al ArrayList
                         carga.add(item);
 
                     }
 
-                    //Recorrer Uniaddaes
+                    //Recorrer Unidadaes
                     for (int i = 0; i < jsUnidades.length(); i++) {
                         JSONObject object = jsUnidades.getJSONObject(i);
 
@@ -679,6 +696,37 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
                         prounis.add(item);
                     }
 
+                    //Recorrer Promociones
+                    for (int i = 0; i < jsPromociones.length(); i++){
+                        JSONObject object = jsPromociones.getJSONObject(i);
+
+                        //Crear lista
+                        Promociones item = new Promociones();
+                        item.setId_cliente(object.getString("id_cliente"));
+                        item.setNombre(object.getString("nombre_promo"));
+                        item.setProducto_venta(object.getString("producto_venta"));
+                        item.setProducto_entrega(object.getString("producto_entrega"));
+                        item.setCantidad_venta(object.getDouble("cantidad_venta"));
+                        item.setCantidad_entrega(object.getDouble("cantidad_entrega"));
+
+                        //ArrayList
+                        promociones.add(item);
+                    }
+
+                    //Recorrer Productos Jabas
+//                    for (int i = 0; i < jsProducto_jabas.length(); i++){
+//                        JSONObject object = jsProducto_jabas.getJSONObject(i);
+//
+//                        //Crear lista
+//                        Producto_Jabas item = new Producto_Jabas();
+//                        item.setId_producto_jabas(object.getString("id_producto_jabas"));
+//                        item.setDescripcion(object.getString("descripcion"));
+//                        item.setOrden(object.getInt("orden"));
+//
+//                        //ArrayList
+//                        producto_jabas.add(item);
+//                    }
+//
                     //Recorrer Equivalencias
                     for (int i = 0; i < jsEq.length(); i++) {
                         JSONObject object = jsEq.getJSONObject(i);

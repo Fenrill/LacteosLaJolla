@@ -60,25 +60,46 @@
                 <!-- Unidad -->
 
                 <TextView
+                    android:id="@+id/lblPiezas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lbCantidad"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Piezas:"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtPiezas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtCantidad"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_toRightOf="@+id/lblPiezas"
+                    android:text="10" />
+
+                <TextView
                     android:id="@+id/lbUnidad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Unidad : "
+                    android:layout_below="@+id/lblPiezas"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_below="@+id/txtCantidad"
+                    android:text="Unidad : "
                     android:textSize="16sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/txtUnidad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtCantidad"
-                    android:layout_toRightOf="@+id/lbUnidad"
+                    android:layout_below="@+id/txtPiezas"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="Pieza"
-                    android:layout_marginLeft="10dp"/>
+                    android:layout_toRightOf="@+id/lbUnidad"
+                    android:text="Pieza" />
 
 
             </RelativeLayout>

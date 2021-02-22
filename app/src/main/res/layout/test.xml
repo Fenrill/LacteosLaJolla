@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="25dp">
+
+    <TextView
+        android:id="@+id/tvCantidad"
+        style="@style/Base.V7.Widget.AppCompat.AutoCompleteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:text="Cantidad"
+        android:textColor="@android:color/black"
+        android:textSize="17sp" />
+
+    <EditText
+        android:id="@+id/editCantidad"
+        style="@style/Base.V7.Widget.AppCompat.EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvCantidad"
+        android:layout_below="@+id/tvCantidad"
+        android:layout_marginRight="25dp"
+        android:ems="10"
+        android:hint="Cantidad"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textSize="17sp" />
+
+    <Spinner
+        android:id="@+id/spUnidad"
+        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editCantidad"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="25dp" />
+
+    <TextView
+        android:id="@+id/tvPiezas"
+        style="@style/Base.V7.Widget.AppCompat.AutoCompleteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/spUnidad"
+        android:layout_below="@+id/spUnidad"
+        android:layout_marginTop="40dp"
+        android:text="Piezas"
+        android:textColor="@android:color/black"
+        android:textSize="17sp" />
+
+    <EditText
+        android:id="@+id/editCantidad2"
+        style="@style/Base.V7.Widget.AppCompat.EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tvPiezas"
+        android:layout_below="@+id/tvPiezas"
+        android:layout_marginRight="25dp"
+        android:ems="10"
+        android:hint="Cantidad"
+        android:inputType="textPersonName"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/lbPrecio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/editCantidad2"
+        android:layout_below="@+id/editCantidad2"
+        android:layout_marginTop="52dp"
+        android:text="Precio : $ "
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtPrecio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/lbPrecio"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/tvCantidad" />
+
+    <TextView
+        android:id="@+id/txtInventario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/lbPrecio"
+        android:layout_below="@+id/lbPrecio"
+        android:layout_marginTop="13dp"
+        android:text="Inventario :"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtImporte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/editCantidad2"
+        android:layout_below="@+id/txtInventario"
+        android:layout_marginEnd="54dp"
+        android:layout_marginTop="23dp"
+        android:text="$ 00.00"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="19sp"
+        android:textStyle="bold" />
+</RelativeLayout>

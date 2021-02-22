@@ -79,6 +79,8 @@ public class F_Cobranza extends Fragment implements View.OnClickListener,
     public static ArrayList<Det_Pago> detalles;
 
     //Data Auxiliar
+    public static String spMethodTipo;
+
     //Totales Globales
 
     //Totales x Detalle
@@ -120,6 +122,10 @@ public class F_Cobranza extends Fragment implements View.OnClickListener,
     public void setAuxiliares(Visita visita, Cliente cliente) {
         this.visita = visita;
         this.cliente = cliente;
+    }
+
+    public void setFacturasMethod(String spMethodTipo){
+        this.spMethodTipo = spMethodTipo;
     }
 
     @Override
@@ -229,17 +235,49 @@ public class F_Cobranza extends Fragment implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnAdd : {
-                //AddProduct();
-                F_Facturas frag = new F_Facturas();
-                frag.setContext(context);
-                frag.setFm(fmMain);
-                frag.setFacturas(facturas);
-                frag.setAuxiliares(cliente, visita);
+                if (detalles.size() < 1) {
+                    //AddProduct();
+                    F_Facturas frag = new F_Facturas();
+                    frag.setContext(context);
+                    frag.setFm(fmMain);
+                    frag.setFacturas(facturas);
+                    frag.setAuxiliares(cliente, visita);
+                    frag.isMetodo(false);
 
-                FragmentTransaction ft = fmMain.beginTransaction();
-                ft.setCustomAnimations(R.animator.enter_up, R.animator.out_up,
-                        R.animator.enter_up, R.animator.out_up);
-                ft.add(R.id.Container, frag, "Productos").addToBackStack("Pago").commit();
+                    FragmentTransaction ft = fmMain.beginTransaction();
+                    ft.setCustomAnimations(R.animator.enter_up, R.animator.out_up,
+                            R.animator.enter_up, R.animator.out_up);
+                    ft.add(R.id.Container, frag, "Productos").addToBackStack("Pago").commit();
+                } else {
+                    AlertDialog.Builder bul = new AlertDialog.Builder(context);
+                    bul.setTitle("Metodo de Pago")
+                            .setIcon(R.mipmap.ic_alert)
+                            .setMessage("Solo puedes ingresar facturas con el mismo Metodo de Pago")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    F_Facturas frag = new F_Facturas();
+                                    frag.setContext(context);
+                                    frag.setFm(fmMain);
+                                    frag.setFacturas(facturas);
+                                    frag.setAuxiliares(cliente, visita);
+                                    frag.isMetodo(true);
+
+                                    FragmentTransaction ft = fmMain.beginTransaction();
+                                    ft.setCustomAnimations(R.animator.enter_up, R.animator.out_up,
+                                            R.animator.enter_up, R.animator.out_up);
+                                    ft.add(R.id.Container, frag, "Productos").addToBackStack("Pago").commit();
+                                }
+                            })
+                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            })
+                            .create()
+                            .show();
+                }
 
             }break;
 
@@ -266,7 +304,7 @@ public class F_Cobranza extends Fragment implements View.OnClickListener,
                             .create()
                             .show();
                 } else {
-                    Toast.makeText(context, "Agrgea pagos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Agrega pagos.", Toast.LENGTH_SHORT).show();
                 }
             }break;
 
@@ -329,6 +367,7 @@ public class F_Cobranza extends Fragment implements View.OnClickListener,
         txtSaldo.setText("Saldo: $ " + FormatNumber(seleccion.getSaldo()));
 
         //Cantidad
+//        final EditText editCantidad = (EditText) view.findViewById(R.id.editCantidad);
         final EditText editCantidad = (EditText) view.findViewById(R.id.editCantidad);
 
         //Comentarios
@@ -341,7 +380,7 @@ public class F_Cobranza extends Fragment implements View.OnClickListener,
         ArrayList<String> tipos = new ArrayList<String>();
         tipos.add("Efectivo");
         tipos.add("Cheque");
-        tipos.add("Tranferencia");
+        tipos.add("Transferencia");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, tipos);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spTipo.setAdapter(adapter);
@@ -398,6 +437,12 @@ public class F_Cobranza extends Fragment implements View.OnClickListener,
                             item.setSaldo(seleccion.getSaldo() - importe);
 
                             detalles.set(position, item);
+
+//                            for(int i = 0; i < facturas.size(); i ++) {
+//                                Factura fc = facturas.get(i);
+//                                fc.setPagado(true);
+//                                dbd.setPagado(fc.getSerie(), fc.getFolio());
+//                            }
 
                             //Actualizar LIsta
                             lstPagos.setAdapter(new Adapter_Pago(context, detalles));
@@ -481,6 +526,10 @@ public class F_Cobranza extends Fragment implements View.OnClickListener,
             pago.setEnviado(0);
             pago.setId_cliente(cliente.getId_cliente());
             pago.setDetalles(detalles);
+
+            for(int i = 0; i < detalles.size(); i ++) {
+                dbd.setPagado(detalles.get(i).getSerie(), detalles.get(i).getFolio());
+            }
 
             //Guardar Cambio a la DB
             dbd.setPago(pago);

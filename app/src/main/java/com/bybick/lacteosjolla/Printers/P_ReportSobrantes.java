@@ -56,6 +56,8 @@ public class P_ReportSobrantes {
 
         String title="** Sobrantes y Devoluciones **";
 
+        dbd.deleteNoVisitas();
+
         try {
             OutputStreamWriter ticket = new OutputStreamWriter(context.openFileOutput("ticket.txt", Context.MODE_PRIVATE));
 
@@ -76,30 +78,30 @@ public class P_ReportSobrantes {
 //            ticket.write("Devol.                          \r\n");
 //            ticket.write("--------------------------------\r\n");
 
-            ticket.write("                                \r\n");
-            ticket.write(center("=== COBASUR ===\r\n"));
 //            ticket.write("                                \r\n");
-            for(int i=0;i<data.size();i++){
-                if(data.get(i).getMarca().equals("COBASUR")) {
-                    ticket.write("                                \r\n");
-                    ticket.write(center(data.get(i).getDescripcion()) + "\r\n");
-                    linenew = "Carga: " + FormatNumber(data.get(i).getCarga());
-                    ticket.write(align(linenew));
-                    ticket.write(" Malo: " + FormatNumber(data.get(i).getInv_mal()) + "\r\n");
-
-                    linenew = "Ventas: " + FormatNumber(data.get(i).getVentas());
-                    ticket.write(align(linenew));
-                    ticket.write(" Bueno: " + FormatNumber(data.get(i).getInv_buen()) + "\r\n");
-
-                    linenew = "Cambios: " + FormatNumber(data.get(i).getCambios());
-                    ticket.write(align(linenew));
-                    ticket.write(" FINAL: " + FormatNumber(data.get(i).getInv_final()) + "\r\n");
-
-//                    ticket.write("Devol.: " + data.get(i).getDevoluciones() + "\r\n");
-//                    ticket.write("\r\n");
-                }
-            }
-
+//            ticket.write(center("=== COBASUR ===\r\n"));
+////            ticket.write("                                \r\n");
+//            for(int i=0;i<data.size();i++){
+//                if(data.get(i).getMarca().equals("COBASUR")) {
+//                    ticket.write("                                \r\n");
+//                    ticket.write(center(data.get(i).getDescripcion()) + "\r\n");
+//                    linenew = "Carga: " + FormatNumber(data.get(i).getCarga());
+//                    ticket.write(align(linenew));
+//                    ticket.write(" Malo: " + FormatNumber(data.get(i).getInv_mal()) + "\r\n");
+//
+//                    linenew = "Ventas: " + FormatNumber(data.get(i).getVentas());
+//                    ticket.write(align(linenew));
+//                    ticket.write(" Bueno: " + FormatNumber(data.get(i).getInv_buen()) + "\r\n");
+//
+//                    linenew = "Cambios: " + FormatNumber(data.get(i).getCambios());
+//                    ticket.write(align(linenew));
+//                    ticket.write(" FINAL: " + FormatNumber(data.get(i).getInv_final()) + "\r\n");
+//
+////                    ticket.write("Devol.: " + data.get(i).getDevoluciones() + "\r\n");
+////                    ticket.write("\r\n");
+//                }
+//            }
+//
             ticket.write("                                \r\n");
             ticket.write(center("=== JOLLA ===\r\n"));
 //            ticket.write("                                \r\n");
@@ -150,12 +152,12 @@ public class P_ReportSobrantes {
             }
 
             //RESUMEN DE COBASUR
-            for(int i = 0; i < resumen.size(); i ++){
-                if(resumen.get(i).getEmpresa().equals("COBASUR") && resumen.get(i).getId_forma_venta() == 1)
-                    VC_Cobasur += resumen.get(i).getTotal();
-                else if(resumen.get(i).getEmpresa().equals("COBASUR") && resumen.get(i).getId_forma_venta() == 2)
-                    VCR_Cobasur += resumen.get(i).getTotal();
-            }
+//            for(int i = 0; i < resumen.size(); i ++){
+//                if(resumen.get(i).getEmpresa().equals("COBASUR") && resumen.get(i).getId_forma_venta() == 1)
+//                    VC_Cobasur += resumen.get(i).getTotal();
+//                else if(resumen.get(i).getEmpresa().equals("COBASUR") && resumen.get(i).getId_forma_venta() == 2)
+//                    VCR_Cobasur += resumen.get(i).getTotal();
+//            }
 
             //RESUMEN GENERAL
             for(int i = 0; i < resumen.size(); i ++){
@@ -171,11 +173,11 @@ public class P_ReportSobrantes {
 
             ticket.write("\r\n");
 
-            ticket.write(" - VENTAS COBASUR -\r\n");
-            ticket.write("     Contado         $ " + FormatNumber(VC_Cobasur) + "\r\n");
-            ticket.write("     Credito         $ " + FormatNumber(VCR_Cobasur) + "\r\n");
-
-            ticket.write("\r\n");
+//            ticket.write(" - VENTAS COBASUR -\r\n");
+//            ticket.write("     Contado         $ " + FormatNumber(VC_Cobasur) + "\r\n");
+//            ticket.write("     Credito         $ " + FormatNumber(VCR_Cobasur) + "\r\n");
+//
+//            ticket.write("\r\n");
 
             ticket.write(" - TOTAL DE VENTA -\r\n");
             ticket.write("     Contado         $ " + FormatNumber(VC_Totales) + "\r\n");

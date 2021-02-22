@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark">
 
+
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/layBotons"
-        android:src="@mipmap/ic_logo"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="50dp" />
-
+        android:layout_above="@id/layBotons"
+        android:layout_marginBottom="40dp"
+        app:srcCompat="@mipmap/ic_logo2" />
 
     <RelativeLayout
         android:id="@+id/layBotons"
@@ -25,62 +27,60 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
+            android:drawableRight="@mipmap/ic_user"
             android:hint="Usuario"
+            android:inputType="textPersonName"
+            android:padding="10dp"
             android:textColor="#FFF"
             android:textColorHint="#FFF"
-            android:textStyle="bold"
-            android:drawableRight="@mipmap/ic_user"
-            android:padding="10dp"
-            android:inputType="textPersonName"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/editUser"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
-            android:hint="Contraseña"
-            android:textColorHint="#FFF"
-            android:textColor="#FFF"
-            android:textStyle="bold"
             android:drawableRight="@mipmap/ic_pass"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
             android:padding="10dp"
-            android:inputType="textPassword"/>
+            android:textColor="#FFF"
+            android:textColorHint="#FFF"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnLogin"
+            style="@style/Widget.AppCompat.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Inicio"
-            style="@style/MyTheme.Button"
             android:layout_below="@+id/editPass"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:text="Inicio" />
 
     </RelativeLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/btnActualizar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_update"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="15dp"
-        app:backgroundTint="@color/colorPrimaryDark"/>
+        android:src="@mipmap/ic_update"
+        app:backgroundTint="@color/colorPrimaryDark" />
 
-    <android.support.design.widget.FloatingActionButton
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/btnConfigurar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_config"
         android:layout_alignParentBottom="true"
         android:layout_margin="15dp"
-        app:backgroundTint="@color/colorPrimaryDark"/>
+        android:src="@mipmap/ic_config"
+        app:backgroundTint="@color/colorPrimaryDark" />
 
     <TextView
         android:id="@+id/idVersion"
@@ -88,9 +88,20 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btnActualizar"
         android:layout_centerHorizontal="true"
-        android:text="v1.5"
+        android:text="v3.19"
         android:textColor="#ffffff"
         android:textStyle="italic" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnDeleteDatos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnConfigurar"
+        android:layout_margin="15dp"
+        android:src="@mipmap/ic_delete"
+        android:visibility="visible"
+        app:backgroundTint="@color/colorPrimaryDark"
+        tools:visibility="visible" />
 
 
 </RelativeLayout>

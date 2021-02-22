@@ -18,6 +18,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 
 /**
@@ -72,7 +74,7 @@ public class P_Devolucion {
                 ticket.write(center(det_dev.get(i).getNombre()) + "\r\n");
                 ticket.write(" " + det_dev.get(i).getCantidad());
                 ticket.write("            " + det_dev.get(i).getUnidad() + "\r\n");
-                ticket.write(" $" + det_dev.get(i).getImporte() + "\r\n");
+                ticket.write(" $" + FormatNumber(det_dev.get(i).getImporte()) + "\r\n");
                 ticket.write(" " + det_dev.get(i).getMotivo() + "\r\n");
                 ticket.write("                                \r\n");
 
@@ -82,7 +84,7 @@ public class P_Devolucion {
             ticket.write("                                \r\n");
             ticket.write("                                \r\n");
             //Imprimir Total A Devolver
-            ticket.write("Total Devolucion: $" + total + " \r\n");
+            ticket.write("Total Devolucion: $" + FormatNumber(total)+ " \r\n");
             ticket.write("                                \r\n");
             ticket.write("--------------------------------\r\n");
             ticket.write("                                \r\n");
@@ -156,5 +158,19 @@ public class P_Devolucion {
         }
         return line;
 
+    }
+
+    //Formatear Numero de double a String
+    public String FormatNumber(double number) {
+        String result = "";
+
+        DecimalFormatSymbols sim = new DecimalFormatSymbols();
+        sim.setDecimalSeparator('.');
+        sim.setGroupingSeparator(',');
+        DecimalFormat fd = new DecimalFormat("###,##0.00", sim);
+
+        result = fd.format(number);
+
+        return result;
     }
 }

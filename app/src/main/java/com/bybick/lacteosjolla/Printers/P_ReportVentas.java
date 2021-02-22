@@ -49,7 +49,7 @@ public class P_ReportVentas {
 
         dbc = new DBConfig(context);
         dbc.open();
-        ;
+
         String txt="";
 
         String title="** VENTA POR PRODUCTO **";

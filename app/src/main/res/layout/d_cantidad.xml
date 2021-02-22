@@ -1,80 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="25dp"
+    app:layout_scrollFlags="scroll">
 
-
-    <EditText
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/editCantidad"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvCantidad"
+        style="@style/Base.V7.Widget.AppCompat.AutoCompleteTextView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="10dp"
-        android:hint="Cantidad"
-        android:textAlignment="center"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:inputType="number"
+        android:text="Cantidad"
+        android:textColor="@android:color/black"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/editCantidad"
         style="@style/Base.V7.Widget.AppCompat.EditText"
-        android:backgroundTint="@color/colorPrimaryDark"/>
+        android:layout_width="366dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvCantidad"
+        android:layout_alignStart="@+id/tvCantidad"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="25dp"
+        android:ems="10"
+        android:hint="Cantidad"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="12sp" />
 
     <Spinner
         android:id="@+id/spUnidad"
+        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editCantidad2"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginRight="25dp" />
+
+    <EditText
+        android:id="@+id/editCantidad2"
+        style="@style/Base.V7.Widget.AppCompat.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editCantidad"
-        android:layout_marginTop="10dp"
+        android:layout_alignStart="@+id/tvPiezas"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        style="@style/Base.Widget.AppCompat.Spinner.Underlined">
-
-    </Spinner>
+        android:hint="Piezas"
+        android:inputType="number"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/lbPrecio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Precio : $ "
         android:layout_below="@+id/spUnidad"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"
-        android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:layout_alignStart="@+id/spUnidad"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="46dp"
+        android:text="Precio : $ "
+        android:textSize="10sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txtPrecio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/lbPrecio"
-        android:layout_below="@+id/spUnidad"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:textSize="16sp"/>
-
-    <TextView
-        android:id="@+id/txtImporte"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="$ 00.00"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimaryDark"
-        android:layout_marginTop="64dp"
-        android:layout_marginRight="20dp"
-        android:layout_below="@+id/txtPrecio"
-        android:layout_alignEnd="@+id/spUnidad" />
+        android:layout_alignBottom="@+id/lbPrecio"
+        android:layout_marginStart="12dp"
+        android:layout_toEndOf="@+id/tvCantidad" />
 
     <TextView
         android:id="@+id/txtInventario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/lbPrecio"
+        android:layout_alignStart="@+id/lbPrecio"
+        android:layout_marginTop="10dp"
         android:text="Inventario :"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="13dp"
-        android:textSize="16sp"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtImporte"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/spUnidad"
+        android:layout_below="@+id/txtInventario"
+        android:text="$ 00.00"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="19sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtCant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtInventario"
+        android:layout_alignBottom="@+id/txtImporte"
+        android:text="Cantidad:"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtPieza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/txtCant"
+        android:layout_toEndOf="@+id/txtInventario"
+        android:text="Piezas:"
+        android:textSize="10sp"
         android:textStyle="bold"
-        android:layout_below="@+id/lbPrecio" />
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/txtNumCant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtCant"
+        android:layout_alignEnd="@+id/txtCant"
+        android:text="100"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtNumPiezas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtPieza"
+        android:layout_alignEnd="@+id/txtPieza"
+        android:text="100"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:visibility="visible" />
+
+    <RadioGroup
+        android:id="@+id/rgrpEntSal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spUnidad"
+        android:baselineAligned="false"
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+
+        <RadioButton
+            android:id="@+id/radioEntrada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:text="Dejar" />
+
+        <RadioButton
+            android:id="@+id/radioSalida"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layoutDirection="rtl"
+            android:text="Recoger" />
+    </RadioGroup>
 
 </RelativeLayout>
+

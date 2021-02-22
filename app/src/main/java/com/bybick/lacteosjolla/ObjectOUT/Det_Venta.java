@@ -16,6 +16,10 @@ public class Det_Venta {
     double precio;
     private String id_det_venta;
     private String id_venta;
+    double piezaB;
+    boolean promocion;
+    int cantidadResult;
+
 
     public String getId_venta() {
         return id_venta;
@@ -111,5 +115,29 @@ public class Det_Venta {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+
+    public double getPiezaB() {
+        return piezaB;
+    }
+
+    public void setPiezaB(double piezaB) {
+        this.piezaB = piezaB;
+    }
+
+    public boolean isPromocion() {
+        return promocion;
+    }
+
+    public void setPromocion(boolean promocion) {
+        this.promocion = promocion;
+    }
+
+    public int getCantidadResult() {
+        return cantidadResult;
+    }
+
+    public void setCantidadResult(int cantidadResult) {
+        this.cantidadResult = cantidadResult;
     }
 }

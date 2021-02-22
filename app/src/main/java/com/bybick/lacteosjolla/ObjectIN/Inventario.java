@@ -10,9 +10,11 @@ public class Inventario {
     private String producto;
     private String unidad_minima;
 
+    private int piezas;
     private double cantidad;
     private double ventas_inventario;
     private double cambios_inventario;
+    private int ventas_piezas;
 
     private String unidad;
 
@@ -76,5 +78,21 @@ public class Inventario {
 
     public void setCambios_inventario(double cambios_inventario) {
         this.cambios_inventario = cambios_inventario;
+    }
+
+    public int getPiezas() {
+        return piezas;
+    }
+
+    public void setPiezas(int piezas) {
+        this.piezas = piezas;
+    }
+
+    public int getVentas_piezas() {
+        return ventas_piezas;
+    }
+
+    public void setVentas_piezas(int ventas_piezas) {
+        this.ventas_piezas = ventas_piezas;
     }
 }

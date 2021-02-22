@@ -1,5 +1,6 @@
 package com.bybick.lacteosjolla.Fragments;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -7,11 +8,13 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -162,45 +165,50 @@ public class F_Enviar extends Fragment implements AdapterView.OnItemClickListene
 
                                 if(estado.equals(Environment.MEDIA_MOUNTED)){
                                     try {
-                                        File file = Environment.getExternalStorageDirectory();
-                                        Calendar c = Calendar.getInstance(TimeZone.getDefault());
-                                        File f = new File(file, "JollaDB"
-                                                + (c.getTime().getYear() + 1900)
-                                                + c.getTime().getMonth()
-                                                + c.getTime().getDate()
-                                                + "_"
-                                                + c.getTime().getHours()
-                                                + c.getTime().getMinutes());
+                                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                                            File file = Environment.getExternalStorageDirectory();
+                                            Calendar c = Calendar.getInstance(TimeZone.getDefault());
+                                            File f = new File(file, "JollaDB"
+                                                    + (c.getTime().getYear() + 1900)
+                                                    + c.getTime().getMonth()
+                                                    + c.getTime().getDate()
+                                                    + "_"
+                                                    + c.getTime().getHours()
+                                                    + c.getTime().getMinutes());
 
-                                        OutputStreamWriter fout = new OutputStreamWriter(new FileOutputStream(f));
+                                            OutputStreamWriter fout = new OutputStreamWriter(new FileOutputStream(f));
 
-                                        //Abrimos el fichero de base de datos como entrada
-                                        InputStream myInput = new FileInputStream("/data/data/com.bybick.lacteosjolla/databases/Jolla_dbD");
+                                            //Abrimos el fichero de base de datos como entrada
+                                            InputStream myInput = new FileInputStream("/data/data/com.bybick.lacteosjolla/databases/Jolla_dbD");
+    //                                        InputStream myInput = new FileInputStream("/data/data/com.bybick.lacteosjolla/databases/Jolla_dbD");
 
-                                        //Ruta a la base de datos vacía recién creada
-                                        //String outFileName =  + DB_NAME;
 
-                                        //Abrimos la base de datos vacía como salida
-                                        OutputStream myOutput = new FileOutputStream(f);
 
-                                        //Transferimos los bytes desde el fichero de entrada al de salida
-                                        byte[] buffer = new byte[1024];
-                                        int length;
-                                        while ((length = myInput.read(buffer))>0){
-                                            myOutput.write(buffer, 0, length);
+                                            //Ruta a la base de datos vacía recién creada
+                                            //String outFileName =  + DB_NAME;
+
+                                            //Abrimos la base de datos vacía como salida
+                                            OutputStream myOutput = new FileOutputStream(f);
+
+                                            //Transferimos los bytes desde el fichero de entrada al de salida
+                                            byte[] buffer = new byte[1024];
+                                            int length;
+                                            while ((length = myInput.read(buffer))>0){
+                                                myOutput.write(buffer, 0, length);
+                                            }
+
+                                            //Liberamos los streams
+                                            myOutput.flush();
+                                            myOutput.close();
+                                            myInput.close();
+
+                                            Toast.makeText(context,"Base de datos Respaldada", Toast.LENGTH_SHORT).show();
                                         }
-
-                                        //Liberamos los streams
-                                        myOutput.flush();
-                                        myOutput.close();
-                                        myInput.close();
-
-                                        Toast.makeText(context,"Base de datos Respaldada", Toast.LENGTH_SHORT).show();
 
 
                                     } catch (FileNotFoundException e) {
                                         e.printStackTrace();
-                                        Log.e("FileNotFond", e.getMessage());
+                                        Log.e("FileNotFound", e.getMessage());
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                         Log.e("IO", e.getMessage());
@@ -374,19 +382,19 @@ public class F_Enviar extends Fragment implements AdapterView.OnItemClickListene
 
                 //Cerrar Conexion
                 conn.disconnect();
-        } catch (MalformedURLException e) {
-            Log.e("setInfo", e.getMessage());
-            ERROR = true;
-            ERROR_MSG = "Error interno de la aplicación. Favor de reportar con el Desarrollador.";
-        } catch (IOException e) {
-            Log.e("setInfo", e.getMessage());
-            ERROR = true;
-            ERROR_MSG = "Error al conectar con el servidor. Verifica tu conexión.";
-        } catch (JSONException e) {
-            Log.e("setInfo", e.getMessage());
-            ERROR = true;
-            ERROR_MSG = "Error al respuesta del servidor.";
-        }
+            } catch (MalformedURLException e) {
+                Log.e("setInfo", e.getMessage());
+                ERROR = true;
+                ERROR_MSG = "Error interno de la aplicación. Favor de reportar con el Desarrollador.";
+            } catch (IOException e) {
+                Log.e("setInfo", e.getMessage());
+                ERROR = true;
+                ERROR_MSG = "Error al conectar con el servidor. Verifica tu conexión.";
+            } catch (JSONException e) {
+                Log.e("setInfo", e.getMessage());
+                ERROR = true;
+                ERROR_MSG = "Error al respuesta del servidor.";
+            }
             return null;
         }
 

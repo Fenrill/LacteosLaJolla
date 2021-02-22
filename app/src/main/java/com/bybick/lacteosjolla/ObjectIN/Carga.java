@@ -11,17 +11,19 @@ public class Carga {
     String marca;
     double cantidad;
     String id_unidad;
+    int piezas;
 
     public Carga() {
     }
 
-    public Carga(String id_usuario, String id_producto, String fecha, String marca, double cantidad, String id_unidad) {
+    public Carga(String id_usuario, String id_producto, String fecha, String marca, double cantidad, String id_unidad, int piezas) {
         this.id_usuario = id_usuario;
         this.id_producto = id_producto;
         this.fecha = fecha;
         this.marca = marca;
         this.cantidad = cantidad;
         this.id_unidad = id_unidad;
+        this.piezas = piezas;
     }
 
     public String getDescripcion() {
@@ -80,4 +82,11 @@ public class Carga {
         this.id_unidad = id_unidad;
     }
 
+    public int getPiezas() {
+        return piezas;
+    }
+
+    public void setPiezas(int piezas) {
+        this.piezas = piezas;
+    }
 }

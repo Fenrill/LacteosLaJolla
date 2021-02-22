@@ -21,6 +21,7 @@ public class Adapter_Devolucion extends BaseAdapter {
     TextView descripcion;
     TextView unidad;
     TextView cantidad;
+    TextView piezas;
     TextView motivo;
     TextView importe;
 
@@ -54,6 +55,7 @@ public class Adapter_Devolucion extends BaseAdapter {
         descripcion = (TextView) v.findViewById(R.id.txtDescripcion);
         unidad = (TextView) v.findViewById(R.id.txtUnidad);
         cantidad = (TextView) v.findViewById(R.id.txtCantidad);
+        piezas = (TextView) v.findViewById(R.id.txtPiezas);
         motivo = (TextView) v.findViewById(R.id.txtMotivo);
         importe = (TextView) v.findViewById(R.id.txtImporte);
 

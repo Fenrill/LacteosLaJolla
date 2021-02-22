@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EEE">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/btnPrint"
         android:layout_width="wrap_content"
@@ -17,433 +20,1067 @@
         android:src="@mipmap/ic_printer"
         app:backgroundTint="@color/colorPrint" />
 
-    <RelativeLayout
-        android:id="@+id/Container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:scrollbarSize="50dp"
-        android:scrollbars="vertical">
-
-        <TextView
-            android:id="@+id/liqTitle"
+        <RelativeLayout
+            android:id="@+id/Container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="21dp"
-            android:text="La Jolla: 0444191781"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrint"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:paddingBottom="80dp"
+            android:scrollbarSize="50dp"
+            android:scrollbars="vertical">
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/textView1"
-            android:layout_alignStart="@+id/textView1"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="@color/colorEnd"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textPracticaja"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/textView15"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="67dp"
+                android:layout_marginBottom="0dp"
+                android:width="150dp"
+                android:text="Practicaja:"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorEnd"
+                android:textSize="18sp"
+                tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView15"
-            android:layout_alignBottom="@+id/textView15"
-            android:layout_alignEnd="@+id/textView2"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/cntPracticaja"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/textView1"
+                android:layout_alignStart="@+id/textView1"
+                android:layout_marginStart="1dp"
+                android:layout_marginBottom="27dp"
+                android:width="240dp"
+                android:text="$1000"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorEnd"
+                android:textSize="18sp"
+                tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/liqTitle"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="60dp"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtMonedas10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="628dp"
+                android:width="150dp"
+                android:text="Monedas de $0.1:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/liqTitle"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="80dp"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad28"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtMonedas10"
+                android:layout_alignEnd="@+id/txtCantidad19"
+                android:layout_alignBottom="@id/txtMonedas10"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="1dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/liqTitle"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="100dp"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtMonedas9"
+                android:layout_alignEnd="@+id/txtCantidad19"
+                android:layout_alignBottom="@id/txtMonedas9"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="1dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/liqTitle"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="120dp"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtMonedas9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="608dp"
+                android:width="150dp"
+                android:text="Monedas de $0.2:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/liqTitle"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="40dp"
-            android:width="150dp"
-            android:text="Ventas Contado:"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtMonedas8"
+                android:layout_alignEnd="@+id/txtCantidad19"
+                android:layout_alignBottom="@id/txtMonedas8"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="1dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/liqTitle"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="60dp"
-            android:width="150dp"
-            android:text="Cobranza:"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtMonedas8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="590dp"
+                android:width="150dp"
+                android:text="Monedas de $0.5:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView17"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/liqTitle"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="80dp"
-            android:width="150dp"
-            android:text="- Efectivo:"
-            android:textAlignment="textEnd"
-            android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtMonedas7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="573dp"
+                android:width="150dp"
+                android:text="Monedas de $1:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView18"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/liqTitle"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="100dp"
-            android:width="150dp"
-            android:text="- Cheques:"
-            android:textAlignment="textEnd"
-            android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtMonedas7"
+                android:layout_alignEnd="@+id/txtCantidad19"
+                android:layout_alignBottom="@id/txtMonedas7"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="1dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView19"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView11"
-            android:layout_alignBottom="@+id/textView11"
-            android:layout_alignStart="@+id/textView10"
-            android:width="150dp"
-            android:text="- Tranferencia:"
-            android:textAlignment="textEnd"
-            android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtMonedas6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="554dp"
+                android:width="150dp"
+                android:text="Monedas de $2:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView7"
-            android:layout_alignBottom="@+id/textView7"
-            android:layout_alignStart="@+id/textView15"
-            android:width="150dp"
-            android:text="Ventas Credito:"
-            android:textAlignment="textEnd"
-            android:textColor="@color/colorEnd"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtMonedas6"
+                android:layout_alignEnd="@+id/txtCantidad19"
+                android:layout_alignBottom="@id/txtMonedas6"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="1dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView21"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView3"
-            android:layout_alignBottom="@+id/textView3"
-            android:layout_alignStart="@+id/textView3"
-            android:width="150dp"
-            android:text="Total a Depositar:"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtMonedas5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="535dp"
+                android:width="150dp"
+                android:text="Monedas de $5:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <View
-            android:id="@+id/view"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginStart="205dp"
-            android:layout_marginTop="195dp"
-            android:background="@color/colorPrimary"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtMonedas5"
+                android:layout_alignEnd="@+id/txtCantidad19"
+                android:layout_alignBottom="@id/txtMonedas5"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="1dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/liqTitle"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="155dp"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtMonedas4"
+                android:layout_alignEnd="@+id/txtCantidad19"
+                android:layout_alignBottom="@id/txtMonedas4"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="1dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/liqTitle2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="250dp"
-            android:text="Cobasur: 0448927014"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrint"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/txtMonedas4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="516dp"
+                android:width="150dp"
+                android:text="Monedas de $10:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/liqTitle2"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="10dp"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="@color/colorEnd"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtMonedas3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="497dp"
+                android:width="150dp"
+                android:text="Monedas de $20:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/liqTitle2"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="30dp"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtMonedas3"
+                android:layout_alignEnd="@+id/txtCantidad19"
+                android:layout_alignBottom="@id/txtMonedas3"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="1dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView4"
-            android:layout_below="@+id/textView4"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtMonedas2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="476dp"
+                android:width="150dp"
+                android:text="Monedas de $50:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView5"
-            android:layout_below="@+id/textView5"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtMonedas2"
+                android:layout_alignEnd="@+id/txtCantidad19"
+                android:layout_alignBottom="@id/txtMonedas2"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="1dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView14"
-            android:layout_below="@+id/textView12"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtMonedas1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="453dp"
+                android:width="150dp"
+                android:text="Monedas de $100:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView6"
-            android:layout_below="@+id/textView13"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtMonedas1"
+                android:layout_alignBottom="@id/txtMonedas1"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="0dp"
+                android:width="320dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView22"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView4"
-            android:layout_alignBottom="@+id/textView4"
-            android:layout_alignStart="@+id/textView8"
-            android:width="150dp"
-            android:text="Ventas Contado:"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="302dp"
+                android:layout_height="22dp"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="423dp"
+                android:width="150dp"
+                android:text="Monedas:"
+                android:textAlignment="inherit"
+                android:textColor="@color/colorEnd"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView23"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView5"
-            android:layout_alignBottom="@+id/textView5"
-            android:layout_alignStart="@+id/textView5"
-            android:width="150dp"
-            android:text="Cobranza:"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtBilletes6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="386dp"
+                android:width="150dp"
+                android:text="Billetes de $20:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView24"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView12"
-            android:layout_alignBottom="@+id/textView12"
-            android:layout_alignStart="@+id/textView12"
-            android:width="150dp"
-            android:text="- Efectivo:"
-            android:textAlignment="textEnd"
-            android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtBilletes6"
+                android:layout_alignEnd="@id/txtCantidad1"
+                android:layout_alignBottom="@id/txtBilletes6"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="9dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView25"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView13"
-            android:layout_alignBottom="@+id/textView13"
-            android:layout_alignStart="@+id/textView12"
-            android:width="150dp"
-            android:text="- Cheques:"
-            android:textAlignment="textEnd"
-            android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtBilletes5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="367dp"
+                android:width="150dp"
+                android:text="Billetes de $50:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView26"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView14"
-            android:layout_alignBottom="@+id/textView14"
-            android:layout_alignStart="@+id/textView14"
-            android:width="150dp"
-            android:text="- Tranferencia:"
-            android:textAlignment="textEnd"
-            android:textColor="?android:attr/textColorHint"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/txtBilletes5"
+                android:layout_alignEnd="@id/txtCantidad1"
+                android:layout_alignBottom="@id/txtBilletes5"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="9dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView27"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView8"
-            android:layout_alignBottom="@+id/textView8"
-            android:layout_alignStart="@+id/textView8"
-            android:width="150dp"
-            android:text="Ventas Credito:"
-            android:textAlignment="textEnd"
-            android:textColor="@color/colorEnd"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtBilletes4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="348dp"
+                android:width="150dp"
+                android:text="Billetes de $100:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView28"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/textView6"
-            android:layout_alignBottom="@+id/textView6"
-            android:layout_alignStart="@+id/textView6"
-            android:width="150dp"
-            android:text="Total a Depositar:"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/txtBilletes4"
+                android:layout_alignEnd="@id/txtCantidad1"
+                android:layout_alignBottom="@+id/txtBilletes4"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="9dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <View
-            android:id="@+id/view2"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginStart="215dp"
-            android:layout_marginTop="420dp"
-            android:background="@color/colorPrimary" />
+            <TextView
+                android:id="@+id/txtBilletes3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="329dp"
+                android:width="150dp"
+                android:text="Billetes de $200:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView12"
-            android:layout_below="@+id/view2"
-            android:layout_marginTop="10dp"
-            android:width="240dp"
-            android:text="$1000"
-            android:textAlignment="textEnd"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/txtCantidad3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/txtBilletes3"
+                android:layout_alignEnd="@id/txtCantidad1"
+                android:layout_alignBottom="@+id/txtBilletes3"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="9dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
 
+            <TextView
+                android:id="@+id/txtCantidad2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/txtBilletes2"
+                android:layout_alignEnd="@id/txtCantidad1"
+                android:layout_alignBottom="@+id/txtBilletes2"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="9dp"
+                android:width="240dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
+
+            <TextView
+                android:id="@+id/txtBilletes2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="308dp"
+                android:width="150dp"
+                android:text="Billetes de $500:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:visibility="gone" />
+
+            <TextView
+                android:id="@+id/liqTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="21dp"
+                android:text="La Jolla: 0444191781"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrint"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/textView1"
+                android:layout_alignStart="@+id/textView1"
+                android:layout_marginStart="0dp"
+                android:layout_marginBottom="0dp"
+                android:width="240dp"
+                android:text="$1000"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorEnd"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/textView15"
+                android:layout_alignEnd="@+id/textView2"
+                android:layout_alignBottom="@+id/textView15"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:width="240dp"
+                android:text="$1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/txtCantidad1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/txtBilletes1"
+                android:layout_alignBottom="@+id/txtBilletes1"
+                android:layout_marginEnd="3dp"
+                android:layout_marginBottom="0dp"
+                android:width="320dp"
+                android:text="1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="gone"
+                tools:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="84dp"
+                android:width="240dp"
+                android:text="$1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="103dp"
+                android:width="240dp"
+                android:text="$1000"
+                android:textAlignment="textEnd"
+                android:textColor="?android:attr/textColorHint"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="124dp"
+                android:width="240dp"
+                android:text="$1000"
+                android:textAlignment="textEnd"
+                android:textColor="?android:attr/textColorHint"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="143dp"
+                android:width="240dp"
+                android:text="$1000"
+                android:textAlignment="textEnd"
+                android:textColor="?android:attr/textColorHint"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="63dp"
+                android:width="150dp"
+                android:text="Ventas Contado:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/txtBilletes1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="286dp"
+                android:width="150dp"
+                android:text="Billetes de $1000:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:visibility="gone"
+                tools:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="302dp"
+                android:layout_height="30dp"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="217dp"
+                android:width="150dp"
+                android:text="Desglose de Efectivo"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrint"
+                android:textSize="24sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="302dp"
+                android:layout_height="22dp"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="254dp"
+                android:width="150dp"
+                android:text="Billetes:"
+                android:textAlignment="inherit"
+                android:textColor="@color/colorEnd"
+                android:textSize="18sp"
+                android:visibility="gone"
+                tools:visibility="gone" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="84dp"
+                android:width="150dp"
+                android:text="Cobranza:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="103dp"
+                android:width="150dp"
+                android:text="- Efectivo:"
+                android:textAlignment="textEnd"
+                android:textColor="?android:attr/textColorHint"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="124dp"
+                android:width="150dp"
+                android:text="- Cheques:"
+                android:textAlignment="textEnd"
+                android:textColor="?android:attr/textColorHint"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/textView11"
+                android:layout_alignStart="@+id/textView10"
+                android:layout_alignBottom="@+id/textView11"
+                android:layout_marginStart="0dp"
+                android:layout_marginBottom="0dp"
+                android:width="150dp"
+                android:text="- Tranferencia:"
+                android:textAlignment="textEnd"
+                android:textColor="?android:attr/textColorHint"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/textView7"
+                android:layout_alignStart="@+id/textView15"
+                android:layout_alignBottom="@+id/textView7"
+                android:layout_marginStart="0dp"
+                android:layout_marginBottom="0dp"
+                android:width="150dp"
+                android:text="Ventas Credito:"
+                android:textAlignment="textEnd"
+                android:textColor="@color/colorEnd"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/textView3"
+                android:layout_alignStart="@+id/textView3"
+                android:layout_alignBottom="@+id/textView3"
+                android:layout_marginStart="0dp"
+                android:layout_marginBottom="0dp"
+                android:width="150dp"
+                android:text="Total a Depositar:"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginStart="205dp"
+                android:layout_marginTop="225dp"
+                android:layout_marginEnd="60dp"
+                android:background="@color/colorPrimary"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liqTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="178dp"
+                android:width="240dp"
+                android:text="$1000"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                tools:visibility="visible" />
+
+            <!-- AQUI ACABA LO QUE DEBES DE QUITAR PARA EL UPDATE -->
+
+            <!--<TextView-->
+            <!--android:id="@+id/liqTitle2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_marginTop="250dp"-->
+            <!--android:text="Cobasur: 0448927014"-->
+            <!--android:textAlignment="center"-->
+            <!--android:textColor="@color/colorPrint"-->
+            <!--android:textSize="24sp"-->
+            <!--android:textStyle="bold" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView8"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_below="@+id/liqTitle2"-->
+            <!--android:layout_marginStart="50dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:width="240dp"-->
+            <!--android:text="$1000"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="@color/colorEnd"-->
+            <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView4"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_below="@+id/liqTitle2"-->
+            <!--android:layout_marginStart="50dp"-->
+            <!--android:layout_marginTop="30dp"-->
+            <!--android:width="240dp"-->
+            <!--android:text="$1000"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="@android:color/black"-->
+            <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView5"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignStart="@+id/textView4"-->
+            <!--android:layout_below="@+id/textView4"-->
+            <!--android:width="240dp"-->
+            <!--android:text="$1000"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="@android:color/black"-->
+            <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView12"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignStart="@+id/textView5"-->
+            <!--android:layout_below="@+id/textView5"-->
+            <!--android:width="240dp"-->
+            <!--android:text="$1000"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="?android:attr/textColorHint"-->
+            <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView13"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignStart="@+id/textView14"-->
+            <!--android:layout_below="@+id/textView12"-->
+            <!--android:width="240dp"-->
+            <!--android:text="$1000"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="?android:attr/textColorHint"-->
+            <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView14"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignStart="@+id/textView6"-->
+            <!--android:layout_below="@+id/textView13"-->
+            <!--android:width="240dp"-->
+            <!--android:text="$1000"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="?android:attr/textColorHint"-->
+            <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView22"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/textView4"-->
+            <!--android:layout_alignBottom="@+id/textView4"-->
+            <!--android:layout_alignStart="@+id/textView8"-->
+            <!--android:width="150dp"-->
+            <!--android:text="Ventas Contado:"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="@android:color/black"-->
+            <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView23"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/textView5"-->
+            <!--android:layout_alignBottom="@+id/textView5"-->
+            <!--android:layout_alignStart="@+id/textView5"-->
+            <!--android:width="150dp"-->
+            <!--android:text="Cobranza:"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="@android:color/black"-->
+            <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView24"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/textView12"-->
+            <!--android:layout_alignBottom="@+id/textView12"-->
+            <!--android:layout_alignStart="@+id/textView12"-->
+            <!--android:width="150dp"-->
+            <!--android:text="- Efectivo:"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="?android:attr/textColorHint"-->
+            <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView25"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/textView13"-->
+            <!--android:layout_alignBottom="@+id/textView13"-->
+            <!--android:layout_alignStart="@+id/textView12"-->
+            <!--android:width="150dp"-->
+            <!--android:text="- Cheques:"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="?android:attr/textColorHint"-->
+            <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView26"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/textView14"-->
+            <!--android:layout_alignBottom="@+id/textView14"-->
+            <!--android:layout_alignStart="@+id/textView14"-->
+            <!--android:width="150dp"-->
+            <!--android:text="- Tranferencia:"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="?android:attr/textColorHint"-->
+            <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView27"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/textView8"-->
+            <!--android:layout_alignBottom="@+id/textView8"-->
+            <!--android:layout_alignStart="@+id/textView8"-->
+            <!--android:width="150dp"-->
+            <!--android:text="Ventas Credito:"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="@color/colorEnd"-->
+            <!--android:textSize="18sp" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView28"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignBaseline="@+id/textView6"-->
+            <!--android:layout_alignBottom="@+id/textView6"-->
+            <!--android:layout_alignStart="@+id/textView6"-->
+            <!--android:width="150dp"-->
+            <!--android:text="Total a Depositar:"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="@android:color/black"-->
+            <!--android:textSize="18sp" />-->
+
+            <!--<View-->
+            <!--android:id="@+id/view2"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_marginEnd="60dp"-->
+            <!--android:layout_marginStart="215dp"-->
+            <!--android:layout_marginTop="440dp"-->
+            <!--android:background="@color/colorPrimary" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView6"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignStart="@+id/textView12"-->
+            <!--android:layout_below="@+id/view2"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:width="240dp"-->
+            <!--android:text="$1000"-->
+            <!--android:textAlignment="textEnd"-->
+            <!--android:textColor="@android:color/black"-->
+            <!--android:textSize="18sp" />-->
+
+        </RelativeLayout>
     </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>

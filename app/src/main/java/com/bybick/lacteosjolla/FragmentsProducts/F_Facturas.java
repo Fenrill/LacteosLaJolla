@@ -40,6 +40,7 @@ import com.bybick.lacteosjolla.R;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.Format;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -61,8 +62,12 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
     double importe = 0;
     Det_Pago pago;
 
+    String spMethodPago;
+
     ListView lstFacturas;
     EditText editSearch;
+
+    Boolean isMetodo;
 
     public void setContext(Context context) {
         this.context = context;
@@ -79,6 +84,10 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
 
     public void setFacturas(ArrayList<Factura> facturas) {
         this.facturas = facturas;
+    }
+
+    public void isMetodo(Boolean i){
+        this.isMetodo = i;
     }
 
     @Override
@@ -151,20 +160,28 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
 
         //Cantidad
         final EditText editCantidad = (EditText) view.findViewById(R.id.editCantidad);
+//        editCantidad.setText(FormatNumber(seleccion.getSaldo()));
 
         //Comentarios
         final EditText editComentario = (EditText) view.findViewById(R.id.editComentario);
 
         //Tipo de Pago
         final Spinner spTipo = (Spinner) view.findViewById(R.id.spTipoPago);
-        //Variable del Precio seleccionado
-        ArrayList<String> tipos = new ArrayList<String>();
-        tipos.add("Efectivo");
-        tipos.add("Cheque");
-        tipos.add("Tranferencia");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, tipos);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spTipo.setAdapter(adapter);
+
+        if (isMetodo == false){
+            //Variable del Precio seleccionado
+            ArrayList<String> tipos = new ArrayList<String>();
+            tipos.add("Efectivo");
+            tipos.add("Cheque");
+            tipos.add("Tranferencia");
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, tipos);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spTipo.setAdapter(adapter);
+        } else {
+            spTipo.setVisibility(View.GONE);
+        }
+
+
 
         //Listener Cantidad
         editCantidad.addTextChangedListener(new TextWatcher() {
@@ -175,7 +192,9 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0 && !s.toString().endsWith(".")) {
+                double saldo1 = seleccion.getSaldo();
+
+                if (s.length() > 0 && !s.toString().endsWith(".") && Double.parseDouble(editCantidad.getText().toString()) <= saldo1) {
 
                     importe = Double.parseDouble(editCantidad.getText().toString());
                     double saldo = seleccion.getTotal() - importe;
@@ -200,28 +219,46 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //Si no me mete cantidad
+
+                        //Si no se mete cantidad
                         if(editCantidad.getText().toString().isEmpty()){
                             Toast.makeText(context, "No se introdujo Importe", Toast.LENGTH_SHORT).show();
                         } else {
+                            if (Double.parseDouble(editCantidad.getText().toString()) > seleccion.getSaldo()){
+                                editCantidad.setText(FormatNumber(seleccion.getSaldo()));
+                            }
+                            if (F_Cobranza.detalles.size() < 1){
+                                spMethodPago = spTipo.getSelectedItem().toString();
+                            } else {
+                                spMethodPago = F_Cobranza.spMethodTipo;
+                            }
                             Det_Pago item = new Det_Pago();
+
+
 
                             item.setId_det_pago(Main.NEWID());
                             item.setSerie(seleccion.getSerie());
                             item.setFolio(seleccion.getFolio());
                             item.setComentarios(editComentario.getText().toString());
-                            item.setForma_pago(spTipo.getSelectedItem().toString());
+                            item.setForma_pago(spMethodPago);
                             item.setTotal_factura(seleccion.getTotal());
                             item.setImporte_pago(importe);
                             item.setSaldo_ant(seleccion.getSaldo());
                             item.setSaldo(seleccion.getSaldo() - importe);
 
+                            new F_Cobranza().setFacturasMethod(spMethodPago);
                             F_Cobranza.detalles.add(item);
                             int position = 0;
                             for(int i = 0; i < facturas.size(); i ++) {
                                 if(facturas.get(i).getFolio() == seleccion.getFolio() && facturas.get(i).getSerie().equals(seleccion.getSerie()))
                                     position = i;
                             }
+
+//                            for(int i = 0; i < facturas.size(); i ++) {
+//                                Factura fc = facturas.get(i);
+//                                fc.setPagado(true);
+//                                dbd.setPagado(fc.getSerie(), fc.getFolio());
+//                            }
 
                             seleccion.setSaldo(item.getSaldo());
                             F_Cobranza.facturas.set(position, seleccion);

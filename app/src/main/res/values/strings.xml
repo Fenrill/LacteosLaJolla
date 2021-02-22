@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Lacteos Jolla</string>
+
+    <string-array name="tiposList">
+        <item>Efectivo</item>
+        <item>Cheque</item>
+        <item>Transferencia</item>
+        <item>Tarjeta</item>
+    </string-array>
 </resources>

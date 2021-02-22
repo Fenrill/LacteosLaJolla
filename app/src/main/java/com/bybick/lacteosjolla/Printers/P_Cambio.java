@@ -47,12 +47,14 @@ public class P_Cambio {
         String title = "== CAMBIO DE " + cambio.getEmpresa() + " ==";
         title = center(title);
         boolean x = true;
+        int total = 0;
         try{
 //            do {
             OutputStreamWriter ticket = new OutputStreamWriter(context.openFileOutput("ticket.txt", Context.MODE_PRIVATE));
             //Escribir en el ticket * CABECERA GENERAL *
             ticket.write(center(title) + "\r\n\r\n");
             ticket.write("Usuario: " + dbc.getlogin().getId_usuario() + "\r\n");
+            ticket.write("No Cliente: " + cliente.getId_cliente() + "\r\n");
             ticket.write("Cliente: " + cliente.getNombre() + "\r\n");
             ticket.write("Fecha: " + Main.getFecha() + "\r\n");
             ticket.write("Hora: " + Main.getHora() + "\r\n\r\n");
@@ -91,9 +93,10 @@ public class P_Cambio {
                 //Motivo
                 ticket.write(center("----- " + item.getMotivo() + " -----\r\n"));
                 ticket.write("                                \r\n");
+                total += item.getCantidad_in();
 
             }
-            String line;
+            ticket.write("Total de Productos: " + total + "\r\n");
             ticket.write("                                \r\n");
             ticket.write("--------------------------------\r\n");
             ticket.write("                                \r\n");

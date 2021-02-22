@@ -63,17 +63,17 @@ public class P_Carga {
             ticket.write("--------------------------------\r\n");
 
             ticket.write("                                \r\n");
-            ticket.write(center("=== COBASUR ===\r\n"));
-            ticket.write("                                \r\n");
-            for (int i = 0; i < data.size(); i++) {
-                if(data.get(i).getMarca().equals("COBASUR")) {
-                    ticket.write("" + data.get(i).getDescripcion() + "\r\n");
-                    ticket.write("" + data.get(i).getCantidad());
-                    ticket.write("              " + data.get(i).getUnidad() + "\r\n");
-                }
-            }
-
-            ticket.write("                                \r\n");
+//            ticket.write(center("=== COBASUR ===\r\n"));
+//            ticket.write("                                \r\n");
+//            for (int i = 0; i < data.size(); i++) {
+//                if(data.get(i).getMarca().equals("COBASUR")) {
+//                    ticket.write("" + data.get(i).getDescripcion() + "\r\n");
+//                    ticket.write("" + data.get(i).getCantidad());
+//                    ticket.write("              " + data.get(i).getUnidad() + "\r\n");
+//                }
+//            }
+//
+//            ticket.write("                                \r\n");
             ticket.write(center("=== JOLLA ===\r\n"));
             ticket.write("                                \r\n");
 

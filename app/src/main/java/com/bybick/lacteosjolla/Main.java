@@ -21,7 +21,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.bybick.lacteosjolla.DataBases.DBConfig;
+import com.bybick.lacteosjolla.DataBases.DBData;
 import com.bybick.lacteosjolla.Fragments.F_Login;
+import com.bybick.lacteosjolla.ObjectIN.Cliente;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -159,7 +161,7 @@ public class Main extends AppCompatActivity implements LocationListener {
         return df.format(c.getTime());
     }
 
-    public static String getGPS(){
+    public static String  getGPS(){
         if(mylocation != null)
             return mylocation.getLatitude() + "," + mylocation.getLongitude();
         else
@@ -175,6 +177,21 @@ public class Main extends AppCompatActivity implements LocationListener {
         String result= UUID.randomUUID().toString();
         result.replaceAll("-","");
         result.substring(0,32);
+
+        return result;
+    }
+
+    public static String getFechaVisita(){
+        SimpleDateFormat df = new SimpleDateFormat("ddMMyyyy");
+        Calendar c = Calendar.getInstance(TimeZone.getDefault());
+
+        return df.format(c.getTime());
+    }
+
+    public static  String NEWIDVISITA(){
+        String result = UUID.randomUUID().toString();
+        result = result.replace("-","");
+        result = result.substring(0,19);
 
         return result;
     }

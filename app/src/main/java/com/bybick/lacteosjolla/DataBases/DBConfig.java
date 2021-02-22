@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 
 import com.bybick.lacteosjolla.Main;
 import com.bybick.lacteosjolla.ObjectIN.Contraseña;
@@ -126,6 +127,8 @@ public class DBConfig extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+    @Override public void onOpen(SQLiteDatabase db) { super.onOpen(db); if(Build.VERSION.SDK_INT >= 28) {db.disableWriteAheadLogging();} }
 
     //Metodos
 

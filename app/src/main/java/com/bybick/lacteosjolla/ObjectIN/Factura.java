@@ -11,6 +11,7 @@ public class Factura {
     int folio;
     double total;
     double saldo;
+    boolean pagado;
 
     public Factura() {
     }
@@ -71,4 +72,11 @@ public class Factura {
         this.saldo = saldo;
     }
 
+    public boolean isPagado() {
+        return pagado;
+    }
+
+    public void setPagado(boolean pagado) {
+        this.pagado = pagado;
+    }
 }

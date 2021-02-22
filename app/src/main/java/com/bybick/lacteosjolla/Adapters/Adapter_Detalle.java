@@ -23,6 +23,7 @@ public class Adapter_Detalle extends BaseAdapter {
 
     TextView descripcion;
     TextView cantidad;
+    TextView piezas;
     TextView unidad;
     TextView subtotal;
     TextView impuestos;
@@ -56,12 +57,16 @@ public class Adapter_Detalle extends BaseAdapter {
             LayoutInflater inf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inf.inflate(R.layout.item_detalle, null);
         }
+//        position = getCount();
 
+//        Det_Venta item = data.get(position);
         Det_Venta item = data.get(position);
+
 
         //OBTENER VISTAS
         descripcion = (TextView) v.findViewById(R.id.txtDescripcion);
         cantidad = (TextView) v.findViewById(R.id.txtCantidad);
+        piezas = (TextView) v.findViewById(R.id.txtPiezas);
         unidad = (TextView) v.findViewById(R.id.txtUnidad);
         subtotal = (TextView) v.findViewById(R.id.txtSubTotal);
         impuestos = (TextView) v.findViewById(R.id.txtImpuestos);
@@ -69,11 +74,16 @@ public class Adapter_Detalle extends BaseAdapter {
 
         descripcion.setText(item.getDescripcion());
         cantidad.setText(item.getCantidad() + "");
+        piezas.setText(item.getPiezaB() + "");
         unidad.setText(item.getUnidad());
         subtotal.setText(FormatNumber(item.getSubtotal()));
         impuestos.setText(FormatNumber(item.getImpuestos()));
         total.setText(FormatNumber(item.getTotal()));
 
+//        if (item.isPromocion()){
+//            v.getResources().getColor(R.color.colorCarga);
+//        }
+//
         return  v;
     }
 

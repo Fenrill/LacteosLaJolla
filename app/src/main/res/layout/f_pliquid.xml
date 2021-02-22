@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="66dp">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/addPLiquid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="visible"
+                app:backgroundTint="@color/colorEnd"
+                app:srcCompat="@mipmap/ic_done"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="283dp"
+                android:layout_height="44dp"
+                android:gravity="bottom"
+                android:text="Agrega o Modifica tu Efectivo y Practicaja"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/Container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:id="@+id/txtBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="50dp">
+
+                    <TextView
+                        android:id="@+id/txtPracticaja"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Practicaja"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtBilletes1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Billetes de $1000"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtBilletes2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Billetes de $500"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtBilletes3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Billetes de $200"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtBilletes4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Billetes de $100"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtBilletes5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Billetes de $50"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtBilletes6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Billetes de $20"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtMonedas1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Monedas de $100"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtMonedas2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Monedas de $50"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtMonedas3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Monedas de $20"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtMonedas4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Monedas de $10"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtMonedas5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Monedas de $5"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtMonedas6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Monedas de $2"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtMonedas7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Monedas de $1"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtMonedas8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Monedas de $0.50"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtMonedas9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Monedas de $0.20"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/txtMonedas10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:width="200dp"
+                        android:height="45dp"
+                        android:text="Monedas de $0.10"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cntBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/cntPracticaja"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number|numberDecimal"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntBilletes1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntBilletes2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntBilletes3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntBilletes4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntBilletes5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntBilletes6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntMonedas1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntMonedas2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntMonedas3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntMonedas4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntMonedas5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntMonedas6"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntMonedas7"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntMonedas8"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntMonedas9"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <EditText
+                        android:id="@+id/cntMonedas10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</LinearLayout>

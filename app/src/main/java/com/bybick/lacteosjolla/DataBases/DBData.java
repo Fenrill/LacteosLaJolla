@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Build;
 import android.renderscript.Sampler;
 import android.util.Log;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.bybick.lacteosjolla.Main;
 import com.bybick.lacteosjolla.ObjectIN.Carga;
 import com.bybick.lacteosjolla.ObjectIN.Cliente;
+import com.bybick.lacteosjolla.ObjectIN.Efectivo;
 import com.bybick.lacteosjolla.ObjectIN.Equivalencia;
 import com.bybick.lacteosjolla.ObjectIN.Factura;
 import com.bybick.lacteosjolla.ObjectIN.Formas;
@@ -20,22 +22,30 @@ import com.bybick.lacteosjolla.ObjectIN.Inventario;
 import com.bybick.lacteosjolla.ObjectIN.Listas_Precios;
 import com.bybick.lacteosjolla.ObjectIN.Motivo;
 import com.bybick.lacteosjolla.ObjectIN.Producto;
+import com.bybick.lacteosjolla.ObjectIN.Producto_Jabas;
 import com.bybick.lacteosjolla.ObjectIN.Producto_unidad;
+import com.bybick.lacteosjolla.ObjectIN.Promociones;
 import com.bybick.lacteosjolla.ObjectIN.Secuencia;
 import com.bybick.lacteosjolla.ObjectIN.Serie;
 import com.bybick.lacteosjolla.ObjectIN.Unidad;
 import com.bybick.lacteosjolla.ObjectOUT.Cambio;
+import com.bybick.lacteosjolla.ObjectOUT.CobranzaEfectivo;
 import com.bybick.lacteosjolla.ObjectOUT.Det_Cambio;
 import com.bybick.lacteosjolla.ObjectOUT.Det_Devolucion;
+import com.bybick.lacteosjolla.ObjectOUT.Det_Jabas;
 import com.bybick.lacteosjolla.ObjectOUT.Det_Pago;
 import com.bybick.lacteosjolla.ObjectOUT.Det_Venta;
 import com.bybick.lacteosjolla.ObjectOUT.Devolucion;
 import com.bybick.lacteosjolla.ObjectOUT.Forma_Venta;
+import com.bybick.lacteosjolla.ObjectOUT.Jabas;
 import com.bybick.lacteosjolla.ObjectOUT.Jornada;
 import com.bybick.lacteosjolla.ObjectOUT.NoVenta;
 import com.bybick.lacteosjolla.ObjectOUT.Pago;
+import com.bybick.lacteosjolla.ObjectOUT.Pedidos;
 import com.bybick.lacteosjolla.ObjectOUT.Precios;
+import com.bybick.lacteosjolla.ObjectOUT.Recomendacion;
 import com.bybick.lacteosjolla.ObjectOUT.Venta;
+import com.bybick.lacteosjolla.ObjectOUT.VentaLiquidacion;
 import com.bybick.lacteosjolla.ObjectOUT.VentaResumen;
 import com.bybick.lacteosjolla.ObjectOUT.Visita;
 import com.bybick.lacteosjolla.ObjectView.CargaView;
@@ -51,6 +61,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -162,6 +173,8 @@ public class DBData extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
+    @Override public void onOpen(SQLiteDatabase db) { super.onOpen(db); if(Build.VERSION.SDK_INT >= 28) {db.disableWriteAheadLogging();} }
 
     //Metodos
     //Verificar si hay Jornada Iniciada
@@ -369,6 +382,7 @@ public class DBData extends SQLiteOpenHelper {
             values.put("marca", item.getMarca());
             values.put("cantidad", item.getCantidad());
             values.put("id_unidad", item.getId_unidad());
+            values.put("piezas", item.getPiezas());
 
             db.insert("carga", null, values);
             values.clear();
@@ -415,6 +429,87 @@ public class DBData extends SQLiteOpenHelper {
         }
         //Queda en duda el Inventario
     }
+
+    //Guardar Producto Promociones
+    public void setProductoPromociones(ArrayList<Promociones> data){
+        db = this.getWritableDatabase();
+
+        //Eliminar Registros
+        db.delete("promociones", null, null);
+
+        //Generar Registro
+        ContentValues values = new ContentValues();
+        for (Promociones item : data){
+            values.put("id_cliente", item.getId_cliente());
+            values.put("nombre_promo", item.getNombre());
+            values.put("producto_venta", item.getProducto_venta());
+            values.put("producto_entrega", item.getProducto_entrega());
+            values.put("cantidad_venta", item.getCantidad_venta());
+            values.put("cantidad_entrega", item.getCantidad_entrega());
+
+            //insetar registro
+            db.insert("promociones", null, values);
+            values.clear();
+        }
+    }
+
+    //Guardar Producto Jabas
+//    public void setProductoJabas(ArrayList<Producto_Jabas> data){
+//        db = this.getWritableDatabase();
+//
+//        //Eliminar Registros
+//        db.delete("producto_jabas", null, null);
+//
+//        //Generar Registros
+//        ContentValues values = new ContentValues();
+//        for (Producto_Jabas item : data){
+//            values.put("id_producto_jabas", item.getId_producto_jabas());
+//            values.put("descripcion", item.getDescripcion());
+//            values.put("orden", item.getOrden());
+//
+//            //Insertar Registro
+//            db.insert("producto_jabas", null, values);
+//            values.clear();
+//        }
+//    }
+
+    //Encontrar Producto para las Promociones
+    public String getProductoPromo(String id_promo){
+        String data = null;
+        String sql = "SELECT descripcion from producto WHERE id_producto = '" + id_promo + "'";
+        db = this.getReadableDatabase();
+
+        Cursor rs = db.rawQuery(sql, null);
+        if(rs.moveToFirst()) {
+            do {
+                data = rs.getString(0);
+            }while(rs.moveToNext());
+        }
+
+        return data;
+    }
+
+    //Encontrar Producto para las Promociones
+    public Producto getProductodePromo(String id_promo){
+        Producto data = new Producto();
+        String sql = "SELECT * from producto WHERE id_producto = '" + id_promo + "'";
+        db = this.getReadableDatabase();
+
+        Cursor rs = db.rawQuery(sql, null);
+        if(rs.moveToFirst()) {
+            do {
+                data.setId_producto(rs.getString(0));
+                data.setDescripcion(rs.getString(1));
+                data.setMarca(rs.getString(2));
+                data.setFamilia(rs.getString(3));
+                data.setDecimales(rs.getInt(4));
+                data.setOrden(rs.getInt(5));
+            }while(rs.moveToNext());
+        }
+
+        return data;
+    }
+
 
     //Guardar Equivalencias
     public void setEquivalencias(ArrayList<Equivalencia> data) {
@@ -610,6 +705,26 @@ public class DBData extends SQLiteOpenHelper {
         return data;
     }
 
+    //Obtener cantidad en piezas del producto seleccionado
+    public Inventario getCargaUnidadPieza(String id_producto){
+        Inventario data = new Inventario();
+        String sql = "SELECT " +
+                "piezas " +
+                "FROM " +
+                "carga " +
+                "WHERE id_producto = '" + id_producto + "'";
+        db = this.getReadableDatabase();
+        Cursor rs = db.rawQuery(sql, null);
+        if (rs.moveToFirst()){
+            do{
+                Inventario item = new Inventario();
+                item.setPiezas(rs.getInt(0));
+                data = item;
+            }while(rs.moveToNext());
+        }
+        return data;
+    }
+
     //Obtener cantidad del producto seleccionado
     public Inventario getCargaUnidad(String id_producto){
         Inventario data = new Inventario();
@@ -645,6 +760,26 @@ public class DBData extends SQLiteOpenHelper {
             do{
                 Inventario item = new Inventario();
                 item.setVentas_inventario(rs.getDouble(0));
+                data = item;
+            }while(rs.moveToNext());
+        }
+        return data;
+    }
+
+    //Obtener piezas del producto seleccionado
+    public Inventario getVentaPiezas(String id_producto){
+        Inventario data = new Inventario();
+        String sql = "SELECT " +
+                "SUM(piezas) AS piezas  " +
+                "FROM " +
+                "det_venta " +
+                "WHERE id_producto = '" + id_producto + "'";
+        db = this.getReadableDatabase();
+        Cursor rs = db.rawQuery(sql, null);
+        if (rs.moveToFirst()){
+            do{
+                Inventario item = new Inventario();
+                item.setVentas_piezas(rs.getInt(0));
                 data = item;
             }while(rs.moveToNext());
         }
@@ -972,6 +1107,30 @@ public class DBData extends SQLiteOpenHelper {
         return data;
     }
 
+    //Obtener los productos jabas
+    public ArrayList<Producto> getProductosJabas() {
+        ArrayList<Producto> data = new ArrayList<>();
+        db = this.getReadableDatabase();
+        String sql = "SELECT " +
+                "* FROM producto WHERE familia = 'JABAS' AND marca = 'LA JOLLA'";
+        Cursor rs = db.rawQuery(sql, null);
+        if(rs.moveToFirst()) {
+            do {
+                Producto item = new Producto();
+
+                item.setId_producto(rs.getString(0));
+                item.setDescripcion(rs.getString(1));
+                item.setMarca(rs.getString(2));
+                item.setFamilia(rs.getString(3));
+                item.setDecimales(rs.getInt(4));
+                item.setOrden(rs.getInt(5));
+                data.add(item);
+            }while(rs.moveToNext());
+        }
+
+        return data;
+    }
+
     /******* VENTA ********/
 
     //Insertar Nueva Venta
@@ -992,8 +1151,12 @@ public class DBData extends SQLiteOpenHelper {
         values.put("forma_venta", venta.getForma_venta());
         values.put("id_forma_venta", venta.getId_forma_venta());
         values.put("serie", venta.getSerie());
+//        values.put("fecha", venta.getFecha());
         values.put("folio", venta.getFolio());
         values.put("enviado", 0);
+        values.put("metodo_venta", venta.getMetodo_pago());
+        values.put("id_metodo_venta", venta.getId_metodo_pago());
+        values.put("gps_venta", venta.getGpsVenta());
 
         if(db.insert("venta", null, values) == -1)
             Toast.makeText(context, "Error insertando Venta " + id_venta, Toast.LENGTH_SHORT).show();
@@ -1011,6 +1174,8 @@ public class DBData extends SQLiteOpenHelper {
             values.put("id_producto", item.getId_producto());
             values.put("id_unidad", item.getId_unidad());
             values.put("cantidad", item.getCantidad());
+            values.put("piezas", item.getPiezaB());
+            values.put("promo", item.isPromocion());
             values.put("subtotal", item.getSubtotal());
             values.put("impuestos", item.getImpuestos());
             values.put("precio", item.getPrecio());
@@ -1061,6 +1226,8 @@ public class DBData extends SQLiteOpenHelper {
             values.put("id_producto", item.getId_producto());
             values.put("id_unidad", item.getId_unidad());
             values.put("cantidad", item.getCantidad());
+            values.put("piezas", item.getPiezaB());
+            values.put("promo", item.isPromocion());
             values.put("subtotal", item.getSubtotal());
             values.put("impuestos", item.getImpuestos());
             values.put("precio", item.getPrecio());
@@ -1124,7 +1291,9 @@ public class DBData extends SQLiteOpenHelper {
                     "d.id_unidad," +
                     "d.id_producto," +
                     "c.conversion," +
-                    "d.precio " +
+                    "d.precio, " +
+                    "d.piezas, " +
+                    "d.promo " +
                     "FROM det_venta d " +
                     "INNER JOIN producto p " +
                     "ON p.id_producto = d.id_producto " +
@@ -1150,6 +1319,8 @@ public class DBData extends SQLiteOpenHelper {
                     item.setId_producto(rs2.getString(7));
                     item.setConversion(rs2.getDouble(8));
                     item.setPrecio(rs2.getDouble(9));
+                    item.setPiezaB(rs2.getInt(10));
+                    item.setPromocion(rs2.getInt(11) > 0);
 
                     detalles.add(item);
                 }while(rs2.moveToNext());
@@ -1164,6 +1335,134 @@ public class DBData extends SQLiteOpenHelper {
             return null;
         }
     }
+
+
+    /****** JABAS ********/
+    public void setJabas(Jabas jabas){
+        String id_jabas = Main.NEWID();
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        //INSERTAR JABAS
+        values.put("id_jabas", id_jabas);
+        values.put("id_visita", jabas.getId_visita());
+        values.put("id_cliente", jabas.getId_cliente());
+        values.put("location", jabas.getLocation());
+
+        if (db.insert("jabas", null, values) == -1)
+            Toast.makeText(context, "Error insertando Jabas " + id_jabas, Toast.LENGTH_SHORT).show();
+
+        //Detalles de movimiento jabas
+        ArrayList<Det_Jabas> detalles = jabas.getDet_jabas();
+
+        //reset
+        values = new ContentValues();
+        for (int i = 0; i < detalles.size(); i++){
+            Det_Jabas item = detalles.get(i);
+
+            values.put("id_det_jabas", Main.NEWID());
+            values.put("id_jabas", id_jabas);
+            values.put("id_producto", item.getId_producto());
+            values.put("cantidad", item.getCantidad());
+            values.put("ent_sal", item.getEnt_sal());
+
+            if (db.insert("det_jabas", null, values) == -1)
+                Toast.makeText(context, "Error Insertando " + item.getDescripcion(), Toast.LENGTH_SHORT).show();
+
+            values.clear();
+        }
+    }
+
+    public void UpdateJabas(Jabas jabas){
+        String id_jabas = jabas.getId_jabas();
+        db = this.getWritableDatabase();
+        String sql = "";
+        ContentValues values = new ContentValues();
+
+        //insertar detalles
+        ArrayList<Det_Jabas> detalles = new ArrayList<>();
+        detalles = jabas.getDet_jabas();
+
+        //Eliminar Detalles
+        db.delete("det_jabas", "id_jabas = '" + id_jabas + "'", null);
+
+        //reset y prepara detalles a insertar
+        values = new ContentValues();
+        for (int i = 0; i < detalles.size(); i++){
+            Det_Jabas item = detalles.get(i);
+
+            values.put("id_det_jabas", Main.NEWID());
+            values.put("id_jabas", id_jabas);
+            values.put("id_producto", item.getId_producto());
+            values.put("cantidad", item.getCantidad());
+            values.put("ent_sal", item.getEnt_sal());
+
+            if (db.insert("det_jabas", null, values) == -1){
+                Toast.makeText(context, "Imprimiendo " + item.getDescripcion(), Toast.LENGTH_SHORT).show();
+                values.clear();
+            }
+        }
+    }
+
+    public Jabas getJabas(String id_visita){
+        Jabas jabas = new Jabas();
+        db = this.getReadableDatabase();
+        String sql = "SELECT " +
+                "id_jabas, " +
+                "id_visita, " +
+                "id_cliente " +
+//                "subtotal, " +
+//                "impuestos, " +
+//                "total " +
+                "FROM jabas WHERE id_visita = '" + id_visita + "' ";
+        Cursor rs = db.rawQuery(sql, null);
+        if (rs.moveToFirst()){
+
+            //Rellenar Jabas
+            jabas.setId_jabas(rs.getString(0));
+            jabas.setId_visita(rs.getString(1));
+            jabas.setId_cliente(rs.getString(2));
+//            jabas.setSubtotal(rs.getDouble(3));
+//            jabas.setImpuestos(rs.getDouble(4));
+//            jabas.setTotal(rs.getDouble(5));
+
+            //obtener detalles jabas
+            sql = "SELECT " +
+                    "d.id_producto, " +
+                    "p.descripcion, " +
+                    "d.cantidad, " +
+                    "d.ent_sal " +
+                    "FROM det_jabas AS d " +
+                    "INNER JOIN producto AS p ON d.id_producto = p.id_producto " +
+                    "WHERE id_jabas = '" + jabas.getId_jabas() +"'";
+            Cursor rs2 = db.rawQuery(sql, null);
+            ArrayList<Det_Jabas> detalles = new ArrayList<>();
+            if(rs2.moveToFirst()){
+                do{
+                    //llenasmos detalles jabas
+                    Det_Jabas item = new Det_Jabas();
+//                    item.setId_det_jabas(rs2.getString(0));
+//                    item.setId_jabas(rs2.getString(1));
+                    item.setId_producto(rs2.getString(0));
+                    item.setDescripcion(rs2.getString(1 ));
+                    item.setCantidad(rs2.getDouble(2));
+                    item.setEnt_sal(rs2.getString(3));
+
+                    detalles.add(item);
+                } while (rs2.moveToNext());
+            }
+            //agregar detalles a jabas
+            jabas.setDet_jabas(detalles);
+
+            //regresar jabas si existe
+            return jabas;
+        } else {
+            //regresar null si no existe jabas en esa visita
+            return null;
+        }
+    }
+
+
 
     //Obtenet Lista de Precios
     public ArrayList<Precios> getPrecios(String id_producto, String id_cliente) {
@@ -1292,7 +1591,7 @@ public class DBData extends SQLiteOpenHelper {
     }
 
     //Obtnere el Folio para la Venta
-    public Serie getFolio(boolean factura, String marca) {
+    public Serie getFolio(boolean factura, String marca, boolean flag) {
         Serie folio = new Serie();
         db = this.getReadableDatabase();
 
@@ -1314,12 +1613,23 @@ public class DBData extends SQLiteOpenHelper {
         Cursor rs=db.rawQuery(sql, null);
         if(rs.moveToFirst()){
             folio.setSerie( rs.getString(0) );
-            folio.setFolio( (rs.getInt(1)) + 1 );
+            if (flag == false) {
+                folio.setFolio((rs.getInt(1)) + 1);
+            }else {
+                folio.setFolio((rs.getInt(1)));
+            }
 
-            sql = "UPDATE " +
-                    "folio_serie " +
-                    "SET folio = folio+1 " +
-                    "WHERE serie = '" + rs.getString(0) + "'";
+            if (flag == false) {
+                sql = "UPDATE " +
+                        "folio_serie " +
+                        "SET folio = folio+1 " +
+                        "WHERE serie = '" + rs.getString(0) + "'";
+            } else {
+                sql = "UPDATE " +
+                        "folio_serie " +
+                        "SET folio = folio " +
+                        "WHERE serie = '" + rs.getString(0) + "'";
+            }
             db.execSQL(sql);
         }
 
@@ -1794,10 +2104,12 @@ public class DBData extends SQLiteOpenHelper {
                 "serie," +
                 "folio," +
                 "total," +
+                "pagado," +
                 "saldo " +
                 "FROM facturas " +
                 "WHERE id_cliente = '"+id_cliente+"'" +
-                " AND Fecha < date('now')";
+                " AND Fecha < date('now') " +
+                "AND pagado <> 1";
         db=this.getReadableDatabase();
         Cursor rs = db.rawQuery(sql, null);
         if(rs.moveToFirst()){
@@ -1809,13 +2121,23 @@ public class DBData extends SQLiteOpenHelper {
                 factura.setSerie(rs.getString(2));
                 factura.setFolio(rs.getInt(3));
                 factura.setTotal(rs.getDouble(4));
-                factura.setSaldo(rs.getDouble(5));
+                factura.setPagado(rs.getInt(5) > 0);
+                factura.setSaldo(rs.getDouble(6));
 
                 data.add(factura);
             }while(rs.moveToNext());
         }
 
         return data;
+    }
+
+    public void setPagado(String serie, Integer folio){
+        db = this.getReadableDatabase();
+        String sql = "UPDATE facturas " +
+                "SET pagado = 1 " +
+                "WHERE serie = '" + serie  + "' " +
+                "AND folio = '" + folio + "'";
+        db.execSQL(sql);
     }
 
     //Registrar Pago
@@ -2018,6 +2340,139 @@ public class DBData extends SQLiteOpenHelper {
         return data;
     }
 
+    /******** PRE-LIQUIDACION ********/
+    public void setEfectivo(Efectivo efectivo){
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        //INSERTAR DATOS
+        values.put("billete_1000", efectivo.getBillete_1000());
+        values.put("billete_500", efectivo.getBillete_500());
+        values.put("billete_200", efectivo.getBillete_200());
+        values.put("billete_100", efectivo.getBillete_100());
+        values.put("billete_50", efectivo.getBillete_50());
+        values.put("billete_20", efectivo.getBillete_20());
+        values.put("moneda_100", efectivo.getMoneda_100());
+        values.put("moneda_50", efectivo.getMoneda_50());
+        values.put("moneda_20", efectivo.getMoneda_20());
+        values.put("moneda_10", efectivo.getMoneda_10());
+        values.put("moneda_5", efectivo.getMoneda_5());
+        values.put("moneda_2", efectivo.getMoneda_2());
+        values.put("moneda_1", efectivo.getMoneda_1());
+        values.put("moneda_05", efectivo.getMoneda_05());
+        values.put("moneda_02", efectivo.getMoneda_02());
+        values.put("moneda_01", efectivo.getMoneda_01());
+        values.put("flag", true);
+        values.put("practicaja", efectivo.getPracticaja());
+
+        if (db.insert("efectivo", null, values) == -1){
+            Toast.makeText(context, "Error guardando Datos de Efectivc", Toast.LENGTH_SHORT).show();
+        }
+//        else{
+//            Toast.makeText(context, "Datos agregados Correctamente", Toast.LENGTH_SHORT).show();
+//        }
+        values.clear();
+
+    }
+
+    public void updateEfectivo(Efectivo efectivo){
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        //UPDATE DATOS
+        String sql = "SELECT * FROM efectivo";
+        Cursor rs = db.rawQuery(sql, null);
+
+        if (rs.moveToFirst()){
+            do {
+                sql =   "UPDATE efectivo SET " +
+                        "billete_1000 = " + efectivo.getBillete_1000() + ", " +
+                        "billete_500 = " + efectivo.getBillete_500() + ", "+
+                        "billete_200 = " + efectivo.getBillete_200() + ", "+
+                        "billete_100 = "+ efectivo.getBillete_100() + ", "+
+                        "billete_50 = "+ efectivo.getBillete_50() + ", "+
+                        "billete_20 = "+ efectivo.getBillete_20() + ", "+
+                        "moneda_100 = "+ efectivo.getMoneda_100() + ", "+
+                        "moneda_50 = "+ efectivo.getMoneda_50() + ", "+
+                        "moneda_20 = "+ efectivo.getMoneda_20() + ", "+
+                        "moneda_10 = "+ efectivo.getMoneda_10() + ", "+
+                        "moneda_5 = "+ efectivo.getMoneda_5() + ", "+
+                        "moneda_2 = "+ efectivo.getMoneda_2() + ", "+
+                        "moneda_1 = "+ efectivo.getMoneda_1() + ", "+
+                        "moneda_05 = "+ efectivo.getMoneda_05() + ", "+
+                        "moneda_02 = "+ efectivo.getMoneda_02() + ", "+
+                        "moneda_01 = "+ efectivo.getMoneda_01() + ", " +
+                        "practicaja = "+ efectivo.getPracticaja();
+                db.execSQL(sql);
+            } while (rs.moveToNext());
+        }
+
+    }
+
+    public Efectivo getEfectivo(){
+        Efectivo efectivo = new Efectivo();
+        db = this.getWritableDatabase();
+        String sql = "SELECT * FROM efectivo";
+        Cursor rs = db.rawQuery(sql, null);
+        if (rs.moveToFirst()){
+            efectivo.setBillete_1000(rs.getInt(0));
+            efectivo.setBillete_500(rs.getInt(1));
+            efectivo.setBillete_200(rs.getInt(2));
+            efectivo.setBillete_100(rs.getInt(3));
+            efectivo.setBillete_50(rs.getInt(4));
+            efectivo.setBillete_20(rs.getInt(5));
+            efectivo.setMoneda_100(rs.getInt(6));
+            efectivo.setMoneda_50(rs.getInt(7));
+            efectivo.setMoneda_20(rs.getInt(8));
+            efectivo.setMoneda_10(rs.getInt(9));
+            efectivo.setMoneda_05(rs.getInt(10));
+            efectivo.setMoneda_02(rs.getInt(11));
+            efectivo.setMoneda_01(rs.getInt(12));
+            efectivo.setMoneda_05(rs.getInt(13));
+            efectivo.setMoneda_02(rs.getInt(14));
+            efectivo.setMoneda_01(rs.getInt(15));
+            efectivo.setFlag(rs.getInt(16) > 0);
+            efectivo.setPracticaja(rs.getDouble(17));
+
+        }
+        return efectivo;
+    }
+
+    public ArrayList<CobranzaEfectivo> getCobranzaEfectivo(){
+        ArrayList<CobranzaEfectivo> data = new ArrayList<>();
+        CobranzaEfectivo cobrae = new CobranzaEfectivo();
+        db = this.getWritableDatabase();
+        String sql = "select p.id_cliente, c.nombre,p.id_pago, dp.forma_pago, dp.importe_pago from pago as p " +
+                "inner join det_pago as dp on dp.id_pago = p.id_pago " +
+                "inner join cliente as c on p.id_cliente = c.id_cliente";
+        Cursor rs = db.rawQuery(sql, null);
+        if (rs.moveToFirst()){
+            do {
+                cobrae.setId_cliente(rs.getInt(0));
+                cobrae.setNombre(rs.getString(1));
+                cobrae.setId_pago(rs.getString(2));
+                cobrae.setForma_pago(rs.getString(3));
+                cobrae.setImporte_pago(rs.getDouble(4));
+
+                data.add(cobrae);
+            } while (rs.moveToNext());
+        }
+        return data;
+    }
+
+
+    /******** BORRADO DE VENTAS NO REGISTRADAS *********/
+
+    public void deleteNoVisitas(){
+        db = this.getWritableDatabase();
+
+        db.delete("det_venta","id_venta IN(SELECT id_venta FROM venta\n" +
+                "WHERE id_visita NOT IN(SELECT id_visita FROM visita))", null);
+        db.delete("venta", "id_visita NOT IN(SELECT id_visita FROM visita)", null);
+        db.delete("det_jabas", "id_jabas IN(SELECT id_jabas from jabas\n" +
+                "WHERE id_visita NOT IN(SELECT id_visita FROM visita))", null);
+        db.delete("jabas", "id_visita NOT IN(SELECT id_visita FROM visita)", null);
+    }
 
     /********* REPORTES ************/
 
@@ -2381,7 +2836,7 @@ public class DBData extends SQLiteOpenHelper {
                 } while (vst.moveToNext());
             }
 
-            /******* OBETNER VENTAS **********/
+            /******* OBTENER VENTAS **********/
 
             JSONArray ventas = new JSONArray();
             sql = "SELECT " +
@@ -2394,7 +2849,9 @@ public class DBData extends SQLiteOpenHelper {
                     "empresa," +
                     "serie," +
                     "folio," +
-                    "forma_venta " +
+                    "forma_venta, " +
+                    "metodo_venta, " +
+                    "gps_venta " +
                     "FROM venta " +
                     "WHERE enviado = 0";
             Cursor vts = db.rawQuery(sql,null);
@@ -2411,6 +2868,8 @@ public class DBData extends SQLiteOpenHelper {
                     item.put("serie", vts.getString(7));
                     item.put("folio", vts.getInt(8));
                     item.put("forma_venta", vts.getString(9));
+                    item.put("metodo_venta", vts.getString(10));
+                    item.put("gps_venta", vts.getString(11));
 
                     //Add to Array
                     ventas.put(item);
@@ -2431,7 +2890,9 @@ public class DBData extends SQLiteOpenHelper {
                     "d.impuestos," +
                     "d.total," +
                     "d.partida," +
-                    "d.cantidad_minima " +
+                    "d.cantidad_minima, " +
+                    "d.piezas, " +
+                    "d.promo " +
                     "FROM det_venta d " +
                     "INNER JOIN venta v " +
                     "ON d.id_venta = v.id_venta " +
@@ -2450,12 +2911,66 @@ public class DBData extends SQLiteOpenHelper {
                     item.put("total", d_vts.getDouble(7));
                     item.put("partida", d_vts.getInt(8));
                     item.put("cantidad_minima", d_vts.getDouble(9));
+                    item.put("piezas", d_vts.getInt(10));
+                    item.put("promo", d_vts.getInt(11));
 
                     //Add to Array
                     det_ventas.put(item);
 
                 } while (d_vts.moveToNext());
             }
+
+            /*** OBTENER JABAS ***/
+            JSONArray jabas = new JSONArray();
+            sql = "SELECT " +
+                    "id_jabas, " +
+                    "id_visita, " +
+                    "id_cliente, " +
+                    "location " +
+                    "FROM jabas ";
+            Cursor jbs = db.rawQuery(sql, null);
+            if (jbs.moveToFirst()){
+                do{
+                    item = new JSONObject();
+                    item.put("id_jabas", jbs.getString(0));
+                    item.put("id_visita", jbs.getString(1));
+                    item.put("id_cliente", jbs.getString(2));
+                    item.put("location", jbs.getString(3));
+
+                    //add to array
+                    jabas.put(item);
+                } while (jbs.moveToNext());
+            }
+
+            /*** OBTENER DETALLES JABAS ***/
+            JSONArray det_jabas = new JSONArray();
+            sql = "SELECT " +
+                    "id_det_jabas, " +
+                    "id_jabas, " +
+                    "id_producto, " +
+                    "cantidad, " +
+                    "ent_sal " +
+                    "FROM det_jabas ";
+            Cursor d_jbs = db.rawQuery(sql, null);
+            if (d_jbs.moveToFirst()){
+                do{
+                    item = new JSONObject();
+                    item.put("id_det_jabas", d_jbs.getString(0));
+                    item.put("id_jabas", d_jbs.getString(1));
+                    item.put("id_producto", d_jbs.getString(2));
+                    item.put("cantidad", d_jbs.getDouble(3));
+                    if (d_jbs.getString(4).equals("Recoger")){
+                        item.put("ent_sal", "E");
+                    } else if (d_jbs.getString(4).equals("Dejar")){
+                        item.put("ent_sal", "S");
+                    }
+//                    item.put("ent_sal", d_jbs.getString(4));
+
+                    det_jabas.put(item);
+
+                } while (d_jbs.moveToNext());
+            }
+
 
             /***** OBTENER CAMBIOS *******/
             JSONArray cambios = new JSONArray();
@@ -2680,6 +3195,8 @@ public class DBData extends SQLiteOpenHelper {
             data.put("Visitas", visitas);
             data.put("Ventas", ventas);
             data.put("Det_Ventas", det_ventas);
+            data.put("Jabas", jabas);
+            data.put("Det_Jabas", det_jabas);
             data.put("Cambios", cambios);
             data.put("Det_Cambios", det_cambios);
             data.put("Devoluciones", devoluciones);
@@ -2697,6 +3214,40 @@ public class DBData extends SQLiteOpenHelper {
     }
 
     /* METODOS EXTRAS*/
+
+    //Resumen Ventas Liquidacion
+    public ArrayList<VentaLiquidacion> getResumenVentasLiquidacion(){
+        ArrayList<VentaLiquidacion> data = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "select " +
+                "v.id_cliente, " +
+                "c.nombre, " +
+                "v.total, " +
+                "v.forma_venta, " +
+                "v.id_forma_venta, " +
+                "v.metodo_venta, " +
+                "v.id_metodo_venta from venta as v " +
+                "inner join cliente as c " +
+                "on c.id_cliente = v.id_cliente";
+        Cursor c = db.rawQuery(sql, null);
+        if (c.moveToFirst()){
+            do{
+                VentaLiquidacion item = new VentaLiquidacion();
+
+                item.setId_cliente(c.getInt(0));
+                item.setNombre(c.getString(1));
+                item.setTotal(c.getDouble(2));
+                item.setForma_venta(c.getString(3));
+                item.setId_forma_venta(c.getInt(4));
+                item.setMetodo_venta(c.getString(5));
+                item.setId_metodo_venta(c.getInt(6));
+
+                data.add(item);
+            } while(c.moveToNext());
+        }
+        return data;
+    }
+
 
     //Resumen de Ventas
     public ArrayList<VentaResumen> getResumenVentas(){
@@ -2864,6 +3415,27 @@ public class DBData extends SQLiteOpenHelper {
 
                 }
 
+                //Jabas
+                else if (item.getNombre().equals("Jabas")){
+                    for (int i = 0; i < item.getCorrectos().length(); i++){
+                        String id = item.getCorrectos().getString(i);
+
+                        //eliminar registro correctro
+                        db.delete("jabas", "id_jabas = '" + id + "'", null);
+                    }
+                }
+
+                //Detalles Jabas
+                else if (item.getNombre().equals("Detalles Jabas")){
+                    for (int i = 0; i < item.getCorrectos().length(); i++){
+                        String id = item.getCorrectos().getString(i);
+
+                        //eliminar registro correcto
+                        db.delete("det_jabas", "id_det_jabas = '" + id + "'", null);
+
+                    }
+                }
+
                 //Cambios
                 else if (item.getNombre().equals("Cambios")) {
                     for (int i = 0; i < item.getCorrectos().length(); i++) {
@@ -2947,6 +3519,30 @@ public class DBData extends SQLiteOpenHelper {
         }
     }
 
+    //Recomendacion de Ventas al random con diferencia de producto vendido
+    public ArrayList<Recomendacion> randomRec(){
+        ArrayList<Recomendacion> data = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String sql = "SELECT DISTINCT p.descripcion, c.id_producto FROM producto AS p \n" +
+                "INNER JOIN carga AS c \n" +
+                "INNER JOIN det_venta AS d\n" +
+                "WHERE p.id_producto = c.id_producto\n" +
+                "AND c.id_producto <> d.id_producto\n" +
+                "ORDER BY RANDOM() LIMIT 5";
+
+        Cursor rs = db.rawQuery(sql,null);
+        if(rs.moveToFirst()){
+            do{
+                Recomendacion item = new Recomendacion();
+
+                item.setNombre(rs.getString(0));
+                item.setIdProducto(rs.getString(1));
+                data.add(item);
+            }while(rs.moveToNext());
+        }
+        return data;
+    }
+
 
     public void setTerminado(){
         db = this.getReadableDatabase();
@@ -3014,6 +3610,19 @@ public class DBData extends SQLiteOpenHelper {
         }
 
 
+        return total;
+    }
+
+    public double getTotalContadoDesglose(int data){
+        double total = 0;
+        db = this.getReadableDatabase();
+        String sql = "SELECT SUM(total) FROM venta WHERE id_metodo_venta = " + data;
+        Cursor rs = db.rawQuery(sql, null);
+        if (rs.moveToFirst()){
+            do{
+                total = rs.getDouble(0);
+            }while (rs.moveToNext());
+        }
         return total;
     }
 
@@ -3162,6 +3771,62 @@ public class DBData extends SQLiteOpenHelper {
 
         return folio;
     }
+
+    //Obtener Promociones
+    public ArrayList<Promociones> getPromociones(){
+        ArrayList<Promociones> data = new ArrayList<>();
+        db = this.getReadableDatabase();
+        String sql = "SELECT * FROM promociones";
+        Cursor rs = db.rawQuery(sql, null);
+        if(rs.moveToFirst()){
+            do {
+                Promociones item = new Promociones();
+
+                item.setId_cliente(rs.getString(0));
+                item.setNombre(rs.getString(1));
+                item.setProducto_venta(rs.getString(2));
+                item.setProducto_entrega(rs.getString(3));
+                item.setCantidad_venta(rs.getDouble(4));
+                item.setCantidad_entrega(rs.getDouble(5));
+
+                data.add(item);
+            } while (rs.moveToNext());
+        }
+
+        return data;
+    }
+
+    //Obtener los productos
+//    public ArrayList<Producto> getProductos(String marca) {
+//        ArrayList<Producto> data = new ArrayList<>();
+//        db = this.getReadableDatabase();
+//        String sql = "SELECT " +
+//                "carga.id_producto," +
+//                "descripcion," +
+//                "producto.marca," +
+//                "decimales," +
+//                "familia " +
+//                "FROM producto, carga " +
+//                "WHERE producto.marca = '" + marca + "' AND producto.id_producto = carga.id_producto " +
+//                "ORDER BY orden";
+//        Cursor rs = db.rawQuery(sql, null);
+//        if(rs.moveToFirst()) {
+//            do {
+//                Producto item = new Producto();
+//
+//                item.setId_producto(rs.getString(0));
+//                item.setDescripcion(rs.getString(1));
+//                item.setMarca(rs.getString(2));
+//                item.setDecimales(rs.getInt(3));
+//                item.setFamilia(rs.getString(4));
+//
+//                data.add(item);
+//            }while(rs.moveToNext());
+//        }
+//
+//        return data;
+//    }
+
 
 
     //Obtener Total deDevoluciones

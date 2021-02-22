@@ -11,7 +11,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,12 +34,17 @@ import com.bybick.lacteosjolla.Adapters.Adapter_Producto;
 import com.bybick.lacteosjolla.DataBases.DBConfig;
 import com.bybick.lacteosjolla.DataBases.DBData;
 import com.bybick.lacteosjolla.FragmentsProducts.F_ProductosVenta;
+import com.bybick.lacteosjolla.Main;
 import com.bybick.lacteosjolla.ObjectIN.Cliente;
+import com.bybick.lacteosjolla.ObjectIN.Cliente_Promos;
 import com.bybick.lacteosjolla.ObjectIN.Inventario;
 import com.bybick.lacteosjolla.ObjectIN.Producto;
+import com.bybick.lacteosjolla.ObjectIN.Promociones;
 import com.bybick.lacteosjolla.ObjectIN.Serie;
+import com.bybick.lacteosjolla.ObjectOUT.Det_Pago;
 import com.bybick.lacteosjolla.ObjectOUT.Det_Venta;
 import com.bybick.lacteosjolla.ObjectOUT.Forma_Venta;
+import com.bybick.lacteosjolla.ObjectOUT.Pago;
 import com.bybick.lacteosjolla.ObjectOUT.Precios;
 import com.bybick.lacteosjolla.ObjectOUT.Venta;
 import com.bybick.lacteosjolla.ObjectOUT.Visita;
@@ -45,10 +52,15 @@ import com.bybick.lacteosjolla.Printers.P_Carga;
 import com.bybick.lacteosjolla.Printers.P_Venta;
 import com.bybick.lacteosjolla.R;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by bicktor on 09/06/2016.
@@ -68,6 +80,7 @@ public class F_Venta extends Fragment implements View.OnClickListener,
     //DATA
     Visita visita;
     Cliente cliente;
+    boolean promo2 = false;
 
     public static Venta venta;
     public static ArrayList<Det_Venta> detalles;
@@ -84,10 +97,14 @@ public class F_Venta extends Fragment implements View.OnClickListener,
 
     boolean actualizando;
 
+    boolean enPromocion;
+
     public boolean flag;
 
     //Producto Seleccion
     Producto seleccion;
+    Pago tipoPago;
+    Det_Pago tipoDetPago;
 
     //Vistas
     //Botones
@@ -101,6 +118,7 @@ public class F_Venta extends Fragment implements View.OnClickListener,
     ListView lstProductos;
     ArrayList<Producto> productos;
     ArrayList<Producto> busqueda;
+    ArrayList<Precios> conversionItem2;
     String MARCA;
 
     //Textos
@@ -112,13 +130,28 @@ public class F_Venta extends Fragment implements View.OnClickListener,
     Inventario inv_ventas;
     Inventario inv_cambios;
     Inventario inventario;
+    Inventario piezasInv;
 
+    int piezascont;
     double inv;
     double vent;
     double camb;
+    double invDetalles;
     double total_inv;
 
     Det_Venta det_venta;
+
+    //promociones
+    ArrayList<Promociones> promociones;
+    ArrayList<Cliente_Promos> clientes_promos;
+    String promoCliente;
+    double cantidadVenta;
+    double cantidadEntrega;
+    String promoProductoVenta;
+    String promoProductoEntrega;
+
+    //GPS
+    String location;
 
 
     //Dialogo
@@ -179,74 +212,137 @@ public class F_Venta extends Fragment implements View.OnClickListener,
         //Mostrar Dialogo de Seleccion de Empresa
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final String[] items = new String[]{"LA JOLLA", "COBASUR"};
-        builder.setTitle("Marca")
-                .setIcon(R.mipmap.ic_launcher)
-                .setItems(items, new DialogInterface.OnClickListener() {
-                    //Al seleccionar una Marca
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Mostrar Vista
-                        vista.setVisibility(RelativeLayout.VISIBLE);
+//        builder.setTitle("Marca")
+//                .setIcon(R.mipmap.ic_launcher)
+//                .setItems(items, new DialogInterface.OnClickListener() {
+//                    //Al seleccionar una Marca
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+        //Mostrar Vista
+        vista.setVisibility(RelativeLayout.VISIBLE);
 
-                        //Obtener productos dependiendo de la marca
-                        productos = dbd.getProductos(items[which].toString());
-                        MARCA = items[which].toString();
+        //Obtener productos dependiendo de la marca
+        MARCA = "LA JOLLA";
+        productos = dbd.getProductos(MARCA);
 
-                        //Verificar la Existencia de Venta
-                        venta = dbd.getVenta(visita.getId_visita(), MARCA);
-                        if (venta != null) {
+        //obtener las promociones y comprar si esta el cliente
+        promociones = dbd.getPromociones();
+        clientes_promos = new ArrayList<>();
 
-                            //Si no se ha enviado se muestra para Actualizar
-                            if (venta.getEnviado() == 0) {
-                                //Sacar Detalles
-                                detalles = venta.getDet_venta();
+        Cliente_Promos item =  new Cliente_Promos();
+//        int i=0;
+//        if (promociones.size()>0){
+//            do{
+//                enPromocion = true;
+//
+//                item.setPromoCliente(promociones.get(i).getId_cliente());
+//                item.setCantidadVenta(promociones.get(i).getCantidad_venta());
+//                item.setCantidadEntrega(promociones.get(i).getCantidad_entrega());
+//                item.setPromoProductoVenta(promociones.get(i).getProducto_venta());
+//                item.setPromoProductoEntrega(promociones.get(i).getProducto_entrega());
+//
+//                clientes_promos.add(item);
+//                i++;
+//            } while (i<=promociones.size());
+//        }
 
-                                //Estamos actualizando
-                                actualizando = true;
+        for (Promociones promo : promociones){
+            if(promo.getId_cliente().equals(visita.getId_cliente())){
+                item =  new Cliente_Promos();
 
-                                //POder Reimprimir
+                enPromocion = true;
+
+                item.setPromoCliente(promo.getId_cliente());
+                item.setCantidadVenta(promo.getCantidad_venta());
+                item.setCantidadEntrega(promo.getCantidad_entrega());
+                item.setPromoProductoVenta(promo.getProducto_venta());
+                item.setPromoProductoEntrega(promo.getProducto_entrega());
+
+                clientes_promos.add(item);
+//                promoCliente = promo.getId_cliente();
+//                cantidadVenta = promo.getCantidad_venta();
+//                cantidadEntrega = promo.getCantidad_entrega();
+//                promoProductoVenta = promo.getProducto_venta();
+//                promoProductoEntrega = promo.getProducto_entrega();
+            } else{}
+        }
+
+        //Verificar la Existencia de Venta
+        venta = dbd.getVenta(visita.getId_visita(), MARCA);
+        if (venta != null) {
+
+            //Si no se ha enviado se muestra para Actualizar
+            if (venta.getEnviado() == 0) {
+                //Sacar Detalles
+                detalles = venta.getDet_venta();
+
+                //Estamos actualizando
+                actualizando = true;
+
+                //POder Reimprimir
 //                                btnPrint.setVisibility(FloatingActionButton.VISIBLE);
 
-                                //Reestablecer marca a la Venta
-                                venta.setEmpresa(MARCA);
+                //Reestablecer marca a la Venta
+                venta.setEmpresa(MARCA);
 
-                                //Actualizar Lista
-                                lstVentas.setAdapter(new Adapter_Detalle(context, detalles));
+                //Actualizar Lista
+                lstVentas.setAdapter(new Adapter_Detalle(context, detalles));
 
-                                //Actualizar Totales
-                                UpdateImportes();
+                //Actualizar Totales
+                UpdateImportes();
 
-                                //Se realizo Moviemnto
-                                F_Visita.movimientos = true;
+                //Se realizo Moviemnto
+                F_Visita.movimientos = true;
 
 
-                            }
-                            //Si ya se envio se crea una venta
-                            else {
-                                actualizando = false;
+            }
+            //Si ya se envio se crea una venta
+            else {
+                actualizando = false;
 
-                                //Venta Nueva
-                                venta = new Venta();
+                //Venta Nueva
+                venta = new Venta();
 
-                                //Detalles Nuevos
-                                detalles = new ArrayList<>();
-                            }
+                //Detalles Nuevos
+                detalles = new ArrayList<>();
+            }
 
-                        } else {
-                            actualizando = false;
+        } else {
+            actualizando = false;
 
-                            //Venta Nueva
-                            venta = new Venta();
+            //Venta Nueva
+            venta = new Venta();
 
-                            //Detalles Nuevos
-                            detalles = new ArrayList<>();
-                        }
-                    }
-                })
-                .create()
-                .show();
-        super.onViewCreated(view, savedInstanceState);
+            //Detalles Nuevos
+            detalles = new ArrayList<>();
+
+            if (enPromocion) {
+                AlertDialog.Builder build = new AlertDialog.Builder(getActivity());
+//
+//                for (:
+//                     ) {
+//
+//                }
+                for (Cliente_Promos i: clientes_promos
+                     ) {
+                    build.setIcon(R.mipmap.ic_alert).setTitle("Promocion")
+                            .setMessage("" + dbd.getProductoPromo(i.getPromoProductoVenta()) + " esta en oferta, al comprar  " + (int) i.getCantidadVenta() + " " + dbd.getProductoPromo(i.getPromoProductoVenta()) + " se dan " + (int) i.getCantidadEntrega() + " " + dbd.getProductoPromo(i.getPromoProductoEntrega()))
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .create()
+                            .show();
+                }
+            }
+        }
     }
+//                }
+//                .create()
+//                .show();
+//        super.onViewCreated(view, savedInstanceState);
+//    }
 
     public void getViews(View v) {
         //Vista
@@ -282,7 +378,10 @@ public class F_Venta extends Fragment implements View.OnClickListener,
                     frag.setContext(context);
                     frag.setFm(fmMain);
                     frag.setProductos(productos);
-                    frag.setAuxiliares(cliente, visita);
+                    frag.setAuxiliares(cliente, visita, enPromocion);
+                    if (enPromocion){
+                        frag.setPromocion(clientes_promos);
+                    }
 
                     FragmentTransaction ft = fmMain.beginTransaction();
                     ft.setCustomAnimations(R.animator.enter_up, R.animator.out_up,
@@ -294,10 +393,11 @@ public class F_Venta extends Fragment implements View.OnClickListener,
 
             case R.id.btnEnd : {
 //                if(detalles.size() > 0) {
-                    FinshDialog();
-                    if(!flag){
-                        btnAdd.setVisibility(View.GONE);
-                    }
+
+                FinshDialog();
+                if(!flag){
+                    btnAdd.setVisibility(View.GONE);
+                }
 
 //                } else {
 //                    Toast.makeText(context, "Agrega poductos a la venta", Toast.LENGTH_SHORT).show();
@@ -352,6 +452,9 @@ public class F_Venta extends Fragment implements View.OnClickListener,
         //Obtener Vistas
         //Cantidad
         final EditText editCantidad = (EditText) view.findViewById(R.id.editCantidad);
+        //two digits
+        editCantidad.setFilters(new InputFilter[]{ new DecimalDigitsInputFilter(6,2) });
+        final EditText editCantidad2 = (EditText) view.findViewById(R.id.editCantidad2);
         if(seleccion.getDecimales() == 1)
             editCantidad.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         //Unidad
@@ -370,6 +473,8 @@ public class F_Venta extends Fragment implements View.OnClickListener,
 
 
         //ÑLister de Spinner Unidad y del Edit Cantidad
+
+
         //agregar listener para seleccion de Unidades
         spUnidad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -397,10 +502,10 @@ public class F_Venta extends Fragment implements View.OnClickListener,
                     Precios price = (Precios) spUnidad.getSelectedItem();
                     double cantidad = Double.parseDouble(s.toString());
 
-                    //Inventario
-                    String inv_total = FormatNumber(total_inv - cantidad);
-                    inv_actualizado = DecodeStringDecimal(inv_total);
-
+//                    //Inventario
+//                    String inv_total = FormatNumber(total_inv - cantidad);
+//                    inv_actualizado = DecodeStringDecimal(inv_total);
+//
                     //Total
                     String totalString = FormatNumber(price.getPrecio() * cantidad);
                     total = DecodeStringDecimal(totalString);
@@ -428,21 +533,34 @@ public class F_Venta extends Fragment implements View.OnClickListener,
 
         //variable de inventario seleccionado and hide button
 
-        inv_total = dbd.getCargaUnidad(seleccion.getId_producto());
-        inv_ventas = dbd.getVentaUnidad(seleccion.getId_producto());
-        inv_cambios = dbd.getCambioUnidad(seleccion.getId_producto());
-
-        inv = inv_total.getCantidad();
-        vent = inv_ventas.getVentas_inventario();
-        camb = inv_cambios.getCambios_inventario();
-
-        total_inv =  inv - vent - camb;
+//        inv_total = dbd.getCargaUnidad(seleccion.getId_producto());
+//        inv_ventas = dbd.getVentaUnidad(seleccion.getId_producto());
+//        inv_cambios = dbd.getCambioUnidad(seleccion.getId_producto());
+//
+//        inv = inv_total.getCantidad();
+//        vent = inv_ventas.getVentas_inventario();
+//        camb = inv_cambios.getCambios_inventario();
+//
+//        total_inv =  inv - vent - camb;
 
         //Inventario
-        final TextView txtInventario = (TextView) view.findViewById(R.id.txtInventario);
+        final TextView txtInventario = (TextView) view.findViewById(R.id.txtNumCant);
 
-        txtInventario.setText("Inventario: " + total_inv);
+        txtInventario.setText("" + totalInventario(seleccion.getId_producto()));
 
+        //variables piezas
+
+        piezasInv = dbd.getCargaUnidadPieza(seleccion.getId_producto());
+        final Inventario piezas_total = dbd.getVentaPiezas(seleccion.getId_producto());
+
+        piezascont = piezasInv.getPiezas();
+        final int piezasVenta = piezas_total.getVentas_piezas();
+        final int piezasTotal = piezascont - piezasVenta;
+
+        //Inventario
+        final TextView txtPiezas = (TextView) view.findViewById(R.id.txtNumPiezas);
+
+        txtPiezas.setText("" + totalInventario(seleccion.getId_producto()));
 
         //Asignar Unidad
         for(int i = 0; i < precios.size(); i ++) {
@@ -465,33 +583,406 @@ public class F_Venta extends Fragment implements View.OnClickListener,
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Precios precio = (Precios) spUnidad.getSelectedItem();
-                        if(editCantidad.getText().toString().isEmpty() || Double.valueOf(editCantidad.getText().toString())<=0){
+                        //Promociones Section
+                        final Cliente_Promos cpromos = new Cliente_Promos();
+                        for (int i = 0;i < clientes_promos.size(); i++){
+                            if (seleccion.getId_producto().equals(clientes_promos.get(i).getPromoProductoVenta())) {
+                                cpromos.setPromoCliente(clientes_promos.get(i).getPromoCliente());
+                                cpromos.setCantidadVenta(clientes_promos.get(i).getCantidadVenta());
+                                cpromos.setCantidadEntrega(clientes_promos.get(i).getCantidadEntrega());
+                                cpromos.setPromoProductoVenta(clientes_promos.get(i).getPromoProductoVenta());
+                                cpromos.setPromoProductoEntrega(clientes_promos.get(i).getPromoProductoEntrega());
+                            }
+                        }
+
+                        //cantidad_res
+                        double num1 = Double.parseDouble(editCantidad.getText().toString())/cpromos.getCantidadVenta();
+                        int num2 = (int)num1;
+                        conversionItem2 = dbd.getPrecios(cpromos.getPromoProductoEntrega(), cliente.getId_cliente());
+
+                        double promocionInventario = totalInventario(cpromos.getPromoProductoEntrega());
+
+
+                        //promociones
+                        if (enPromocion){
+                            if (item.getId_producto().equals(cpromos.getPromoProductoVenta())){
+                                if (cpromos.getCantidadVenta() <= item.getCantidad()){
+                                    int residue = (int)Double.parseDouble(editCantidad.getText().toString()) / (int)cpromos.getCantidadVenta();
+                                    item.setCantidadResult(residue);
+                                }
+                            }
+                        } else { item.setCantidadResult(0); }
+
+                        if(editCantidad.getText().toString().isEmpty()
+                                || Double.valueOf(editCantidad.getText().toString())<0){
                             Toast.makeText(context, "No se introdujo cantidad.", Toast.LENGTH_SHORT).show();
-                        } else if(Double.valueOf(editCantidad.getText().toString())>total_inv){
+                        } else if (seleccion.getDecimales() == 1){
+                            //justificacion para las piezas arreglar luego por codigo duplicado-
+                            if (editCantidad2.getText().toString().isEmpty()
+                                    || Double.valueOf(editCantidad2.getText().toString())<0) {
+                                Toast.makeText(context, "No se introdujeron piezas", Toast.LENGTH_SHORT).show();
+                            } else{
+                                Det_Venta item = new Det_Venta();
+                                precio = (Precios) spUnidad.getSelectedItem();
+
+                                //IF para chequeo de cantidadResult de promociones
+                                if (seleccion.getId_producto().equals(cpromos.getPromoProductoVenta())) {
+                                    if (Double.parseDouble(editCantidad.getText().toString()) >= cpromos.getCantidadVenta()) {
+                                        if (cpromos.getPromoProductoVenta().equals(cpromos.getPromoProductoEntrega())) {
+                                            int residue = Integer.parseInt(editCantidad.getText().toString()) / (int) cpromos.getCantidadVenta();
+                                            item.setCantidadResult(residue);
+                                        } else {
+                                            item.setCantidadResult((int) cpromos.getCantidadEntrega());
+                                        }
+                                    }
+                                } else {
+                                    item.setCantidadResult(0);
+                                }
+
+                                if (item.getCantidadResult() != 0 && isCargaPromocion(cpromos.getPromoProductoEntrega()) && isProductoPromocion(cpromos.getPromoProductoEntrega()) >= cpromos.getCantidadEntrega() && promocionInventario != 0) {
+                                    Det_Venta item2 = new Det_Venta();
+
+                                    //Producto #1
+                                    item.setId_producto(seleccion.getId_producto());
+                                    item.setDescripcion(seleccion.getDescripcion());
+                                    item.setPromocion(false);
+
+                                    //if para reduccion de promo si es el mismo producto
+                                    if (cpromos.getPromoProductoVenta().equals(item.getId_producto())) {
+                                        if (cpromos.getPromoProductoEntrega().equals(cpromos.getPromoProductoVenta())) {
+                                            item.setCantidad(Double.parseDouble(editCantidad.getText().toString()) - (cpromos.getCantidadEntrega()*num2));
+                                        } else {
+                                            item.setCantidad(Double.parseDouble(editCantidad.getText().toString()));
+                                        }
+                                    } else {
+                                        item.setCantidad(Double.parseDouble(editCantidad.getText().toString()));
+                                    }
+
+//                                    item.setCantidad(Double.parseDouble(editCantidad.getText().toString()));
+
+                                    //promociones
+
+                                    if (seleccion.getDecimales() == 1) {
+                                        item.setPiezaB(Double.parseDouble(editCantidad2.getText().toString()));
+                                    } else {
+                                        if (seleccion.getId_producto().equals(cpromos.getPromoProductoEntrega())) {
+                                            item.setPiezaB(Double.parseDouble(editCantidad.getText().toString()) - (cpromos.getCantidadEntrega() * num2));
+                                        } else {
+                                            item.setPiezaB(item.getCantidad());
+                                        }
+                                    }
+                                    item.setUnidad(precio.getUnidad());
+                                    item.setId_unidad(precio.getId_unidad());
+                                    if (seleccion.getId_producto().equals(cpromos.getPromoProductoEntrega())){
+//                                            if (item.getCantidad() == 1){
+                                        item.setSubtotal(F_Venta.subtotal);
+                                        item.setTotal(F_Venta.total);
+//                                            } else {
+//                                                item.setSubtotal(F_Venta.subtotal - (precio.getPrecio() * num2));
+//                                                item.setTotal(F_Venta.total - (precio.getPrecio() * num2));
+//                                            }
+                                    } else {
+                                        item.setSubtotal(F_Venta.subtotal);
+                                        item.setTotal(F_Venta.total);
+                                    }
+                                    item.setImpuestos(F_Venta.impuestos);
+                                    item.setConversion(precio.getConversion());
+                                    item.setPrecio(precio.getPrecio());
+
+                                    //Producto #2 de promociones
+
+                                    Producto itemPromo = dbd.getProductodePromo(cpromos.getPromoProductoEntrega());
+
+                                    item2.setId_producto(itemPromo.getId_producto());
+                                    item2.setDescripcion(itemPromo.getDescripcion());
+                                    item2.setPromocion(true);
+                                    item2.setCantidad(cpromos.getCantidadEntrega()*num2);
+                                    if (item2.getCantidad() >= promocionInventario){
+                                        item2.setCantidad(promocionInventario);
+                                    }
+
+
+                                    //promociones
+
+                                    item2.setPiezaB(cpromos.getCantidadEntrega()*num2);
+                                    if (item2.getCantidad() >= promocionInventario){
+                                        item2.setPiezaB(promocionInventario);
+                                    }
+                                    item2.setUnidad(conversionItem2.get(0).getUnidad());
+                                    item2.setId_unidad(conversionItem2.get(0).getId_unidad());
+                                    item2.setSubtotal(0);
+                                    item2.setImpuestos(0);
+                                    item2.setTotal(0);
+                                    item2.setConversion(conversionItem2.get(0).getConversion());
+                                    item2.setPrecio(0);
+
+                                    detalles.add(item);
+
+                                    detalles.add(item2);
+                                } else {
+                                    item.setId_producto(seleccion.getId_producto());
+                                    item.setDescripcion(seleccion.getDescripcion());
+                                    item.setCantidad(Double.parseDouble(editCantidad.getText().toString()));
+
+                                    //promociones
+
+                                    if (seleccion.getDecimales() == 1) {
+                                        item.setPiezaB(Double.parseDouble(editCantidad2.getText().toString()));
+                                    } else {
+                                        item.setPiezaB(Double.parseDouble(editCantidad.getText().toString()));
+                                    }
+                                    item.setUnidad(precio.getUnidad());
+                                    item.setId_unidad(precio.getId_unidad());
+                                    item.setSubtotal(F_Venta.subtotal);
+                                    item.setImpuestos(F_Venta.impuestos);
+                                    item.setTotal(F_Venta.total);
+                                    item.setConversion(precio.getConversion());
+                                    item.setPrecio(precio.getPrecio());
+
+                                    detalles.add(item);
+                                }
+
+
+                                //Actualizar LIsta
+                                F_Venta.lstVentas.setAdapter(new Adapter_Detalle(context, detalles));
+
+                                //Actualizar Totales
+                                UpdateImportes();
+                            }
+                        }
+                        else if(Double.valueOf(editCantidad.getText().toString())>totalInventario(seleccion.getId_producto())){
                             Toast.makeText(context, "No hay Suficiente Producto", Toast.LENGTH_SHORT).show();
                         } else if(seleccion.getDecimales() == 1) {
                             editCantidad.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
                         }else {
+//                            //IF para chequeo de cantidadResult de promociones
+//                            if (promoProductoVenta.equals(seleccion.getId_producto())){
+//                                if ( Double.parseDouble(editCantidad.getText().toString()) >= cantidadVenta ){
+//                                    if (promoProductoVenta.equals(promoProductoEntrega)){
+//                                        int residue = (int)item.getCantidad() / (int)cantidadVenta;
+//                                        item.setCantidadResult(residue);
+//                                    } else{
+//                                        item.setCantidadResult((int) cantidadEntrega);
+//                                    }
+//                                }
+//                            } else { item.setCantidadResult(0); }
 
-                            item.setCantidad(Double.parseDouble(editCantidad.getText().toString()));
-                            item.setUnidad(precio.getUnidad());
-                            item.setId_unidad(precio.getId_unidad());
+                            if (item.getCantidadResult() != 0){
 
-                            item.setSubtotal(subtotal);
-                            item.setImpuestos(impuestos);
-                            item.setTotal(total);
+                                Det_Venta item2 = new Det_Venta();
+
+                                //Promociones Section
+//                                final Cliente_Promos cpromos = new Cliente_Promos();
+//                                for (int i = 0;i < clientes_promos.size(); i++){
+//                                    if (seleccion.getId_producto().equals(clientes_promos.get(i).getPromoProductoVenta())) {
+//                                        cpromos.setPromoCliente(clientes_promos.get(i).getPromoCliente());
+//                                        cpromos.setCantidadVenta(clientes_promos.get(i).getCantidadVenta());
+//                                        cpromos.setCantidadEntrega(clientes_promos.get(i).getCantidadEntrega());
+//                                        cpromos.setPromoProductoVenta(clientes_promos.get(i).getPromoProductoVenta());
+//                                        cpromos.setPromoProductoEntrega(clientes_promos.get(i).getPromoProductoEntrega());
+//                                    }
+//                                }
+
+                                //if para reduccion de promo si es el mismo producto
+                                if (cpromos.getPromoProductoVenta().equals(item.getId_producto())){
+                                    item.setCantidad(Double.parseDouble(editCantidad.getText().toString()) - cpromos.getCantidadEntrega());
+                                } else {
+                                    item.setCantidad(Double.parseDouble(editCantidad.getText().toString()));
+                                }
+
+                                if (seleccion.getDecimales() == 1) {
+                                    item.setPiezaB(Double.parseDouble(editCantidad2.getText().toString()));
+                                } else {
+                                    item.setPiezaB(Double.parseDouble(editCantidad.getText().toString()));
+                                }
+                                item.setUnidad(precio.getUnidad());
+                                item.setId_unidad(precio.getId_unidad());
+
+                                item.setSubtotal(subtotal);
+                                item.setImpuestos(impuestos);
+                                item.setTotal(total);
 
 
-                            item.setConversion(precio.getConversion());
-                            item.setPrecio(precio.getPrecio());
+                                item.setConversion(precio.getConversion());
+                                item.setPrecio(precio.getPrecio());
 
-                            detalles.set(position, item);
+                                //Producto #2 de promociones
 
-                            //Actualizar LIsta
-                            lstVentas.setAdapter(new Adapter_Detalle(context, detalles));
+                                Producto itemPromo  = dbd.getProductodePromo(cpromos.getPromoProductoEntrega());
 
-                            //Actualizar Totales
-                            UpdateImportes();
+                                item2.setId_producto(itemPromo.getId_producto());
+                                item2.setDescripcion(itemPromo.getDescripcion());
+                                item2.setPromocion(true);
+                                item2.setCantidad(item.getCantidadResult()*cpromos.getCantidadEntrega());
+
+                                //promociones
+
+                                if(seleccion.getDecimales() == 1) {
+                                    item2.setPiezaB(Double.parseDouble(editCantidad2.getText().toString()));
+                                } else{
+                                    item2.setPiezaB(item.getCantidadResult()*cpromos.getCantidadEntrega());
+                                }
+                                item2.setUnidad(conversionItem2.get(0).getUnidad());
+                                item2.setId_unidad(conversionItem2.get(0).getId_unidad());
+                                item2.setSubtotal(0);
+                                item2.setImpuestos(0);
+                                item2.setTotal(0);
+                                item2.setConversion(conversionItem2.get(0).getConversion());
+                                item2.setPrecio(0);
+
+                                detalles.set(position, item);
+
+                                if (item.getCantidadResult() > 0) {
+                                    detalles.set(position + 1, item2);
+                                } else {
+                                    detalles.remove(position+1);
+                                }
+
+                                //Actualizar LIsta
+                                lstVentas.setAdapter(new Adapter_Detalle(context, detalles));
+
+                                //Actualizar Totales
+                                UpdateImportes();
+                            } else {
+
+                                //Promociones Section
+//                                final Cliente_Promos cpromos = new Cliente_Promos();
+//                                for (int i = 0;i < clientes_promos.size(); i++){
+//                                    if (seleccion.getId_producto().equals(clientes_promos.get(i).getPromoProductoVenta())) {
+//                                        cpromos.setPromoCliente(clientes_promos.get(i).getPromoCliente());
+//                                        cpromos.setCantidadVenta(clientes_promos.get(i).getCantidadVenta());
+//                                        cpromos.setCantidadEntrega(clientes_promos.get(i).getCantidadEntrega());
+//                                        cpromos.setPromoProductoVenta(clientes_promos.get(i).getPromoProductoVenta());
+//                                        cpromos.setPromoProductoEntrega(clientes_promos.get(i).getPromoProductoEntrega());
+//                                    }
+//                                }
+
+                                if (item.getId_producto().equals(cpromos.getPromoProductoVenta())){
+                                    //En caso que la modificacion si alcance la promo
+
+                                    //promociones
+                                    if (enPromocion){
+                                        if (cpromos.getPromoProductoVenta().equals(item.getId_producto())){
+//                                            if (cantidadVenta <= item.getCantidad()){
+                                                int residue = (int)Double.parseDouble(editCantidad.getText().toString()) / (int)cpromos.getCantidadVenta();
+                                                item.setCantidadResult(residue);
+//                                            }
+                                        }
+                                    } else { item.setCantidadResult(0); }
+
+
+                                    Det_Venta item2 = new Det_Venta();
+
+                                    //Producto #1
+                                    item.setId_producto(seleccion.getId_producto());
+                                    item.setDescripcion(seleccion.getDescripcion());
+                                    item.setPromocion(false);
+
+                                    //if para reduccion de promo si es el mismo producto
+                                    if (cpromos.getPromoProductoVenta().equals(item.getId_producto())){
+                                        item.setCantidad(Double.parseDouble(editCantidad.getText().toString()) - num2);
+                                    } else {
+                                        item.setCantidad(Double.parseDouble(editCantidad.getText().toString()));
+                                    }
+
+//                                    item.setCantidad(Double.parseDouble(editCantidad.getText().toString()));
+
+                                    //promociones
+
+                                    if(seleccion.getDecimales() == 1) {
+                                        item.setPiezaB(Double.parseDouble(editCantidad2.getText().toString()));
+                                    } else{
+                                        item.setPiezaB(Double.parseDouble(editCantidad.getText().toString()));
+                                    }
+                                    item.setUnidad(precio.getUnidad());
+                                    item.setId_unidad(precio.getId_unidad());
+                                    item.setSubtotal(F_Venta.subtotal);
+                                    item.setImpuestos(F_Venta.impuestos);
+                                    item.setTotal(F_Venta.total);
+                                    item.setConversion(precio.getConversion());
+                                    item.setPrecio(precio.getPrecio());
+
+                                    //Producto #2 de promociones
+
+                                    Producto itemPromo = dbd.getProductodePromo(cpromos.getPromoProductoEntrega());
+
+                                    item2.setId_producto(itemPromo.getId_producto());
+                                    item2.setDescripcion(itemPromo.getDescripcion());
+                                    item2.setPromocion(true);
+                                    item2.setCantidad(item.getCantidadResult()*cpromos.getCantidadEntrega());
+
+                                    //promociones
+
+                                    if(seleccion.getDecimales() == 1) {
+                                        item2.setPiezaB(item.getCantidadResult()*cpromos.getCantidadEntrega());
+                                    } else{
+                                        item2.setPiezaB(item.getCantidadResult()*cpromos.getCantidadEntrega());
+                                    }
+                                    item2.setUnidad(precio.getUnidad());
+                                    item2.setId_unidad(precio.getId_unidad());
+                                    item2.setSubtotal(0);
+                                    item2.setImpuestos(0);
+                                    item2.setTotal(0);
+                                    item2.setConversion(0);
+                                    item2.setPrecio(0);
+
+//                                    F_Venta.detalles.add(item);
+                                    if (item.getCantidadResult() > 0) {
+                                        F_Venta.detalles.add(item2);
+//                                        detalles.set(position, item);
+                                    } else {
+                                        if (detalles.size() > 1) {
+                                            detalles.remove(position + 1);
+                                        }
+                                    }
+
+
+//                                    detalles.set(position, item);
+
+//                                    if (item.getCantidadResult() > 0) {
+//                                        detalles.set(position, item);
+//                                    } else {
+//                                        detalles.remove(position+1);
+//                                    }
+
+
+
+                                    //Actualizar LIsta
+                                    lstVentas.setAdapter(new Adapter_Detalle(context, detalles));
+
+                                    //Actualizar Totales
+                                    UpdateImportes();
+
+                                } else {
+
+
+                                    item.setCantidad(Double.parseDouble(editCantidad.getText().toString()));
+                                    if (seleccion.getDecimales() == 1) {
+                                        item.setPiezaB(Double.parseDouble(editCantidad2.getText().toString()));
+                                    } else {
+                                        item.setPiezaB(Double.parseDouble(editCantidad.getText().toString()));
+                                    }
+                                    item.setUnidad(precio.getUnidad());
+                                    item.setId_unidad(precio.getId_unidad());
+
+                                    item.setSubtotal(subtotal);
+                                    item.setImpuestos(impuestos);
+                                    item.setTotal(total);
+
+
+                                    item.setConversion(precio.getConversion());
+                                    item.setPrecio(precio.getPrecio());
+
+                                    detalles.set(position, item);
+
+                                    //Actualizar LIsta
+                                    lstVentas.setAdapter(new Adapter_Detalle(context, detalles));
+
+                                    //Actualizar Totales
+                                    UpdateImportes();
+                                }
+                            }
+
                         }
 
                     }
@@ -535,15 +1026,33 @@ public class F_Venta extends Fragment implements View.OnClickListener,
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Eliminar de la Lista
-                detalles.remove(pos);
+                boolean deletePromo = false;
+                if (!mod.isPromocion()) {
+                    if (detalles.size()>1 & pos+1 < detalles.size()) {
+                        if (detalles.get(pos + 1).isPromocion()) {
+                            deletePromo = true;
+                        }
+                    }
 
-                //Actualizar Lista
-                lstVentas.setAdapter(new Adapter_Detalle(context, detalles));
+                    //Eliminar de la Lista
+                    detalles.remove(pos);
+                    for (Cliente_Promos promo: clientes_promos
+                         ) {
+                        if (mod.getId_producto().equals(promo.getPromoProductoVenta()) & deletePromo){
+                            promo2 = false;
+                            detalles.remove(pos);
+                        }
+                    }
 
-                //Actualizar Totales
-                UpdateImportes();
 
+
+                    //Actualizar Lista
+                    lstVentas.setAdapter(new Adapter_Detalle(context, detalles));
+
+                    //Actualizar Totales
+                    UpdateImportes();
+
+                }
                 //Ocultar dialogo
                 menu.cancel();
             }
@@ -552,8 +1061,18 @@ public class F_Venta extends Fragment implements View.OnClickListener,
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditDialog(mod, pos);
+                for (Cliente_Promos promo: clientes_promos
+                ) {
+                    if (cliente.getId_cliente().equals(promo.getPromoCliente()) & mod.getId_producto().equals(promo.getPromoProductoVenta())){
+                        promo2 = true;
+                    }
+                }
+                if (!mod.isPromocion() & !promo2) {
 
+
+                    EditDialog(mod, pos);
+
+                }
                 //Cerrar menu
                 menu.cancel();
             }
@@ -570,6 +1089,7 @@ public class F_Venta extends Fragment implements View.OnClickListener,
 
             //Controles
             final Spinner spFormas = (Spinner) d.findViewById(R.id.spFormas);
+            final Spinner spFormaPago = (Spinner) d.findViewById(R.id.spFormaPago);
             final ArrayList<Forma_Venta> formas_venta = dbd.getFormas(cliente.getId_cliente());
             final Switch facturar = (Switch) d.findViewById(R.id.swFacturar);
 
@@ -578,145 +1098,235 @@ public class F_Venta extends Fragment implements View.OnClickListener,
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spFormas.setAdapter(adapter);
 
-            //Mostrar Dialogo
-            builder.setView(d)
-                    .setTitle("Forma de Venta")
-                    .setIcon(R.mipmap.ic_launcher)
-                    .setPositiveButton("Terminar Venta", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            String forma = formas_venta.get(spFormas.getSelectedItemPosition()).getForma();
-                            int id_forma = formas_venta.get(spFormas.getSelectedItemPosition()).getId_forma();
+            //cliente contado o credito
+            int spText = 0;
 
 
-                            Serie folios;
-                            if (facturar.isChecked()) {
-                                folios = dbd.getFolio(true, MARCA);
-                            } else {
-                                folios = dbd.getFolio(false, "");
-                            }
+            //text forma
+            for (int i = 0; i < formas_venta.size(); i++){
+                if (formas_venta.get(i).getId_forma() == 1){
+                    spText = 1;
+                } else{
+                    spText = 2;
+                }
+            }
+
+            //Formas Metodo Pago
+            if (spText == 1) {
+
+                List<String> tipos = Arrays.asList(getResources().getStringArray(R.array.tiposList));
+                tipoPago = dbd.getPago(visita.getId_visita());
 
 
-//                            det_venta = dbd.getDet_Venta();
+                final ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(context, R.layout.support_simple_spinner_dropdown_item, getResources().getStringArray(R.array.tiposList));
+                spinnerArrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+                spFormaPago.setAdapter(spinnerArrayAdapter);
 
-//                            inventario = dbd.getBtnConsulta(det_venta.getId_producto(), det_venta.getId_det_venta());
-
-                            venta.setId_visita(visita.getId_visita());
-                            venta.setId_cliente(cliente.getId_cliente());
-                            venta.setEmpresa(MARCA);
-                            venta.setForma_venta(forma);
-                            venta.setId_forma_venta(id_forma);
-                            venta.setSerie(folios.getSerie());
-                            venta.setFolio(folios.getFolio());
-                            venta.setDet_venta(detalles);
-//                            if (inventario.getConsultBtn()!=null && !inventario.getConsultBtn().isEmpty()){
-//                                //Enviar Venta
-
-//
-//                            } else{
-//                                det_venta = dbd.updateCantidad(det_venta.getCantidad(), det_venta.getId_det_venta(), det_venta.getId_producto());
-//                            }
+            } else{
+                ArrayList<String> tipos = new ArrayList<String>();
+                tipos.add("Por Definir");
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, tipos);
+                adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFormaPago.setAdapter(adapter2);
+            }
 
 
-                            if (flag){
+
+            if (!flag) {
+                //Mostrar Dialogo
+                builder.setView(d)
+                        .setTitle("Forma de Venta")
+                        .setIcon(R.mipmap.ic_launcher)
+                        .setPositiveButton("Terminar Venta", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                String forma = formas_venta.get(spFormas.getSelectedItemPosition()).getForma();
+                                int id_forma = formas_venta.get(spFormas.getSelectedItemPosition()).getId_forma();
+
+
+                                //GPS
+                                location = Main.getGPS();
+
+
+                                String switchCase = spFormaPago.getSelectedItem().toString();
+                                int spMetodoPago = 0;
+                                switch (switchCase) {
+                                    case "Efectivo":
+                                        spMetodoPago = 01;
+                                        break;
+
+                                    case "Cheque":
+                                        spMetodoPago = 02;
+                                        break;
+
+                                    case "Transferencia":
+                                        spMetodoPago = 03;
+                                        break;
+
+                                    case "Tarjeta":
+                                        spMetodoPago = 04;
+                                        break;
+                                }
+
+
+                                Serie folios;
+                                if (facturar.isChecked()) {
+                                    folios = dbd.getFolio(true, MARCA, flag);
+                                } else {
+                                    folios = dbd.getFolio(false, "", flag);
+                                }
+
+                                venta.setId_visita(visita.getId_visita());
+                                venta.setId_cliente(cliente.getId_cliente());
+                                venta.setEmpresa(MARCA);
+                                venta.setForma_venta(forma);
+                                venta.setId_forma_venta(id_forma);
+                                venta.setSerie(folios.getSerie());
+                                venta.setFolio(folios.getFolio());
+                                venta.setFecha(Main.getFecha() + "-" + Main.getHora());
                                 venta.setDet_venta(detalles);
-                                dbd.UpdateVenta(venta);
+                                venta.setMetodo_pago(switchCase);
+                                venta.setId_metodo_pago(spMetodoPago);
+                                venta.setGpsVenta(location);
 
-                            }else{
-                                dbd.setVenta(venta);
+                                if (flag) {
+                                    venta.setDet_venta(detalles);
+                                    dbd.UpdateVenta(venta);
+
+                                } else {
+                                    dbd.setVenta(venta);
+                                }
+
+
+                                if (detalles.size() > 0) {
+                                    P_Venta print = new P_Venta(context, venta, cliente);
+
+
+                                    //Mostrar Ticket
+                                    F_Ticket ticket = new F_Ticket();
+                                    ticket.setContext(context);
+                                    ticket.setTb(tb);
+                                    ticket.setTicket(print.imprimir());
+                                    ticket.setTitle("Venta");
+                                    ticket.setPrint(print.getBT());
+
+                                    //Option 2
+                                    FragmentTransaction ft = fmMain.beginTransaction();
+                                    ft.replace(R.id.ContainerVisita, ticket);
+
+                                    ft.addToBackStack("Venta");
+                                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                                    ft.commit();
+                                }
+
+                                //Se realizo Moviemnto
+                                F_Visita.movimientos = true;
+                                flag = true;
+
+
                             }
-
-
-//                            if (venta2 != null){
-//                            } else{
-//                                venta.setDet_venta(detalles);
-//                                dbd.UpdateVenta(venta);
-//                            }
-
-
-//                            ArrayList<Det_Venta> det_venta2 = venta.getDet_venta();
-//                            Det_Venta dventa;
-//                            Venta venta2;
-//                            venta2 = dbd.getVenta(visita.getId_cliente(), MARCA);
-//                            String idDet;
-
-//                            for (int i=0; i < det_venta2.size(); i++){
-//                                dventa = det_venta2.get(i);
-//                                det_venta = dbd.idVenta(dventa.getId_producto(), venta2.getId_venta());
-//                                idDet = det_venta.getId_det_venta();
-////                                dventa.setId_det_venta(idDet);
-//                                if (idDet==null || idDet.isEmpty()){
-//                                    dbd.setVenta(venta);
-//                                } else{
-//                                    venta.setDet_venta(detalles);
-//                                    dbd.UpdateVenta(venta);
-//                                }
-//                            }
-////                            if (venta.getEnviado() == 0){
-
-//                            if(dventa.getId_det_venta()) {
-//                                dbd.setVenta(venta);
-//                            }
-
-//                            venta.setDet_venta(detalles);
-//                            dbd.UpdateVenta(venta);
-
-                            if (detalles.size()>0){
-                                P_Venta print = new P_Venta(context, venta, cliente);
-
-                                //Mostrar Ticket
-                                F_Ticket ticket = new F_Ticket();
-                                ticket.setContext(context);
-                                ticket.setTb(tb);
-                                ticket.setTicket(print.imprimir());
-                                ticket.setTitle("Venta");
-                                ticket.setPrint(print.getBT());
-
-                                //Option 2
-                                FragmentTransaction ft = fmMain.beginTransaction();
-                                ft.replace(R.id.ContainerVisita, ticket);
-
-                                ft.addToBackStack("Venta");
-                                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                                ft.commit();
-                            }
-
-                            //Se realizo Moviemnto
-                            F_Visita.movimientos = true;
-                            flag = true;
-
-
-                        }
-                    })
-                    .setCancelable(false)
-                    .create()
-                    .show();
+                        })
+                        .setCancelable(false)
+                        .create()
+                        .show();
+            } else{
+                edit_P_Venta();
+            }
             //Editando Venta
         }else{
-            //Actualoizar Venta
-            venta.setDet_venta(detalles);
-            dbd.UpdateVenta(venta);
-
-            //Imprimir Venta
-            P_Venta print = new P_Venta(context, venta, cliente);
-
-            F_Ticket ticket = new F_Ticket();
-            ticket.setContext(context);
-            ticket.setTb(tb);
-            ticket.setTicket(print.imprimir());
-            ticket.setTitle("Venta");
-            ticket.setPrint(print.getBT());
-
-            FragmentTransaction ft = fmMain.beginTransaction();
-            ft.setCustomAnimations(R.animator.enter_up, R.animator.out_up,
-                    R.animator.enter_up, R.animator.out_up);
-            ft.add(R.id.Container, ticket).addToBackStack("Venta").commit();
+            edit_P_Venta();
         }
 
     }
 
+    //Funcion de Inventario
+    public double totalInventario(String idProducto){
+        final Inventario inv_ventas;
+        final Inventario inv_cambios;
+        final Inventario inv_total;
+
+        final double invCarga;
+        final double invVenta;
+        final double invCamb;
+        final double invTotal;
+
+        double detCantidad = 0;
+
+        for (Det_Venta det_venta : detalles) {
+            if (det_venta.getId_producto().equals(idProducto)) {
+                detCantidad += det_venta.getCantidad();
+            }
+        }
+
+        inv_total = dbd.getCargaUnidad(idProducto);
+        inv_ventas = dbd.getVentaUnidad(idProducto);
+        inv_cambios = dbd.getCambioUnidad(idProducto);
+
+        invCarga = (double) inv_total.getCantidad();
+        invVenta = (double) inv_ventas.getVentas_inventario();
+        invCamb = (double) inv_cambios.getCambios_inventario();
+        invTotal = invCarga - invVenta - invCamb - detCantidad;
+
+        return invTotal;
+    }
+
+    //Determinar si aun hay producto de promocion
+    public double isProductoPromocion(String idProducto){
+        final Inventario inv_cargaUnidad = dbd.getCargaUnidad(idProducto);
+        final Inventario inv_VentaUnidad = dbd.getVentaUnidad(idProducto);
+        final Inventario inv_cambioUnidad = dbd.getCambioUnidad(idProducto);
+
+        final double inventario = inv_cargaUnidad.getCantidad();
+        final double venta = inv_VentaUnidad.getVentas_inventario();
+        final double cambio = inv_cambioUnidad.getCambios_inventario();
+        final double total;
+
+        total =  inventario -venta - cambio;
+
+        return total;
+
+    }
+
+    //Determinar si hay producto de carga
+    public boolean isCargaPromocion(String productoPromo){
+        boolean isCarga = false;
+        final Inventario cargaProducto;
+        final double carga;
+
+        cargaProducto = dbd.getCargaUnidad(productoPromo);
+        carga = (double) cargaProducto.getCantidad();
+
+        if (carga > 0){
+            isCarga = true;
+        }
+        return isCarga;
+
+    }
+
+    public void edit_P_Venta(){
+        //Actualizar Venta
+        venta.setDet_venta(detalles);
+        dbd.UpdateVenta(venta);
+
+        //Imprimir Venta
+        P_Venta print = new P_Venta(context, venta, cliente);
+
+        F_Ticket ticket = new F_Ticket();
+        ticket.setContext(context);
+        ticket.setTb(tb);
+        ticket.setTicket(print.imprimir());
+        ticket.setTitle("Venta");
+        ticket.setPrint(print.getBT());
+
+        FragmentTransaction ft = fmMain.beginTransaction();
+        ft.setCustomAnimations(R.animator.enter_up, R.animator.out_up,
+                R.animator.enter_up, R.animator.out_up);
+        ft.add(R.id.Container, ticket).addToBackStack("Venta").commit();
+    }
+
     //Actualizar Importes Visuales y en la venta
+
     public void UpdateImportes() {
         double subtotal = 0;
         double impuestos = 0;
@@ -740,6 +1350,26 @@ public class F_Venta extends Fragment implements View.OnClickListener,
         venta.setSubtotal(subtotal);
         venta.setImpuestos(impuestos);
         venta.setTotal(total);
+    }
+
+    //Two Digits
+    public class DecimalDigitsInputFilter implements InputFilter {
+
+        Pattern mPattern;
+
+        public DecimalDigitsInputFilter(int digitsBeforeZero,int digitsAfterZero) {
+            mPattern=Pattern.compile("[0-9]{0," + (digitsBeforeZero-1) + "}+((\\.[0-9]{0," + (digitsAfterZero-1) + "})?)||(\\.)?");
+        }
+
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+
+            Matcher matcher=mPattern.matcher(dest);
+            if(!matcher.matches())
+                return "";
+            return null;
+        }
+
     }
 
     //Formatear Numero de double a String

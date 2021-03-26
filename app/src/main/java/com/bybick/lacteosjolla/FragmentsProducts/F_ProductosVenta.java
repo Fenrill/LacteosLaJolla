@@ -326,7 +326,7 @@ public class F_ProductosVenta extends Fragment implements AdapterView.OnItemClic
         //Inventario
         final TextView txtInventario = (TextView) view.findViewById(R.id.txtNumCant);
 
-        txtInventario.setText("" + totalInventario(seleccion.getId_producto()));
+        txtInventario.setText("" + FormatNumber(totalInventario(seleccion.getId_producto())));
 
         //Piezas
         txtNumPieza.setText("" + piezasTotal);

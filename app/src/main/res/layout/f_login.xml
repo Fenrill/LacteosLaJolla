@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btnActualizar"
         android:layout_centerHorizontal="true"
-        android:text="v3.19"
+        android:text="v3.21"
         android:textColor="#ffffff"
         android:textStyle="italic" />
 

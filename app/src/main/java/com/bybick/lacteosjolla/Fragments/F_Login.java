@@ -1,5 +1,6 @@
 package com.bybick.lacteosjolla.Fragments;
 
+import android.Manifest;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Fragment;
@@ -10,11 +11,15 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -72,6 +77,9 @@ public class F_Login extends Fragment implements View.OnClickListener {
     //Bluetooth
     BluetoothAdapter adapter;
 
+    //Permissions
+    private int STORAGE_PERMISSION_CODE = 1;
+
     public void setContext(Context context) {
         this.context = context;
     }
@@ -91,7 +99,66 @@ public class F_Login extends Fragment implements View.OnClickListener {
         dbd = new DBData(context);
         dbd.open();
 
+        requestStoragePermission();
+
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+//                Toast.makeText(context, "Permiso Autorizado", Toast.LENGTH_SHORT).show();
+//            } else {
+//                requestFullPermissions();
+//            }
+//        }
     }
+
+    private void requestStoragePermission() {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            return;
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            return;
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            return;
+
+        ActivityCompat.requestPermissions(this.getActivity(), new String[]
+                {
+                        android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION,
+                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                }, STORAGE_PERMISSION_CODE);
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //Checking the request code of our request
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            //If permission is granted
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //Displaying a toast
+            } else {
+                //Displaying another toast if permission is not granted
+                Toast.makeText(context, "Oops you just denied the permission", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+//    private void requestFullPermissions(){
+//        ActivityCompat.requestPermissions(this.getActivity(), new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, STORAGE_PERMISSION_CODE);
+//        onre
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        if (requestCode == STORAGE_PERMISSION_CODE) {
+//            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                //User allow from permission dialog
+//                //You can do what whatever you want to do as permission is granted
+//                Toast.makeText(context, "Permisos Concedidos, reinicia la aplicacion", Toast.LENGTH_SHORT).show();
+////                android.os.Process.killProcess(android.os.Process.myPid());
+//            }
+//        }
+//    }
 
     @Nullable
     @Override

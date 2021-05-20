@@ -12,13 +12,16 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.bybick.lacteosjolla.Main;
+import com.bybick.lacteosjolla.ObjectIN.Bancos;
 import com.bybick.lacteosjolla.ObjectIN.Carga;
 import com.bybick.lacteosjolla.ObjectIN.Cliente;
 import com.bybick.lacteosjolla.ObjectIN.Efectivo;
 import com.bybick.lacteosjolla.ObjectIN.Equivalencia;
 import com.bybick.lacteosjolla.ObjectIN.Factura;
+import com.bybick.lacteosjolla.ObjectIN.FacturaOrden;
 import com.bybick.lacteosjolla.ObjectIN.Formas;
 import com.bybick.lacteosjolla.ObjectIN.Inventario;
+import com.bybick.lacteosjolla.ObjectIN.Lista;
 import com.bybick.lacteosjolla.ObjectIN.Listas_Precios;
 import com.bybick.lacteosjolla.ObjectIN.Motivo;
 import com.bybick.lacteosjolla.ObjectIN.Producto;
@@ -547,6 +550,7 @@ public class DBData extends SQLiteOpenHelper {
             values.put("folio", item.getFolio());
             values.put("total", item.getTotal());
             values.put("saldo", item.getSaldo());
+            values.put("orden", item.getOrden());
 
             db.insert("facturas", null, values);
             values.clear();
@@ -574,6 +578,28 @@ public class DBData extends SQLiteOpenHelper {
             values.clear();
 
         }
+    }
+
+    //Guardar Lista Bancos
+    public void setLista(ArrayList<Bancos> data){
+        db = this.getWritableDatabase();
+
+        //Eliminar Registros
+        db.delete("lista", "", null);
+
+        //Generar Registros
+        ContentValues values = new ContentValues();
+        for (Bancos item : data){
+            values.put("id_lista", item.getId_lista());
+            values.put("lista_grupo", item.getLista_grupo());
+            values.put("lista", item.getLista());
+            values.put("orden", item.getOrden());
+
+            //Insertar Registro
+            db.insert("lista", null, values);
+            values.clear();
+        }
+
     }
 
     //Guardar Motivos de No Venta
@@ -2105,11 +2131,14 @@ public class DBData extends SQLiteOpenHelper {
                 "folio," +
                 "total," +
                 "pagado," +
-                "saldo " +
+                "saldo, " +
+                "orden " +
                 "FROM facturas " +
-                "WHERE id_cliente = '"+id_cliente+"'" +
-                " AND Fecha < date('now') " +
-                "AND pagado <> 1";
+                "WHERE id_cliente = '"+id_cliente+"' " +
+                "AND Fecha < date('now') " +
+                "AND pagado <> 1 " +
+                "ORDER BY orden ASC";
+//        String sql = "SELECT *  FROM facturas WHERE id_cliente = '" + id_cliente + "' AND pagado = 'false' ORDER BY orden ASC LIMIT 2";
         db=this.getReadableDatabase();
         Cursor rs = db.rawQuery(sql, null);
         if(rs.moveToFirst()){
@@ -2123,11 +2152,44 @@ public class DBData extends SQLiteOpenHelper {
                 factura.setTotal(rs.getDouble(4));
                 factura.setPagado(rs.getInt(5) > 0);
                 factura.setSaldo(rs.getDouble(6));
+                factura.setOrden(rs.getInt(7));
 
                 data.add(factura);
             }while(rs.moveToNext());
         }
 
+        return data;
+    }
+
+    //sacar el orden de facturas para justificacion de cobranza
+    public ArrayList<FacturaOrden> getFacturasOrden(String id_cliente, int folio){
+        db = this.getWritableDatabase();
+        ArrayList<FacturaOrden> data = new ArrayList<>();
+        String sql = "select dt.id_pago, dt.id_det_pago, dt.importe_pago,f.saldo, f.total, f.id_cliente, f.serie, f.folio, f.orden from det_pago as dt " +
+                "inner join facturas as f " +
+                "on dt.folio = f.folio " +
+                "where dt.folio = " + folio +
+                "and f.id_cliente = " + id_cliente;
+
+        db = this.getReadableDatabase();
+        Cursor rs = db.rawQuery(sql, null);
+        if (rs.moveToFirst()){
+            do{
+                FacturaOrden factura = new FacturaOrden();
+
+                factura.setId_pago(rs.getString(0));
+                factura.setId_det_pago(rs.getString(1));
+                factura.setImporte_pago(rs.getDouble(2));
+                factura.setSaldo(rs.getDouble(3));
+                factura.setTotal(rs.getDouble(4));
+                factura.setId_cliente(rs.getString(5));
+                factura.setSerie(rs.getString(6));
+                factura.setFolio(rs.getInt(7));
+                factura.setOrden(rs.getInt(8));
+
+                data.add(factura);
+            } while(rs.moveToNext());
+        }
         return data;
     }
 
@@ -2140,100 +2202,176 @@ public class DBData extends SQLiteOpenHelper {
         db.execSQL(sql);
     }
 
+    public void unsetPagado(String serie, Integer folio){
+        db = this.getReadableDatabase();
+        String sql = "UPDATE facturas " +
+                "SET pagado = 0 " +
+                "WHERE serie = '" + serie  + "' " +
+                "AND folio = '" + folio + "'";
+        db.execSQL(sql);
+    }
+
+    public void delDetPago(String serie, Integer folio, String id_pago){
+        db = this.getReadableDatabase();
+        String sql = "DELETE FROM det_pago WHERE serie = '" + serie + "' " +
+                "AND folio = '" + folio + "' " +
+                "AND id_pago = '" + id_pago + "'";
+        db.execSQL(sql);
+    }
+
+    public double getImporteTotalFactura(String serie, Integer folio){
+        double importe = 0;
+        db = this.getReadableDatabase();
+
+        String sql = "SELECT SUM(importe_pago) FROM det_pago WHERE serie = '" + serie + "' AND folio = '" + folio + "'";
+        Cursor rs = db.rawQuery(sql, null);
+        if (rs.moveToFirst()){
+            do {
+                importe = rs.getDouble(0);
+            }while (rs.moveToNext());
+        }
+        return importe;
+    }
+
     //Registrar Pago
     public void setPago(Pago item) {
-        String id_pago = Main.NEWID();
+//        String id_pago = Main.NEWID();
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         //INSERTAR LA CABECERA DE LOS PAGOS
-        values.put("id_pago", id_pago);
+        values.put("id_pago", item.getId_pago());
         values.put("id_visita", item.getId_visita());
         values.put("id_cliente", item.getId_cliente());
         values.put("fecha", item.getFecha());
         values.put("enviado", 0);
+        values.put("forma_pago", item.getForma_pago());
+        values.put("id_banco", item.getId_banco());
+        values.put("referencia", item.getReferencia());
+        values.put("monto", item.getMonto() );
 
         if(db.insert("pago", null, values) == -1)
             Toast.makeText(context, "Error insertando Pago", Toast.LENGTH_SHORT).show();
 
-        values = new ContentValues();
-        //INSERTAR LOS DETALLES DE CADA PAGO
-        ArrayList<Det_Pago> detalles = item.getDetalles();
-        for(int i = 0; i < detalles.size() ; i++){
-            Det_Pago det = detalles.get(i);
+//        values = new ContentValues();
+//        //INSERTAR LOS DETALLES DE CADA PAGO
+//        ArrayList<Det_Pago> detalles = item.getDetalles();
+//        for(int i = 0; i < detalles.size() ; i++){
+//            Det_Pago det = detalles.get(i);
+//
+//            values.put("id_det_pago", Main.NEWID());
+//            values.put("id_pago", id_pago);
+//            values.put("serie", det.getSerie());
+//            values.put("folio", det.getFolio());
+//            values.put("importe_pago", det.getImporte_pago());
+//            values.put("forma_pago", det.getForma_pago());
+//            values.put("id_banco", det.getBancos());
+//            values.put("referencia", det.getReferencia());
+//
+//            db.insert("det_pago",null,values);
+//            values.clear();
+//
+//            //Actualizar saldo en la tabla facturas
+//            String sql="";
+//            sql="UPDATE facturas SET saldo = saldo - " +
+//                    detalles.get(i).getImporte_pago() +
+//                    " WHERE serie = '" + detalles.get(i).getSerie() + "' AND folio = "+detalles.get(i).getFolio();
+//            db.execSQL(sql);
+//        }
+    }
 
-            values.put("id_det_pago", Main.NEWID());
-            values.put("id_pago", id_pago);
-            values.put("serie", det.getSerie());
-            values.put("folio", det.getFolio());
-            values.put("importe_pago", det.getImporte_pago());
-            values.put("forma_pago", det.getForma_pago());
-            values.put("comentarios", det.getComentarios());
-            values.put("saldo_anterior", det.getSaldo_ant());
+    public void setDetPago(Det_Pago item) {
+//        String id_pago = Main.NEWID();
+        db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
 
-            db.insert("det_pago",null,values);
-            values.clear();
+        Det_Pago det = item;
 
-            //Actualizar saldo en la tabla facturas
-            String sql="";
-            sql="UPDATE facturas SET saldo = saldo - " +
-                    detalles.get(i).getImporte_pago() +
-                    " WHERE serie = '" + detalles.get(i).getSerie() + "' AND folio = "+detalles.get(i).getFolio();
-            db.execSQL(sql);
-        }
+        values.put("id_det_pago", Main.NEWID());
+        values.put("id_pago", item.getId_pago());
+        values.put("serie", det.getSerie());
+        values.put("folio", det.getFolio());
+        values.put("importe_pago", det.getImporte_pago());
+        values.put("forma_pago", det.getForma_pago());
+        values.put("id_banco", det.getBancos());
+        values.put("referencia", det.getReferencia());
+
+        db.insert("det_pago",null,values);
+        values.clear();
+
+        //Actualizar saldo en la tabla facturas
+//        String sql="";
+//        sql="UPDATE facturas SET saldo = saldo - " +
+//                det.getImporte_pago() +
+//                " WHERE serie = '" + det.getSerie() + "' AND folio = "+ det.getFolio();
+//        db.execSQL(sql);
     }
 
     //Actualizar Pago
-    public void UpdatePago(Pago item) {
+    public void UpdatePago(Pago item){
         String id_pago = item.getId_pago();
         db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        //INSERTAR LOS DETALLES DE CADA PAGO
-        ArrayList<Det_Pago> detalles = item.getDetalles();
-        //Eliminar Detalles
-        String sql = "SELECT " +
-                "serie," +
-                "folio," +
-                "importe_pago " +
-                "FROM det_pago " +
-                "WHERE id_pago = '" + id_pago + "'";
-        Cursor rs = db.rawQuery(sql,null);
-        if(rs.moveToFirst()){
-            do{
-                sql = "UPDATE facturas " +
-                        "SET saldo = saldo + " + rs.getDouble(2) + " " +
-                        "WHERE serie = '"+rs.getString(0)+"' " +
-                        "AND folio ='" + rs.getString(1) + "'";
-                db.execSQL(sql);
-            }while(rs.moveToNext());
-        }
-
-        //Eliminar Detalles
-        db.delete("det_pago", "id_pago = '" + id_pago + "'", null);
-
-        for(int i = 0; i < detalles.size() ; i++){
-            Det_Pago det = detalles.get(i);
-
-            values.put("id_det_pago", Main.NEWID());
-            values.put("id_pago", id_pago);
-            values.put("serie", det.getSerie());
-            values.put("folio", det.getFolio());
-            values.put("importe_pago", det.getImporte_pago());
-            values.put("forma_pago", det.getForma_pago());
-            values.put("comentarios", det.getComentarios());
-            values.put("saldo_anterior", det.getSaldo_ant());
-
-            db.insert("det_pago", null, values);
-            values.clear();
-
-            //Actualizar saldo en la tabla facturas
-            sql = "UPDATE facturas SET saldo = saldo - " +
-                    detalles.get(i).getImporte_pago() +
-                    " WHERE serie = '" + detalles.get(i).getSerie() + "' AND folio = " + detalles.get(i).getFolio();
-            db.execSQL(sql);
-        }
+        //Insert values
+        String sql = "UPDATE pago SET forma_pago = '" + item.getForma_pago() + "', id_banco = '" + item.getId_banco() +"', referencia = '" + item.getReferencia() +
+                "', monto = '" + item.getMonto() + "' WHERE id_pago = '" + item.getId_pago() + "'";
+        db.execSQL(sql);
     }
+//    public void UpdatePago(Pago item) {
+//        String id_pago = item.getId_pago();
+//        db = this.getWritableDatabase();
+//        ContentValues values = new ContentValues();
+//
+//        //INSERTAR LOS DETALLES DE CADA PAGO
+//        ArrayList<Det_Pago> detalles = item.getDetalles();
+//        //Eliminar Detalles
+//        String sql = "SELECT " +
+//                "serie," +
+//                "folio," +
+//                "importe_pago, " +
+//                "id_bancos, " +
+//                "referencia " +
+//                "FROM det_pago " +
+//                "WHERE id_pago = '" + id_pago + "'";
+//        Cursor rs = db.rawQuery(sql,null);
+//        if(rs.moveToFirst()){
+//            do{
+//                sql = "UPDATE facturas " +
+//                        "SET saldo = saldo + " + rs.getDouble(2) + ", " +
+//                        "id_banco = " + rs.getString(3) + ", " +
+//                        "referencia = " + rs.getString(4) + ", " +
+//                        "WHERE serie = '"+rs.getString(0)+"' " +
+//                        "AND folio ='" + rs.getString(1) + "'";
+//                db.execSQL(sql);
+//            }while(rs.moveToNext());
+//        }
+//
+//        //Eliminar Detalles
+//        db.delete("det_pago", "id_pago = '" + id_pago + "'", null);
+//
+//        for(int i = 0; i < detalles.size() ; i++){
+//            Det_Pago det = detalles.get(i);
+//
+//            values.put("id_det_pago", Main.NEWID());
+//            values.put("id_pago", id_pago);
+//            values.put("serie", det.getSerie());
+//            values.put("folio", det.getFolio());
+//            values.put("importe_pago", det.getImporte_pago());
+//            values.put("forma_pago", det.getForma_pago());
+//            values.put("id_banco", det.getBancos());
+//            values.put("referencia", det.getReferencia());
+//
+//            db.insert("det_pago", null, values);
+//            values.clear();
+//
+//            //Actualizar saldo en la tabla facturas
+////            sql = "UPDATE facturas SET saldo = saldo - " +
+////                    detalles.get(i).getImporte_pago() +
+////                    " WHERE serie = '" + detalles.get(i).getSerie() + "' AND folio = " + detalles.get(i).getFolio();
+////            db.execSQL(sql);
+//        }
+//    }
 
     //Obtener Cobranza si Existe
     public Pago getPago(String id_visita) {
@@ -2245,6 +2383,10 @@ public class DBData extends SQLiteOpenHelper {
                 "id_cliente," +
                 "id_visita," +
                 "fecha," +
+                "forma_pago," +
+                "id_banco," +
+                "referencia," +
+                "monto," +
                 "enviado " +
                 "FROM pago " +
                 "WHERE id_visita = '" + id_visita + "'";
@@ -2256,17 +2398,22 @@ public class DBData extends SQLiteOpenHelper {
             item.setId_cliente(rs.getString(1));
             item.setId_visita(rs.getString(2));
             item.setFecha(rs.getString(3));
-            item.setEnviado(rs.getInt(4));
+            item.setForma_pago(rs.getString(4));
+            item.setId_banco(rs.getString(5));
+            item.setReferencia(rs.getString(6));
+            item.setMonto(rs.getInt(7));
+            item.setEnviado(rs.getInt(8));
 
             //Obtener Detalles
             sql = "SELECT " +
                     "id_pago," +
+                    "id_det_pago," +
                     "folio," +
                     "serie," +
                     "importe_pago," +
                     "forma_pago," +
-                    "comentarios," +
-                    "saldo_anterior " +
+                    "id_banco," +
+                    "referencia " +
                     "FROM det_pago " +
                     "WHERE id_pago = '"+item.getId_pago()+"'";
 
@@ -2277,13 +2424,15 @@ public class DBData extends SQLiteOpenHelper {
                     Det_Pago detalle = new Det_Pago();
 
                     detalle.setId_pago(c.getString(0));
-                    detalle.setFolio(c.getInt(1));
-                    detalle.setSerie(c.getString(2));
-                    detalle.setImporte_pago(c.getDouble(3));
-                    detalle.setForma_pago(c.getString(4));
-                    detalle.setComentarios(c.getString(5));
-                    detalle.setSaldo_ant(c.getDouble(6));
-                    detalle.setSaldo(c.getDouble(6)-c.getDouble(3));
+                    detalle.setId_det_pago(c.getString(1));
+                    detalle.setFolio(c.getInt(2));
+                    detalle.setSerie(c.getString(3));
+                    detalle.setImporte_pago(c.getDouble(4));
+                    detalle.setForma_pago(c.getString(5));
+                    detalle.setBancos(c.getString(6));
+                    detalle.setReferencia(c.getString(7));
+//                    detalle.setSaldo_ant(c.getDouble(9));
+//                    detalle.setSaldo(c.getDouble(9)-c.getDouble(4));
 
                     detalles.add(detalle);
                 }while(c.moveToNext());
@@ -2465,6 +2614,8 @@ public class DBData extends SQLiteOpenHelper {
 
     public void deleteNoVisitas(){
         db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("pagado", 0);
 
         db.delete("det_venta","id_venta IN(SELECT id_venta FROM venta\n" +
                 "WHERE id_visita NOT IN(SELECT id_visita FROM visita))", null);
@@ -2472,6 +2623,11 @@ public class DBData extends SQLiteOpenHelper {
         db.delete("det_jabas", "id_jabas IN(SELECT id_jabas from jabas\n" +
                 "WHERE id_visita NOT IN(SELECT id_visita FROM visita))", null);
         db.delete("jabas", "id_visita NOT IN(SELECT id_visita FROM visita)", null);
+        db.delete("det_pago", "id_pago IN(SELECT id_pago from pago\n" +
+                "WHERE id_visita NOT IN(SELECT id_visita FROM visita))", null);
+        db.delete("det_pago", "id_pago NOT IN(SELECT id_pago FROM pago)", null);
+        db.delete("pago", "id_visita NOT IN(SELECT id_pago FROM pago)", null);
+        db.update("facturas", values, "folio NOT IN (SELECT folio FROM det_pago) AND saldo > 1", null);
     }
 
     /********* REPORTES ************/
@@ -3127,7 +3283,8 @@ public class DBData extends SQLiteOpenHelper {
                     "d.serie," +
                     "d.folio," +
                     "d.forma_pago," +
-                    "d.comentarios " +
+                    "d.id_banco," +
+                    "d.referencia " +
                     "FROM det_pago d " +
                     "INNER JOIN pago p " +
                     "ON d.id_pago = p.id_pago " +

@@ -28,6 +28,7 @@ import com.bybick.lacteosjolla.Adapters.Adapter_Actualizar;
 import com.bybick.lacteosjolla.DataBases.DBConfig;
 import com.bybick.lacteosjolla.DataBases.DBData;
 import com.bybick.lacteosjolla.Main;
+import com.bybick.lacteosjolla.ObjectIN.Bancos;
 import com.bybick.lacteosjolla.ObjectIN.Carga;
 import com.bybick.lacteosjolla.ObjectIN.Cliente;
 import com.bybick.lacteosjolla.ObjectIN.Equivalencia;
@@ -107,6 +108,7 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
     ArrayList<Serie> series;
     ArrayList<Motivo> no_venta;
     ArrayList<Motivo> devoluciones;
+    ArrayList<Bancos> bancos;
 
     public void setContext(Context context) {
         this.context = context;
@@ -144,6 +146,7 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
         series = new ArrayList<>();
         no_venta = new ArrayList<>();
         devoluciones = new ArrayList<>();
+        bancos = new ArrayList<>();
 
         tb.show();
     }
@@ -156,11 +159,11 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
 
         data = new ArrayList<>();
 
-//        data.add(new Lista(R.mipmap.logo_cliente, "Descargar Clientes", "Descarga los datos relacionados al cliente."));
-//        data.add(new Lista(R.mipmap.logo_producto, "Descargar Productos", "Descarga los productos a vender."));
-//        data.add(new Lista(R.mipmap.logo_factura, "Descargar Facturas", "Descarga las cuentas por pagar de los clientes."));
-//        data.add(new Lista(R.mipmap.logo_general, "Descargar Conceptos Grals.", "Descarga Motivos Series y Folios."));
-        data.add(new Lista(R.mipmap.logo_cliente, "Cargar Datos", "Realizar la Carga de Datos de Clientes, Productos, Facturas y Datos Generales"));
+        data.add(new Lista(R.mipmap.logo_cliente, "Descargar Clientes", "Descarga los datos relacionados al cliente."));
+        data.add(new Lista(R.mipmap.logo_producto, "Descargar Productos", "Descarga los productos a vender."));
+        data.add(new Lista(R.mipmap.logo_factura, "Descargar Facturas", "Descarga las cuentas por pagar de los clientes."));
+        data.add(new Lista(R.mipmap.logo_general, "Descargar Conceptos Grals.", "Descarga Motivos Series y Folios."));
+//        data.add(new Lista(R.mipmap.logo_cliente, "Cargar Datos", "Realizar la Carga de Datos de Clientes, Productos, Facturas y Datos Generales"));
 
         lstItems.setAdapter(new Adapter_Actualizar(context, data));
 
@@ -187,27 +190,27 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         switch (position) {
 //            Descargar Datos del Cliente
-//            case 0 : {
-//                new getClientes().execute();
-//            }break;
-//
-//            case 1 : {
-//                new getProductos().execute();
-//            }break;
-//
-//            case 2 : {
-//                new getFacturas().execute();
-//            }break;
-//
-//            case 3 : {
-//                new getGenerales().execute();
-//            }break;
             case 0 : {
                 new getClientes().execute();
+            }break;
+
+            case 1 : {
                 new getProductos().execute();
+            }break;
+
+            case 2 : {
                 new getFacturas().execute();
+            }break;
+
+            case 3 : {
                 new getGenerales().execute();
             }break;
+//            case 0 : {
+//                new getClientes().execute();
+//                new getProductos().execute();
+//                new getFacturas().execute();
+//                new getGenerales().execute();
+//            }break;
         }
 
     }
@@ -323,6 +326,9 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
 
                     //Motivos devolucion
                     dbd.setMotivosDevolucion(devoluciones);
+
+                    //Lista Bancos
+                    dbd.setLista(bancos);
 
                     //Cerrar Dialogo
                     pd.cancel();
@@ -856,6 +862,7 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
                         item.setFolio(object.getInt("folio"));
                         item.setTotal(object.getDouble("total"));
                         item.setSaldo(object.getDouble("saldo"));
+                        item.setOrden(object.getInt("id"));
 
                         //Enviar Objeto al ArrayList
                         facturas.add(item);
@@ -970,6 +977,7 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
                     JSONArray jsSeries = jsonArray.getJSONArray(0);
                     JSONArray jsNoVentas = jsonArray.getJSONArray(1);
                     JSONArray jsDevoluciones = jsonArray.getJSONArray(2);
+                    JSONArray jsBancos = jsonArray.getJSONArray(3);
 
                     //Recorrer Series
                     for (int i = 0; i < jsSeries.length(); i++) {
@@ -1013,6 +1021,21 @@ public class F_Descarga extends Fragment implements AdapterView.OnItemClickListe
 
                         //Enviar al ArrayList
                         devoluciones.add(item);
+                    }
+
+                    //Recorrer Lista Bancos
+                    for (int i = 0; i < jsBancos.length(); i++){
+                        JSONObject object = jsBancos.getJSONObject(i);
+
+                        //Creara Cliente
+                        Bancos item = new Bancos();
+                        item.setId_lista(object.getString("id_lista"));
+                        item.setLista_grupo(object.getString("lista_grupo"));
+                        item.setLista(object.getString("lista"));
+                        item.setOrden(object.getInt("orden"));
+
+                        //Enviar al ArrayList
+                        bancos.add(item);
                     }
 
                 }

@@ -1254,7 +1254,7 @@ public class F_Venta extends Fragment implements View.OnClickListener,
         double detCantidad = 0;
 
         for (Det_Venta det_venta : detalles) {
-            if (det_venta.getId_producto().equals(idProducto)) {
+            if (det_venta.getId_producto().equals(idProducto) && !det_venta.isPromocion()) {
                 detCantidad += det_venta.getCantidad();
             }
         }
@@ -1266,7 +1266,7 @@ public class F_Venta extends Fragment implements View.OnClickListener,
         invCarga = (double) inv_total.getCantidad();
         invVenta = (double) inv_ventas.getVentas_inventario();
         invCamb = (double) inv_cambios.getCambios_inventario();
-        invTotal = invCarga - invVenta - invCamb - detCantidad;
+        invTotal = invCarga - invVenta - invCamb + detCantidad;
 
         return invTotal;
     }

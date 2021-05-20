@@ -7,4 +7,10 @@
         <item>Transferencia</item>
         <item>Tarjeta</item>
     </string-array>
+
+    <string-array name="bancos">
+        <item>BBVA</item>
+        <item>CityBanamex</item>
+        <item>Santander</item>
+    </string-array>
 </resources>

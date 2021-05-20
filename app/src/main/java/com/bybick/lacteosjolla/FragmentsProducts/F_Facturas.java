@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,26 +20,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bybick.lacteosjolla.Adapters.Adapter_Detalle;
 import com.bybick.lacteosjolla.Adapters.Adapter_Factura;
 import com.bybick.lacteosjolla.Adapters.Adapter_Pago;
-import com.bybick.lacteosjolla.Adapters.Adapter_Producto;
 import com.bybick.lacteosjolla.DataBases.DBData;
 import com.bybick.lacteosjolla.Fragments.F_Cobranza;
-import com.bybick.lacteosjolla.Fragments.F_Venta;
 import com.bybick.lacteosjolla.Main;
 import com.bybick.lacteosjolla.ObjectIN.Cliente;
 import com.bybick.lacteosjolla.ObjectIN.Factura;
-import com.bybick.lacteosjolla.ObjectIN.Producto;
+import com.bybick.lacteosjolla.ObjectIN.FacturaOrden;
 import com.bybick.lacteosjolla.ObjectOUT.Det_Pago;
-import com.bybick.lacteosjolla.ObjectOUT.Det_Venta;
-import com.bybick.lacteosjolla.ObjectOUT.Precios;
 import com.bybick.lacteosjolla.ObjectOUT.Visita;
 import com.bybick.lacteosjolla.R;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.Format;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -59,15 +52,18 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
     ArrayList<Factura> facturas;
 
     Factura seleccion;
+    ArrayList<FacturaOrden> orden;
     double importe = 0;
     Det_Pago pago;
+
+    String id_pago;
 
     String spMethodPago;
 
     ListView lstFacturas;
     EditText editSearch;
 
-    Boolean isMetodo;
+    Boolean isEfectivo;
 
     public void setContext(Context context) {
         this.context = context;
@@ -83,12 +79,14 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
     }
 
     public void setFacturas(ArrayList<Factura> facturas) {
-        this.facturas = facturas;
+//        this.facturas = facturas;
     }
 
-    public void isMetodo(Boolean i){
-        this.isMetodo = i;
-    }
+    public void setId_pago(String id_pago){ this.id_pago = id_pago; }
+
+//    public void isMetodo(Boolean i){
+//        this.isMetodo = i;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,6 +94,8 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
 
         dbd = new DBData(context);
         dbd.open();
+
+        facturas = dbd.getFacturas(cliente.getId_cliente());
 
         pago = new Det_Pago();
     }
@@ -131,17 +131,27 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
         //Obtener producto
         seleccion = facturas.get(position);
 
-        if(!isAdd(seleccion)){
-            //Abrir Dialogo de Cantidad
+//        if(seleccion.getSaldo() > isAdd(seleccion)){
+//            if (!isPayed(seleccion)) {
+                //Abrir Dialogo de Cantidad
+        if (position == 0) {
             AddCantidad();
             fm.popBackStack();
-        } else {
-            Toast.makeText(context, "La factura ya esta agregada.", Toast.LENGTH_SHORT).show();
+        } else{
+            Toast.makeText(context, "Debes Saldar la factura anterior", Toast.LENGTH_SHORT).show();
         }
+//            } else {
+//                Toast.makeText(context, "La Factura anterior no esta cubierta", Toast.LENGTH_SHORT).show();
+//            }
+//        } else {
+//            Toast.makeText(context, "La factura ya esta agregada.", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     //Abrir Dialogo de Cantidad
     public void AddCantidad() {
+        final double tempImporte = isAdd(seleccion);
+
         //Crear Dialogo
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
         //Obtener el inflate para inflar la vista
@@ -156,19 +166,22 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
 
         //Saldo
         final TextView txtSaldo = (TextView) view.findViewById(R.id.txtSaldo);
-        txtSaldo.setText("Saldo: $ " + FormatNumber(seleccion.getSaldo()));
+        txtSaldo.setText("Saldo: $ " + FormatNumber(seleccion.getSaldo() - tempImporte));
 
         //Cantidad
         final EditText editCantidad = (EditText) view.findViewById(R.id.editCantidad);
 //        editCantidad.setText(FormatNumber(seleccion.getSaldo()));
 
-        //Comentarios
-        final EditText editComentario = (EditText) view.findViewById(R.id.editComentario);
+        //Metodo de Pago
+        final Spinner spMetodo = (Spinner) view.findViewById(R.id.spinnerMetodo);
 
-        //Tipo de Pago
-        final Spinner spTipo = (Spinner) view.findViewById(R.id.spTipoPago);
+        //Banco
+        final Spinner spBanco = (Spinner) view.findViewById(R.id.spinnerBanco);
 
-        if (isMetodo == false){
+        //Folio
+        final EditText editFolio = (EditText) view.findViewById(R.id.editTxtFolio);
+
+//        if (isMetodo == false){
             //Variable del Precio seleccionado
             ArrayList<String> tipos = new ArrayList<String>();
             tipos.add("Efectivo");
@@ -176,10 +189,40 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
             tipos.add("Tranferencia");
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, tipos);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spTipo.setAdapter(adapter);
-        } else {
-            spTipo.setVisibility(View.GONE);
-        }
+            spMetodo.setAdapter(adapter);
+
+            //Bancos
+            ArrayAdapter<String> adapterBancos = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.bancos));
+            adapterBancos.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spBanco.setAdapter(adapterBancos);
+//        } else {
+//            spMetodo.setVisibility(View.GONE);
+//        }
+
+        spMetodo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                        spBanco.setEnabled(false);
+                        editFolio.setEnabled(false);
+                        isEfectivo = true;
+                        break;
+                    default:
+                        spBanco.setEnabled(true);
+                        editFolio.setEnabled(true);
+                        isEfectivo = false;
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
 
 
 
@@ -192,24 +235,24 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                double saldo1 = seleccion.getSaldo();
+                double saldo1 = seleccion.getSaldo() - isAdd(seleccion);
 
                 if (s.length() > 0 && !s.toString().endsWith(".") && Double.parseDouble(editCantidad.getText().toString()) <= saldo1) {
 
                     importe = Double.parseDouble(editCantidad.getText().toString());
-                    double saldo = seleccion.getTotal() - importe;
+                    double saldo = seleccion.getSaldo() - importe - tempImporte;
 
                     //Total
                     txtSaldo.setText("Saldo: $ " + FormatNumber(saldo));
 
                 } else {
-                    txtSaldo.setText("Saldo: $ " + FormatNumber(seleccion.getTotal()));
+//                    txtSaldo.setText("Saldo: $ " + FormatNumber(seleccion.getSaldo() - importe));
+                    txtSaldo.setText("Saldo: $ 0.00");
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -220,33 +263,40 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
+                        double editCant;
+                        editCant = Double.parseDouble(editCantidad.getText().toString());
+
                         //Si no se mete cantidad
                         if(editCantidad.getText().toString().isEmpty()){
                             Toast.makeText(context, "No se introdujo Importe", Toast.LENGTH_SHORT).show();
                         } else {
-                            if (Double.parseDouble(editCantidad.getText().toString()) > seleccion.getSaldo()){
-                                editCantidad.setText(FormatNumber(seleccion.getSaldo()));
+
+                            if (editCant > seleccion.getSaldo() - isAdd(seleccion)){
+                                importe = seleccion.getSaldo()  - isAdd(seleccion);
                             }
-                            if (F_Cobranza.detalles.size() < 1){
-                                spMethodPago = spTipo.getSelectedItem().toString();
-                            } else {
-                                spMethodPago = F_Cobranza.spMethodTipo;
-                            }
+                            spMethodPago = spMetodo.getSelectedItem().toString();
                             Det_Pago item = new Det_Pago();
 
 
-
+                            item.setId_pago(id_pago);
                             item.setId_det_pago(Main.NEWID());
                             item.setSerie(seleccion.getSerie());
                             item.setFolio(seleccion.getFolio());
-                            item.setComentarios(editComentario.getText().toString());
+                            if (!isEfectivo) {
+                                item.setBancos(spBanco.getSelectedItem().toString());
+                                item.setReferencia(editFolio.getText().toString());
+                            } else {
+                                item.setBancos("n/a");
+                                item.setReferencia("n/a");
+                            }
                             item.setForma_pago(spMethodPago);
                             item.setTotal_factura(seleccion.getTotal());
                             item.setImporte_pago(importe);
-                            item.setSaldo_ant(seleccion.getSaldo());
-                            item.setSaldo(seleccion.getSaldo() - importe);
+                            item.setSaldo_ant(seleccion.getSaldo() - isAdd(seleccion));
+                            item.setSaldo(seleccion.getSaldo() - importe - isAdd(seleccion));
+                            item.setOrden(seleccion.getOrden());
 
-                            new F_Cobranza().setFacturasMethod(spMethodPago);
+//                            new F_Cobranza().setFacturasMethod(spMethodPago);
                             F_Cobranza.detalles.add(item);
                             int position = 0;
                             for(int i = 0; i < facturas.size(); i ++) {
@@ -260,11 +310,17 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
 //                                dbd.setPagado(fc.getSerie(), fc.getFolio());
 //                            }
 
-                            seleccion.setSaldo(item.getSaldo());
+//                            seleccion.setSaldo(item.getSaldo());
                             F_Cobranza.facturas.set(position, seleccion);
 
                             //Actualizar LIsta
                             F_Cobranza.lstPagos.setAdapter(new Adapter_Pago(context, F_Cobranza.detalles));
+
+//                            item.getImporte_pago() > item.getSaldo() ||
+                            if (editCant + isAdd(seleccion) >= seleccion.getSaldo()){
+                                dbd.setPagado(item.getSerie(), item.getFolio());
+                            }
+                            dbd.setDetPago(item);
 
                             //Actualizar Totales
                             UpdateImportes();
@@ -282,13 +338,39 @@ public class F_Facturas extends Fragment implements AdapterView.OnItemClickListe
     }
 
     //Validar que el producto no este agregado
-    public boolean isAdd(Factura item) {
-        boolean is = false;
+    public double isAdd(Factura item) {
+        double importe;
 
-        for(Det_Pago pos : F_Cobranza.detalles) {
-            if(pos.getSerie().equals(item.getSerie()) && pos.getFolio() == item.getFolio())
-                is = true;
+        importe = dbd.getImporteTotalFactura(item.getSerie(), item.getFolio());
+
+        return importe;
+    }
+    
+    //Validar orden para el pago de facturas viejas
+    public boolean isPayed(Factura item){
+        boolean is = false;
+        ArrayList<FacturaOrden> facturaP = new ArrayList<>();
+//        FacturaOrden facturaOrden = new FacturaOrden();
+        facturaP = dbd.getFacturasOrden(cliente.getId_cliente(), seleccion.getFolio());
+
+        if (F_Cobranza.detalles.size() > 0) {
+            for (Det_Pago pos : F_Cobranza.detalles) {
+                if (item.getOrden() - 1 == pos.getOrden()) {
+                    if (pos.getSaldo() >= item.getSaldo()) {
+                        is = true;
+                    }
+                }
+            }
+        } else if (item.getOrden() == 1){
+            return is;
+        } else{
+            for (FacturaOrden facturaOrden : facturaP) {
+                if (facturaOrden.getOrden() == item.getOrden() - 1){
+                    is = true;
+                }
+            }
         }
+
         return is;
     }
 

@@ -12,6 +12,7 @@ public class Factura {
     double total;
     double saldo;
     boolean pagado;
+    int orden;
 
     public Factura() {
     }
@@ -78,5 +79,13 @@ public class Factura {
 
     public void setPagado(boolean pagado) {
         this.pagado = pagado;
+    }
+
+    public int getOrden() {
+        return orden;
+    }
+
+    public void setOrden(int orden) {
+        this.orden = orden;
     }
 }

@@ -80,27 +80,50 @@
             android:text="Efectivo"
             android:textSize="16sp"/>
 
-        <!-- Comentario -->
+        <!-- Banco -->
         <TextView
-            android:id="@+id/lbComentario"
+            android:id="@+id/lbBanco"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
-            android:text="Comentario: "
+            android:text="Banco: "
             android:textStyle="bold"
             android:textSize="17sp"
             android:layout_below="@+id/lbForma"/>
 
         <TextView
-            android:id="@+id/txtComentario"
+            android:id="@+id/txtBancoEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_below="@+id/lbForma"
-            android:layout_toRightOf="@+id/lbComentario"
-            android:text="Algun comentario"
+            android:layout_toRightOf="@+id/lbBanco"
+            android:text="BBVA Bancomer"
+            android:textSize="16sp"/>
+
+        <!-- Referencia -->
+        <TextView
+            android:id="@+id/lbReferencia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Referencia: "
+            android:textStyle="bold"
+            android:textSize="17sp"
+            android:layout_below="@+id/lbBanco"/>
+
+        <TextView
+            android:id="@+id/txtReferencia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/txtBancoEdit"
+            android:layout_toRightOf="@+id/lbReferencia"
+            android:text="15978BCH"
             android:textSize="16sp"/>
 
 

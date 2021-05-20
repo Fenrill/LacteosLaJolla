@@ -845,7 +845,7 @@ public class F_ProductosVenta extends Fragment implements AdapterView.OnItemClic
         boolean is = false;
 
         for(Det_Venta pos : detalles) {
-            if(pos.getId_producto().equals(item.getId_producto()))
+            if(pos.getId_producto().equals(item.getId_producto()) && !pos.isPromocion())
                 is = true;
         }
         return is;

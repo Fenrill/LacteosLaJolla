@@ -8,12 +8,15 @@ public class Det_Pago {
     String id_pago;
     String serie;
     int folio;
-    String comentarios;
     double importe_pago;
     double saldo;
     double saldo_ant;
     double total_factura;
     String forma_pago;
+    String bancos;
+    String referencia;
+    int orden;
+
 
 
     public double getTotal_factura() {
@@ -35,12 +38,13 @@ public class Det_Pago {
     public Det_Pago() {
     }
 
-    public Det_Pago(String id_det_pago, String id_pago, String serie, int folio, String comentarios, double importe_pago, String forma_pago) {
+    public Det_Pago(String id_det_pago, String id_pago, String serie, int folio, String bancos, String referencia, double importe_pago, String forma_pago) {
         this.id_det_pago = id_det_pago;
         this.id_pago = id_pago;
         this.serie = serie;
         this.folio = folio;
-        this.comentarios = comentarios;
+        this.bancos = bancos;
+        this.referencia = referencia;
         this.importe_pago = importe_pago;
         this.forma_pago = forma_pago;
     }
@@ -85,14 +89,6 @@ public class Det_Pago {
         this.folio = folio;
     }
 
-    public String getComentarios() {
-        return comentarios;
-    }
-
-    public void setComentarios(String comentarios) {
-        this.comentarios = comentarios;
-    }
-
     public double getImporte_pago() {
         return importe_pago;
     }
@@ -109,4 +105,27 @@ public class Det_Pago {
         this.forma_pago = forma_pago;
     }
 
+    public String getBancos() {
+        return bancos;
+    }
+
+    public void setBancos(String bancos) {
+        this.bancos = bancos;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+
+    public int getOrden() {
+        return orden;
+    }
+
+    public void setOrden(int orden) {
+        this.orden = orden;
+    }
 }

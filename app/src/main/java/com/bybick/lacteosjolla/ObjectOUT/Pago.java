@@ -12,6 +12,10 @@ public class Pago {
     String fecha;
     int enviado;
     ArrayList<Det_Pago> detalles;
+    String forma_pago;
+    String id_banco;
+    String referencia;
+    double monto;
 
 
     public ArrayList<Det_Pago> getDetalles() {
@@ -65,4 +69,35 @@ public class Pago {
         this.fecha = fecha;
     }
 
+    public String getForma_pago() {
+        return forma_pago;
+    }
+
+    public void setForma_pago(String forma_pago) {
+        this.forma_pago = forma_pago;
+    }
+
+    public String getId_banco() {
+        return id_banco;
+    }
+
+    public void setId_banco(String id_banco) {
+        this.id_banco = id_banco;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
+    }
+
+    public double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
 }

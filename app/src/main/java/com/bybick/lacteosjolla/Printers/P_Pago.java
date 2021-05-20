@@ -8,6 +8,7 @@ import com.bybick.lacteosjolla.DataBases.DBConfig;
 import com.bybick.lacteosjolla.DataBases.DBData;
 import com.bybick.lacteosjolla.Main;
 import com.bybick.lacteosjolla.ObjectIN.Cliente;
+import com.bybick.lacteosjolla.ObjectIN.Factura;
 import com.bybick.lacteosjolla.ObjectOUT.Det_Cambio;
 import com.bybick.lacteosjolla.ObjectOUT.Det_Pago;
 import com.bybick.lacteosjolla.ObjectOUT.Pago;
@@ -32,6 +33,7 @@ public class P_Pago {
 
     Pago pago;
     Cliente cliente;
+    double importeAnterior;
 
     ConnectionBT bt;
     OutputStream ons;
@@ -40,6 +42,7 @@ public class P_Pago {
         this.context = context;
         this.pago = pago;
         this.cliente = cliente;
+        this.importeAnterior = importeAnterior;
     }
 
     public String imprimir() {

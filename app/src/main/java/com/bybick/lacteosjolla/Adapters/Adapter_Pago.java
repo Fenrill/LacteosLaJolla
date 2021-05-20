@@ -24,7 +24,8 @@ public class Adapter_Pago extends BaseAdapter {
     TextView folio;
     TextView importe;
     TextView forma;
-    TextView coment;
+    TextView Banco;
+    TextView Referencia;
 
     public Adapter_Pago(Context context, ArrayList<Det_Pago> data) {
         this.context = context;
@@ -59,13 +60,15 @@ public class Adapter_Pago extends BaseAdapter {
         serie = (TextView) v.findViewById(R.id.txtSerie);
         importe = (TextView) v.findViewById(R.id.txtAbono);
         forma = (TextView) v.findViewById(R.id.txtForma);
-        coment = (TextView) v.findViewById(R.id.txtComentario);
+        Banco = (TextView) v.findViewById(R.id.txtBancoEdit);
+        Referencia = (TextView) v.findViewById(R.id.txtReferencia);
 
         //Enviar Valores
         serie.setText(item.getSerie() + " - " + item.getFolio());
         importe.setText("$ " + item.getImporte_pago());
         forma.setText(item.getForma_pago());
-        coment.setText(item.getComentarios());
+        Banco.setText(item.getBancos());
+        Referencia.setText(item.getReferencia());
 
         return v;
     }

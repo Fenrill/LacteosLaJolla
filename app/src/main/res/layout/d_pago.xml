@@ -6,63 +6,150 @@
 
     <TextView
         android:id="@+id/txtSaldo"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="19sp"
-        android:text="Saldo: $ 2500.0"
-        android:layout_marginTop="15dp"
+        android:layout_below="@+id/txtTotal"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
-        android:textStyle="bold|italic"
-        android:textColor="#25670D"/>
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:text="Saldo: $ 2500.0"
+        android:textColor="#25670D"
+        android:textSize="19sp"
+        android:textStyle="bold|italic" />
 
     <TextView
         android:id="@+id/txtTotal"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="10dp"
+        android:gravity="center"
         android:textSize="19sp"
         android:textStyle="bold|italic"
         android:textColor="#4B3737"
         android:text="Total: $ 194.6"/>
 
+    <TextView
+        android:id="@+id/txtAbono"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtTotal"
+        android:layout_alignStart="@+id/editCantidad"
+        android:layout_marginStart="-114dp"
+        android:layout_marginTop="63dp"
+        android:text="Abono:"
+        android:textSize="19sp"
+        android:textStyle="bold|italic" />
+
+
+    <TextView
+        android:id="@+id/txtMetodo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtAbono"
+        android:layout_alignStart="@id/spinnerMetodo"
+        android:layout_marginStart="-113dp"
+        android:layout_marginTop="20dp"
+        android:text="Metodo:"
+        android:textSize="19sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/txtBanco"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtMetodo"
+        android:layout_alignStart="@id/spinnerBanco"
+        android:layout_marginStart="-113dp"
+        android:layout_marginTop="20dp"
+        android:text="Banco:"
+        android:textSize="19sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/txtFolio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txtBanco"
+        android:layout_alignStart="@id/spinnerBanco"
+        android:layout_marginStart="-113dp"
+        android:layout_marginTop="25dp"
+        android:text="Folio:"
+        android:textSize="19sp"
+        android:textStyle="bold|italic" />
+
     <EditText
         android:id="@+id/editCantidad"
-        android:layout_width="fill_parent"
+        android:layout_width="266dp"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:background="#B8B7B7"
         android:layout_below="@+id/txtTotal"
-        android:layout_marginTop="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginLeft="15dp"
-        android:layout_centerHorizontal="true"
-        android:padding="7dp"
-        android:hint="Cantidad a pagar"
-        android:inputType="numberDecimal"/>
-
-    <EditText
-        android:id="@+id/editComentario"
-        android:layout_width="fill_parent"
-        android:layout_height="130dp"
-        android:layout_below="@+id/editCantidad"
-        android:singleLine="true"
-        android:lines="5"
-        android:gravity="top"
-        android:hint="Escribe un comentario..."
+        android:layout_marginTop="58dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
         android:background="#DEDCDC"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:padding="5dp"/>
+        android:hint="Cantidad a pagar"
+        android:inputType="numberDecimal"
+        android:padding="7dp"
+        android:singleLine="true" />
 
     <Spinner
-        android:id="@+id/spTipoPago"
-        android:layout_width="fill_parent"
+        android:id="@+id/spinnerMetodo"
+        android:layout_width="269dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editComentario"
-        android:layout_marginTop="10dp">
-    </Spinner>
+        android:layout_below="@+id/editCantidad"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="129dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="15dp"
+        android:background="#DEDCDC"
+        android:gravity="top"
+        android:hint="Folio"
+        android:lines="5"
+        android:padding="5dp"
+        android:singleLine="true" />
+
+    <Spinner
+        android:id="@+id/spinnerBanco"
+        android:layout_width="269dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinnerMetodo"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="129dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="15dp"
+        android:background="#DEDCDC"
+        android:gravity="top"
+        android:hint="Folio"
+        android:lines="5"
+        android:padding="5dp"
+        android:singleLine="true" />
+
+    <EditText
+        android:id="@+id/editTxtFolio"
+        android:layout_width="269dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinnerBanco"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="129dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="15dp"
+        android:background="#DEDCDC"
+        android:gravity="top"
+        android:hint="Numero de Folio"
+        android:lines="5"
+        android:padding="5dp"
+        android:singleLine="true" />
 
 </RelativeLayout>

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.bybick.lacteosjolla.DataBases.DBData;
 import com.bybick.lacteosjolla.ObjectIN.Factura;
 import com.bybick.lacteosjolla.R;
 
@@ -65,8 +66,21 @@ public class Adapter_Factura extends BaseAdapter {
         serie.setText(item.getSerie() + " - " + item.getFolio());
         fecha.setText(item.getFecha());
         total.setText("$ " + item.getTotal());
-        saldo.setText("$ " + item.getSaldo());
+        saldo.setText("$ " + (item.getSaldo() - isAdd(item)));
 
         return v;
     }
+
+    public double isAdd(Factura item) {
+        DBData dbd;
+        dbd = new DBData(context);
+        dbd.open();
+        double importe;
+
+        importe = dbd.getImporteTotalFactura(item.getSerie(), item.getFolio());
+
+        return importe;
+    }
+
+
 }
